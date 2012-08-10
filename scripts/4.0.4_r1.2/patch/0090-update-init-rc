@@ -1,0 +1,27 @@
+--- system/core/rootdir/init.rc.001	2012-08-01 15:10:55.221223832 -0400
++++ system/core/rootdir/init.rc	2012-08-01 16:01:07.731223955 -0400
+@@ -410,13 +410,18 @@
+     group graphics
+     onrestart restart zygote
+ 
+-service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
++#service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
++#    class main
++#    socket zygote stream 666
++#    onrestart write /sys/android_power/request_state wake
++#    onrestart write /sys/power/state on
++#    onrestart restart media
++#    onrestart restart netd
++
++service powermanager /system/bin/powermanager
+     class main
+-    socket zygote stream 666
+-    onrestart write /sys/android_power/request_state wake
+-    onrestart write /sys/power/state on
+-    onrestart restart media
+-    onrestart restart netd
++    user system
++    group system
+ 
+ service drm /system/bin/drmserver
+     class main

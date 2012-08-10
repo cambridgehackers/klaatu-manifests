@@ -1,0 +1,12 @@
+diff -Naur foo packages/wallpapers/LivePicker/android.software.live_wallpaper.xml
+--- foo	1969-12-31 19:00:00.000000000 -0500
++++ packages/wallpapers/LivePicker/android.software.live_wallpaper.xml	2012-07-30 17:45:11.581224302 -0400
+@@ -0,0 +1,2 @@
++
++
+diff -Naur foo packages/apps/Nfc/migrate_nfc.txt
+--- foo	1969-12-31 19:00:00.000000000 -0500
++++ packages/apps/Nfc/migrate_nfc.txt	2012-07-30 17:45:31.361221293 -0400
+@@ -0,0 +1,2 @@
++
++

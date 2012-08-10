@@ -1,0 +1,34 @@
+--- ../android11/frameworks/base/libs/rs/Android.mk	2012-07-30 17:54:59.581181923 -0400
++++ frameworks/base/libs/rs/Android.mk	2012-08-01 15:03:44.111221266 -0400
+@@ -18,7 +18,7 @@
+     spec.l \
+     rsg_generator.c
+ 
+-include $(BUILD_HOST_EXECUTABLE)
++#include $(BUILD_HOST_EXECUTABLE)
+ 
+ # TODO: This should go into build/core/config.mk
+ RSG_GENERATOR:=$(LOCAL_BUILT_MODULE)
+@@ -141,7 +141,7 @@
+ LOCAL_MODULE:= libRS
+ LOCAL_MODULE_TAGS := optional
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 
+ # Now build a host version for serialization
+ include $(CLEAR_VARS)
+@@ -222,4 +222,4 @@
+ 
+ LOCAL_LDLIBS := -lpthread
+ 
+-include $(BUILD_HOST_STATIC_LIBRARY)
++#include $(BUILD_HOST_STATIC_LIBRARY)
+--- frameworks/base/graphics/jni/Android.mk.001	2012-08-01 11:37:12.651220000 -0400
++++ frameworks/base/graphics/jni/Android.mk	2012-08-01 13:53:59.121223098 -0400
+@@ -33,4 +33,4 @@
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_REQUIRED_MODULES := libRS
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)

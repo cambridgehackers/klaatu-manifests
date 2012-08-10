@@ -1,0 +1,19 @@
+diff --exclude=.git -aur frameworks/base/media/libstagefright/Android.mk.001 frameworks/base/media/libstagefright/Android.mk
+--- frameworks/base/media/libstagefright/Android.mk.001	2012-07-23 23:43:11.951222895 -0400
++++ frameworks/base/media/libstagefright/Android.mk	2012-07-24 00:59:14.661181691 -0400
+@@ -118,6 +118,7 @@
+   endif
+ endif
+ 
++HTTP_STACK = JJJ
+ ifeq ($(HTTP_STACK),chrome)
+ 
+ LOCAL_SHARED_LIBRARIES += \
+--- frameworks/base/media/libstagefright/chromium_http/Android.mk.001	2012-08-01 11:37:12.741219000 -0400
++++ frameworks/base/media/libstagefright/chromium_http/Android.mk	2012-08-01 13:53:19.861222299 -0400
+@@ -20,4 +20,4 @@
+ 
+ LOCAL_MODULE:= libstagefright_chromium_http
+ 
+-include $(BUILD_STATIC_LIBRARY)
++#include $(BUILD_STATIC_LIBRARY)

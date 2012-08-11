@@ -7,6 +7,8 @@
 <project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"/>
 
 <!-- remove generic and Java bits -->
+<remove-project name="platform/bootable/bootloader/legacy" />
+<remove-project name="platform/bootable/diskinstaller" />
 <remove-project name="platform/cts" />
 <remove-project name="platform/dalvik" />
 <remove-project name="platform/development" />
@@ -23,7 +25,9 @@
 <remove-project name="platform/external/bluetooth/glib" />
 <remove-project name="platform/external/bluetooth/hcidump" />
 <remove-project name="platform/external/bouncycastle" />
+<remove-project name="platform/external/bsdiff" />
 <remove-project name="platform/external/chromium" />
+<remove-project name="platform/external/clang" />
 <remove-project name="platform/external/collada" />
 <remove-project name="platform/external/dbus" />
 <remove-project name="platform/external/dhcpcd" />
@@ -61,9 +65,11 @@
 <remove-project name="platform/external/libxml2" />
 <remove-project name="platform/external/libxslt" />
 <remove-project name="platform/external/libyuv" />
+<remove-project name="platform/external/llvm" />
 <remove-project name="platform/external/lohit-fonts" />
 <remove-project name="platform/external/markdown" />
 <remove-project name="platform/external/mesa3d" />
+<remove-project name="platform/external/mksh" />
 <remove-project name="platform/external/mockwebserver" />
 <remove-project name="platform/external/mtpd" />
 <remove-project name="platform/external/netcat" />
@@ -97,6 +103,10 @@
 <remove-project name="platform/external/wpa_supplicant_6" />
 <remove-project name="platform/external/xmlwriter" />
 <remove-project name="platform/external/yaffs2" />
+<remove-project name="platform/frameworks/compile/libbcc" />
+<remove-project name="platform/frameworks/compile/linkloader" />
+<remove-project name="platform/frameworks/compile/slang" />
+<remove-project name="platform/frameworks/ex" />
 <remove-project name="platform/frameworks/opt/calendar" />
 <remove-project name="platform/frameworks/opt/inputmethodcommon" />
 <remove-project name="platform/frameworks/opt/mailcommon" />
@@ -160,18 +170,6 @@
 <remove-project name="platform/packages/wallpapers/NoiseField" />
 <remove-project name="platform/packages/wallpapers/PhaseBeam" />
 <remove-project name="platform/sdk" />
-
-<!-- remove generic and Java bits -->
-<remove-project name="platform/frameworks/ex" />
-<remove-project name="platform/bootable/bootloader/legacy" />
-<remove-project name="platform/bootable/diskinstaller" />
-<remove-project name="platform/external/bsdiff" />
-<remove-project name="platform/external/clang" />
-<remove-project name="platform/external/llvm" />
-<remove-project name="platform/external/mksh" />
-<remove-project name="platform/frameworks/compile/libbcc" />
-<remove-project name="platform/frameworks/compile/linkloader" />
-<remove-project name="platform/frameworks/compile/slang" />
 
 <!-- Stubs for missing JNI functions (since dalvik not included) -->
 <project path="dalvik" name="klaatu-jni-stub.git" remote="cambridge" revision="master"/>

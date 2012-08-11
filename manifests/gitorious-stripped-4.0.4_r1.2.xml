@@ -162,8 +162,10 @@
 <remove-project name="platform/sdk" />
 
 <!-- remove generic and Java bits -->
-<!--remove-project name="platform/external/bsdiff" /-->
-<!--remove-project name="platform/external/bzip2" /-->
+<remove-project name="platform/frameworks/ex" />
+<remove-project name="platform/bootable/bootloader/legacy" />
+<remove-project name="platform/bootable/diskinstaller" />
+<remove-project name="platform/external/bsdiff" />
 <remove-project name="platform/external/clang" />
 <remove-project name="platform/external/llvm" />
 <remove-project name="platform/external/mksh" />

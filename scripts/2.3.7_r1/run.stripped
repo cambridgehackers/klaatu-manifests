@@ -1,0 +1,23 @@
+#!/bin/bash
+# Usage:
+#    mkdir test
+#    cd test
+#    run script
+set -e
+ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/platform/manifest}
+ANDROID_VERSION=${ANDROID_VERSION:-2.3.7_r1}
+
+export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION
+(cd .repo; $SCRIPT_DIR/../strip-projects.sh manifest.xml)
+ln -s $SCRIPT_DIR/../../manifests/cambridge-stripped-$ANDROID_VERSION.xml .repo/local_manifest.xml
+repo sync
+ls $SCRIPT_DIR/patch/* | while read filename; do
+    echo patching $filename
+    patch -p0 <$filename
+done
+#(cd frameworks/base; patch -p1 <$SCRIPT_DIR/patch.frameworks_base)
+#cp $SCRIPT_DIR/cambridge-logo-mask.png frameworks/base/core/res/assets/images/cambridge-logo-mask.png
+
+source build/envsetup.sh; lunch full_maguro-userdebug
+#TARGET_NO_RECOVERY=true make -j33

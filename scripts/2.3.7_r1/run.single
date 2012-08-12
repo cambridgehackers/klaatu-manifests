@@ -1,0 +1,17 @@
+#
+#only single package
+# Usage:
+#    mkdir test
+#    cd test
+set -e
+export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+rpm2cpio ../android-gcc-1-2.3.7_r1.noarch.rpm | cpio -idm
+rpm2cpio ../android-sysroot-1-2.3.7_r1.noarch.rpm | cpio -idm
+source build/envsetup.sh; lunch full_maguro-userdebug
+
+# example for rebuilding stagefright
+rm -rf frameworks/base/media/libstagefright/
+tar xzf ../stage.tgz 
+
+#TARGET_NO_RECOVERY=true TARGET_NO_BOOTLOADER=true TARGET_NO_KERNEL=true make -j33

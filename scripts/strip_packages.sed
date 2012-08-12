@@ -21,7 +21,6 @@
 /name="platform\/external\/dropbear"/d
 /name="platform\/external\/e2fsprogs"/d
 /name="platform\/external\/easymock"/d
-/name="platform\/external\/elfutils"/d
 /name="platform\/external\/embunit"/d
 /name="platform\/external\/emma"/d
 /name="platform\/external\/esd"/d
@@ -78,8 +77,6 @@
 /name="platform\/external\/v8"/d
 /name="platform\/external\/valgrind"/d
 /name="platform\/external\/webkit"/d
-/name="platform\/external\/wpa_supplicant"/d
-/name="platform\/external\/wpa_supplicant_6"/d
 /name="platform\/external\/xmlwriter"/d
 /name="platform\/external\/yaffs2"/d
 /name="platform\/frameworks\/compile\//d
@@ -103,7 +100,6 @@
 /name="platform\/external\/dosfstools"/d
 /name="platform\/external\/eclipse-/d
 /name="platform\/external\/eglib"/d
-/name="platform\/external\/elfcopy"/d
 /name="platform\/external\/ganymed-ssh2"/d
 /name="platform\/external\/gdata"/d
 /name="platform\/external\/googleclient"/d

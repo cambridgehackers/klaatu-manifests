@@ -1,0 +1,20 @@
+--- frameworks/base/cmds/app_process/Android.mk.001	2012-08-11 22:55:12.451222834 -0400
++++ frameworks/base/cmds/app_process/Android.mk	2012-08-11 23:29:42.941223878 -0400
+@@ -12,7 +12,7 @@
+ 
+ LOCAL_MODULE:= app_process
+ 
+-include $(BUILD_EXECUTABLE)
++#include $(BUILD_EXECUTABLE)
+ 
+ 
+ # Build a variant of app_process binary linked with ASan runtime.
+@@ -36,6 +36,6 @@
+ LOCAL_MODULE_STEM := app_process
+ LOCAL_ADDRESS_SANITIZER := true
+ 
+-include $(BUILD_EXECUTABLE)
++#include $(BUILD_EXECUTABLE)
+ 
+ endif # ifeq($(TARGET_ARCH),arm)
+

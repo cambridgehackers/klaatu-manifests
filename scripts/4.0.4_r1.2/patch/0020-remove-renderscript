@@ -1,4 +1,4 @@
---- ../android11/frameworks/base/libs/rs/Android.mk	2012-07-30 17:54:59.581181923 -0400
+--- frameworks/base/libs/rs/Android.mk	2012-07-30 17:54:59.581181923 -0400
 +++ frameworks/base/libs/rs/Android.mk	2012-08-01 15:03:44.111221266 -0400
 @@ -18,7 +18,7 @@
      spec.l \

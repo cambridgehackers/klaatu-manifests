@@ -1,0 +1,185 @@
+diff -aur build/core/config.mk.001 build/core/config.mk
+--- build/core/config.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/config.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -62,13 +62,13 @@
+ BUILD_HOST_EXECUTABLE:= $(BUILD_SYSTEM)/host_executable.mk
+ BUILD_PACKAGE:= $(BUILD_SYSTEM)/package.mk
+ BUILD_PHONY_PACKAGE:= $(BUILD_SYSTEM)/phony_package.mk
+-BUILD_HOST_PREBUILT:= $(BUILD_SYSTEM)/host_prebuilt.mk
++BUILD_HOST_PREBUILT:= $(TOPDIR)dalvik/null.mk
+ BUILD_PREBUILT:= $(BUILD_SYSTEM)/prebuilt.mk
+ BUILD_MULTI_PREBUILT:= $(BUILD_SYSTEM)/multi_prebuilt.mk
+-BUILD_JAVA_LIBRARY:= $(BUILD_SYSTEM)/java_library.mk
++BUILD_JAVA_LIBRARY:= $(TOPDIR)dalvik/null.mk
+ BUILD_STATIC_JAVA_LIBRARY:= $(BUILD_SYSTEM)/static_java_library.mk
+ BUILD_HOST_JAVA_LIBRARY:= $(BUILD_SYSTEM)/host_java_library.mk
+-BUILD_DROIDDOC:= $(BUILD_SYSTEM)/droiddoc.mk
++BUILD_DROIDDOC:= $(TOPDIR)dalvik/null.mk
+ BUILD_COPY_HEADERS := $(BUILD_SYSTEM)/copy_headers.mk
+ BUILD_NATIVE_TEST := $(BUILD_SYSTEM)/native_test.mk
+ BUILD_HOST_NATIVE_TEST := $(BUILD_SYSTEM)/host_native_test.mk
+diff -aur build/core/host_java_library.mk.001 build/core/host_java_library.mk
+--- build/core/host_java_library.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/host_java_library.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -41,7 +41,7 @@
+ LOCAL_INTERMEDIATE_SOURCE_DIR := $(intermediates.COMMON)/src
+ endif # LOCAL_BUILD_HOST_DEX
+ 
+-include $(BUILD_SYSTEM)/base_rules.mk
++#include $(BUILD_SYSTEM)/base_rules.mk
+ 
+ ifeq ($(LOCAL_BUILD_HOST_DEX),true)
+ $(LOCAL_INTERMEDIATE_TARGETS): \
+diff -aur build/core/java.mk.001 build/core/java.mk
+--- build/core/java.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/java.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -195,7 +195,7 @@
+ # after all the declarations.
+ 
+ #######################################
+-include $(BUILD_SYSTEM)/base_rules.mk
++#include $(BUILD_SYSTEM)/base_rules.mk
+ #######################################
+ 
+ # We use intermediates.COMMON because the classes.jar/.dex files will be
+diff -Naur libcore.001/Docs.mk libcore/Docs.mk
+--- libcore.001/Docs.mk	1969-12-31 19:00:00.000000000 -0500
++++ libcore/Docs.mk	2012-07-23 23:01:39.721224786 -0400
+@@ -0,0 +1,2 @@
++
++doc-comment-check-docs:
+--- frameworks/base/tests/BrowserTestPlugin/jni/Android.mk.001	2012-08-01 11:37:14.901222000 -0400
++++ frameworks/base/tests/BrowserTestPlugin/jni/Android.mk	2012-08-01 13:53:27.121220875 -0400
+@@ -48,4 +48,4 @@
+ LOCAL_MODULE := libtestplugin
+ LOCAL_MODULE_TAGS := tests
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+--- frameworks/base/core/jni/Android.mk.001	2012-08-01 11:37:11.061224000 -0400
++++ frameworks/base/core/jni/Android.mk	2012-08-01 13:52:40.921221281 -0400
+@@ -244,6 +244,6 @@
+ 
+ LOCAL_MODULE:= libandroid_runtime
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 
+-include $(call all-makefiles-under,$(LOCAL_PATH))
++#include $(call all-makefiles-under,$(LOCAL_PATH))
+--- frameworks/base/media/jni/Android.mk.001	2012-08-01 11:37:12.711220000 -0400
++++ frameworks/base/media/jni/Android.mk	2012-08-01 13:53:12.571220370 -0400
+@@ -50,8 +50,8 @@
+ 
+ LOCAL_MODULE:= libmedia_jni
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 
+ # build libsoundpool.so
+ # build libaudioeffect_jni.so
+-include $(call all-makefiles-under,$(LOCAL_PATH))
++#include $(call all-makefiles-under,$(LOCAL_PATH))
+--- frameworks/base/native/android/Android.mk	2012-08-10 10:52:27.971222879 -0400
++++ frameworks/base/native/android/Android.mk	2012-08-10 11:05:52.701225671 -0400
+@@ -34,4 +34,4 @@
+ 
+ LOCAL_MODULE:= libandroid
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+--- frameworks/base/services/jni/Android.mk	2012-08-10 10:52:28.151223407 -0400
++++ frameworks/base/services/jni/Android.mk	2012-08-10 11:03:33.991223385 -0400
+@@ -5,8 +5,6 @@
+     com_android_server_AlarmManagerService.cpp \
+     com_android_server_BatteryService.cpp \
+     com_android_server_input_InputApplicationHandle.cpp \
+-    com_android_server_input_InputManagerService.cpp \
+-    com_android_server_input_InputWindowHandle.cpp \
+     com_android_server_LightsService.cpp \
+     com_android_server_PowerManagerService.cpp \
+     com_android_server_SerialService.cpp \
+@@ -15,7 +13,6 @@
+     com_android_server_VibratorService.cpp \
+     com_android_server_location_GpsLocationProvider.cpp \
+     com_android_server_connectivity_Vpn.cpp \
+-    onload.cpp
+ 
+ LOCAL_C_INCLUDES += \
+     $(JNI_H_INCLUDE) \
+--- frameworks/base/native/graphics/jni/Android.mk
++++ frameworks/base/native/graphics/jni/Android.mk
+@@ -30,5 +30,5 @@ LOCAL_C_INCLUDES += \
+ 
+ LOCAL_MODULE:= libjnigraphics
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+
+--- frameworks/base/Android.mk.001	2012-08-11 23:50:45.261226336 -0400
++++ frameworks/base/Android.mk	2012-08-11 23:59:28.511220934 -0400
+@@ -336,7 +336,7 @@
+ include libcore/Docs.mk
+ 
+ # include definition of junit_to_document
+-include external/junit/Common.mk
++#include external/junit/Common.mk
+ 
+ non_base_dirs := \
+ 	../../external/apache-http/src/org/apache/http
+--- frameworks/base/media/mca/filterfw/Android.mk.001   2012-08-12 00:18:08.061221262 -0400
++++ frameworks/base/media/mca/filterfw/Android.mk       2012-08-12 00:21:33.061225038 -0400
+@@ -27,7 +27,7 @@
+
+ LOCAL_MODULE_TAGS := optional
+
+-LOCAL_WHOLE_STATIC_LIBRARIES := libfilterfw_jni \
++LOCAL_WHOLE_STATIC_LIBRARIES := \
+                                 libfilterfw_native
+
+ LOCAL_SHARED_LIBRARIES := libstlport \
+@@ -38,7 +38,6 @@
+                           libcutils \
+                           libutils \
+                           libandroid \
+-                          libjnigraphics \
+                           libmedia \
+                           libmedia_native
+
+
+--- frameworks/base/media/mca/filterfw/jni/Android.mk.001       2012-08-12 00:18:08.061221262 -0400
++++ frameworks/base/media/mca/filterfw/jni/Android.mk   2012-08-12 00:22:48.221224751 -0400
+@@ -47,5 +47,5 @@
+ # part of a system image.
+ LOCAL_PRELINK_MODULE := false
+ 
+-include $(BUILD_STATIC_LIBRARY)
++#include $(BUILD_STATIC_LIBRARY)
+ 
+
+
+--- frameworks/base/services/jni/Android.mk.001	2012-08-12 00:18:32.151222491 -0400
++++ frameworks/base/services/jni/Android.mk	2012-08-12 00:35:20.011219642 -0400
+@@ -6,13 +6,9 @@
+     com_android_server_BatteryService.cpp \
+     com_android_server_input_InputApplicationHandle.cpp \
+     com_android_server_LightsService.cpp \
+-    com_android_server_PowerManagerService.cpp \
+     com_android_server_SerialService.cpp \
+     com_android_server_SystemServer.cpp \
+-    com_android_server_UsbDeviceManager.cpp \
+-    com_android_server_UsbHostManager.cpp \
+     com_android_server_VibratorService.cpp \
+-    com_android_server_location_GpsLocationProvider.cpp \
+     com_android_server_connectivity_Vpn.cpp \
+ 
+ LOCAL_C_INCLUDES += \
+
+--- frameworks/wilhelm/tests/native-media/jni/Android.mk.001	2012-08-12 00:40:46.111226073 -0400
++++ frameworks/wilhelm/tests/native-media/jni/Android.mk	2012-08-12 00:58:55.441221945 -0400
+@@ -12,4 +12,4 @@
+ LOCAL_SHARED_LIBRARIES += libutils libOpenMAXAL libandroid
+ 
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)

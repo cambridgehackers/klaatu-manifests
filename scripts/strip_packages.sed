@@ -10,13 +10,11 @@
 /name="platform\/external\/astl"/d
 /name="platform\/external\/bison"/d
 /name="platform\/external\/blktrace"/d
-/name="platform\/external\/bluetooth\//d
 /name="platform\/external\/bouncycastle"/d
 /name="platform\/external\/bsdiff"/d
 /name="platform\/external\/chromium"/d
 /name="platform\/external\/clang"/d
 /name="platform\/external\/collada"/d
-/name="platform\/external\/dbus"/d
 /name="platform\/external\/dhcpcd"/d
 /name="platform\/external\/dnsmasq"/d
 /name="platform\/external\/doclava"/d
@@ -94,7 +92,6 @@
 /name="platform\/libcore"/d
 /name="platform\/[gpns]dk"/d
 /name="platform\/packages\//d
-/name="platform\/external\/aac"/d
 /name="platform\/external\/aes"/d
 /name="platform\/external\/bluez"/d
 /name="platform\/external\/checkpolicy"/d
@@ -108,7 +105,6 @@
 /name="platform\/external\/eglib"/d
 /name="platform\/external\/elfcopy"/d
 /name="platform\/external\/ganymed-ssh2"/d
-/name="platform\/external\/gcc-demangle"/d
 /name="platform\/external\/gdata"/d
 /name="platform\/external\/googleclient"/d
 /name="platform\/external\/hamcrest"/d
@@ -122,7 +118,6 @@
 /name="platform\/external\/libusb/d
 /name="platform\/external\/linux-tools-perf"/d
 /name="platform\/external\/littlemock"/d
-/name="platform\/external\/mdnsresponder"/d
 /name="platform\/external\/naver-fonts"/d
 /name="platform\/external\/opencore"/d
 /name="platform\/external\/openfst"/d

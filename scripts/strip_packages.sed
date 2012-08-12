@@ -80,7 +80,8 @@
 /name="platform\/external\/v8"/d
 /name="platform\/external\/valgrind"/d
 /name="platform\/external\/webkit"/d
-/name="platform\/external\/wpa_supplicant/d
+/name="platform\/external\/wpa_supplicant"/d
+/name="platform\/external\/wpa_supplicant_6"/d
 /name="platform\/external\/xmlwriter"/d
 /name="platform\/external\/yaffs2"/d
 /name="platform\/frameworks\/compile\//d

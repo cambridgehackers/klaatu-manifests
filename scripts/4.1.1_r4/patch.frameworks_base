@@ -11,34 +11,16 @@ index 154dbb8..00287ce 100644
      initTexture(&mAndroid[1], mAssets, "images/android-logo-shine.png");
  
      // clear screen
-diff --git a/cmds/servicemanager/service_manager.c b/cmds/servicemanager/service_manager.c
-index 2df450f..f4ac53c 100644
---- a/cmds/servicemanager/service_manager.c
-+++ b/cmds/servicemanager/service_manager.c
-@@ -46,6 +46,7 @@ static struct {
-     { AID_RADIO, "isms" },
-     { AID_RADIO, "iphonesubinfo" },
-     { AID_RADIO, "simphonebook" },
-+    { AID_RADIO, "sigyn" }
- };
- 
- void *svcmgr_handle;
+--- cmds/servicemanager/service_manager.c.001	2012-08-12 00:40:40.591184615 -0400
++++ cmds/servicemanager/service_manager.c	2012-08-12 01:23:23.671222589 -0400
+@@ -37,6 +37,7 @@
+     { AID_RADIO, "radio.sms" },
+     { AID_RADIO, "radio.phonesubinfo" },
+     { AID_RADIO, "radio.simphonebook" },
++    { AID_RADIO, "sigyn" },
+ /* TODO: remove after phone services are updated: */
+     { AID_RADIO, "phone" },
+     { AID_RADIO, "sip" },
 diff --git a/core/res/assets/images/cambridge-logo-mask.png b/core/res/assets/images/cambridge-logo-mask.png
 new file mode 100644
 index 0000000..3657c94
-Binary files /dev/null and b/core/res/assets/images/cambridge-logo-mask.png differ
-diff --git a/libs/binder/IServiceManager.cpp b/libs/binder/IServiceManager.cpp
-index 1fa4c35..7ce022e 100644
---- a/libs/binder/IServiceManager.cpp
-+++ b/libs/binder/IServiceManager.cpp
-@@ -66,6 +66,10 @@ bool checkCallingPermission(const String16& permission, int32_t* outPid, int32_t
- 
- bool checkPermission(const String16& permission, pid_t pid, uid_t uid)
- {
-+    // For now, we'll always allow root programs to have permission
-+    if (uid == 0)
-+	return true;
-+
-     sp<IPermissionController> pc;
-     gDefaultServiceManagerLock.lock();
-     pc = gPermissionController;

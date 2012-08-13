@@ -1,0 +1,9 @@
+diff -aur build/core/binary.mk.001 build/core/binary.mk
+--- build/core/binary.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/binary.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -615,4 +615,4 @@
+ # Also depend on the notice files for any static libraries that
+ # are linked into this module.  This will force them to be installed
+ # when this module is.
+-$(LOCAL_INSTALLED_MODULE): | $(installed_static_library_notice_file_targets)
++#jca $(LOCAL_INSTALLED_MODULE): | $(installed_static_library_notice_file_targets)

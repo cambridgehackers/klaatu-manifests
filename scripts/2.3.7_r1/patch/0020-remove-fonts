@@ -1,0 +1,9 @@
+--- frameworks/base/data/fonts/Android.mk.001	2012-08-12 08:36:02.101224881 -0400
++++ frameworks/base/data/fonts/Android.mk	2012-08-12 08:43:59.981225013 -0400
+@@ -36,4 +36,4 @@
+ endif
+ 
+ copy_file_pairs := $(foreach cf,$(copy_from),$(LOCAL_PATH)/$(cf):system/fonts/$(cf))
+-PRODUCT_COPY_FILES += $(copy_file_pairs)
++#PRODUCT_COPY_FILES += $(copy_file_pairs)
+

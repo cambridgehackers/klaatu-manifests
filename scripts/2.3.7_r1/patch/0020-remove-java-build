@@ -1,0 +1,120 @@
+--- build/core/config.mk.001	2012-08-12 01:40:17.851223560 -0400
++++ build/core/config.mk	2012-08-12 01:53:51.851221740 -0400
+@@ -61,13 +61,13 @@
+ BUILD_RAW_EXECUTABLE:= $(BUILD_SYSTEM)/raw_executable.mk
+ BUILD_HOST_EXECUTABLE:= $(BUILD_SYSTEM)/host_executable.mk
+ BUILD_PACKAGE:= $(BUILD_SYSTEM)/package.mk
+-BUILD_HOST_PREBUILT:= $(BUILD_SYSTEM)/host_prebuilt.mk
++BUILD_HOST_PREBUILT:= $(TOPDIR)dalvik/null.mk
+ BUILD_PREBUILT:= $(BUILD_SYSTEM)/prebuilt.mk
+ BUILD_MULTI_PREBUILT:= $(BUILD_SYSTEM)/multi_prebuilt.mk
+-BUILD_JAVA_LIBRARY:= $(BUILD_SYSTEM)/java_library.mk
++BUILD_JAVA_LIBRARY:= $(TOPDIR)dalvik/null.mk
+ BUILD_STATIC_JAVA_LIBRARY:= $(BUILD_SYSTEM)/static_java_library.mk
+ BUILD_HOST_JAVA_LIBRARY:= $(BUILD_SYSTEM)/host_java_library.mk
+-BUILD_DROIDDOC:= $(BUILD_SYSTEM)/droiddoc.mk
++BUILD_DROIDDOC:= $(TOPDIR)dalvik/null.mk
+ BUILD_COPY_HEADERS := $(BUILD_SYSTEM)/copy_headers.mk
+ BUILD_KEY_CHAR_MAP := $(BUILD_SYSTEM)/key_char_map.mk
+ 
+diff -aur build/core/host_java_library.mk.001 build/core/host_java_library.mk
+--- build/core/host_java_library.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/host_java_library.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -41,7 +41,7 @@
+ LOCAL_INTERMEDIATE_SOURCE_DIR := $(intermediates.COMMON)/src
+ endif # LOCAL_BUILD_HOST_DEX
+ 
+-include $(BUILD_SYSTEM)/base_rules.mk
++#include $(BUILD_SYSTEM)/base_rules.mk
+ 
+ ifeq ($(LOCAL_BUILD_HOST_DEX),true)
+ $(LOCAL_INTERMEDIATE_TARGETS): \
+diff -aur build/core/java.mk.001 build/core/java.mk
+--- build/core/java.mk.001	2012-07-23 21:20:00.421221093 -0400
++++ build/core/java.mk	2012-07-23 22:18:29.371220685 -0400
+@@ -195,7 +195,7 @@
+ # after all the declarations.
+ 
+ #######################################
+-include $(BUILD_SYSTEM)/base_rules.mk
++#include $(BUILD_SYSTEM)/base_rules.mk
+ #######################################
+ 
+ # We use intermediates.COMMON because the classes.jar/.dex files will be
+--- frameworks/base/tests/BrowserTestPlugin/jni/Android.mk.001	2012-08-01 11:37:14.901222000 -0400
++++ frameworks/base/tests/BrowserTestPlugin/jni/Android.mk	2012-08-01 13:53:27.121220875 -0400
+@@ -48,4 +48,4 @@
+ LOCAL_MODULE := libtestplugin
+ LOCAL_MODULE_TAGS := tests
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+--- frameworks/base/core/jni/Android.mk.001	2012-08-01 11:37:11.061224000 -0400
++++ frameworks/base/core/jni/Android.mk	2012-08-01 13:52:40.921221281 -0400
+@@ -244,6 +244,6 @@
+ 
+ LOCAL_MODULE:= libandroid_runtime
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 
+-include $(call all-makefiles-under,$(LOCAL_PATH))
++#include $(call all-makefiles-under,$(LOCAL_PATH))
+--- frameworks/base/media/jni/Android.mk.001	2012-08-01 11:37:12.711220000 -0400
++++ frameworks/base/media/jni/Android.mk	2012-08-01 13:53:12.571220370 -0400
+@@ -50,8 +50,8 @@
+ 
+ LOCAL_MODULE:= libmedia_jni
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 
+ # build libsoundpool.so
+ # build libaudioeffect_jni.so
+-include $(call all-makefiles-under,$(LOCAL_PATH))
++#include $(call all-makefiles-under,$(LOCAL_PATH))
+--- frameworks/base/native/android/Android.mk	2012-08-10 10:52:27.971222879 -0400
++++ frameworks/base/native/android/Android.mk	2012-08-10 11:05:52.701225671 -0400
+@@ -34,4 +34,4 @@
+ 
+ LOCAL_MODULE:= libandroid
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+--- frameworks/base/services/jni/Android.mk.001	2012-08-12 08:36:03.201221791 -0400
++++ frameworks/base/services/jni/Android.mk	2012-08-12 08:46:23.801220063 -0400
+@@ -4,14 +4,12 @@
+ LOCAL_SRC_FILES:= \
+     com_android_server_AlarmManagerService.cpp \
+     com_android_server_BatteryService.cpp \
+-    com_android_server_InputManager.cpp \
+     com_android_server_LightsService.cpp \
+     com_android_server_PowerManagerService.cpp \
+     com_android_server_SystemServer.cpp \
+     com_android_server_UsbService.cpp \
+     com_android_server_VibratorService.cpp \
+ 	com_android_server_location_GpsLocationProvider.cpp \
+-    onload.cpp
+ 
+ LOCAL_C_INCLUDES += \
+ 	$(JNI_H_INCLUDE)
+--- frameworks/base/Android.mk.orig	2012-08-12 01:40:27.000000000 -0400
++++ frameworks/base/Android.mk	2012-08-12 01:57:00.351223857 -0400
+@@ -509,7 +509,7 @@
+ # $(gen), i.e. framework.aidl, is also needed while building against the current stub.
+ $(full_target): $(framework_built) $(gen)
+ 
+-droidcore: doc-comment-check-docs
++droidcore:
+ 
+ # ====  static html in the sdk ==================================
+ include $(CLEAR_VARS)
+--- frameworks/base/native/graphics/jni/Android.mk.001	2012-08-12 17:45:52.981222253 -0400
++++ frameworks/base/native/graphics/jni/Android.mk	2012-08-12 18:04:56.461224741 -0400
+@@ -30,5 +30,5 @@
+ 
+ LOCAL_MODULE:= libjnigraphics
+ 
+-include $(BUILD_SHARED_LIBRARY)
++#include $(BUILD_SHARED_LIBRARY)
+ 

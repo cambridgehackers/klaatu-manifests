@@ -1,0 +1,9 @@
+diff -aur prebuilt/Android.mk.001 prebuilt/Android.mk
+--- prebuilt/Android.mk.001	2012-07-23 21:20:03.411220273 -0400
++++ prebuilt/Android.mk	2012-07-23 22:10:35.561225215 -0400
+@@ -19,5 +19,3 @@
+ 		$(LOCAL_PATH)/common \
+ 		$(LOCAL_PATH)/$(TARGET_PREBUILT_TAG) \
+ 		$(LOCAL_PATH)/$(HOST_PREBUILT_TAG)) \
+-		$(LOCAL_PATH)/sdk/Android.mk \
+-		$(LOCAL_PATH)/ndk/Android.mk

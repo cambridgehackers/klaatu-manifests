@@ -11,8 +11,8 @@ index 154dbb8..00287ce 100644
      initTexture(&mAndroid[1], mAssets, "images/android-logo-shine.png");
  
      // clear screen
---- cmds/servicemanager/service_manager.c.001	2012-08-12 00:40:40.591184615 -0400
-+++ cmds/servicemanager/service_manager.c	2012-08-12 01:23:23.671222589 -0400
+--- a/cmds/servicemanager/service_manager.c.001	2012-08-12 00:40:40.591184615 -0400
++++ b/cmds/servicemanager/service_manager.c	2012-08-12 01:23:23.671222589 -0400
 @@ -37,6 +37,7 @@
      { AID_RADIO, "radio.sms" },
      { AID_RADIO, "radio.phonesubinfo" },

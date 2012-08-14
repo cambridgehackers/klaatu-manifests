@@ -77,7 +77,7 @@ AutoReqProv: 0
 %description gcc
 
 %files gcc
-/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.6
+/aroot/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
 
@@ -98,6 +98,6 @@ AutoReqProv: 0
 /aroot/dalvik/null.mk
 /aroot/system/core/include
 /aroot/external/stlport/stlport
-/aroot/frameworks/base/build
+/aroot/frameworks/native/build
 /aroot/out/host/linux-x86/bin
 /aroot/device/sample/skins

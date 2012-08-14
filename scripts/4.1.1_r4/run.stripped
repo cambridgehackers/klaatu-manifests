@@ -11,6 +11,8 @@ export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION
 (cd .repo; $SCRIPT_DIR/../strip-projects.sh manifest.xml)
 ln -s $SCRIPT_DIR/../../manifests/cambridge-stripped-$ANDROID_VERSION.xml .repo/local_manifest.xml
+mkdir libnativehelper
+ln -s ../dalvik/libnativehelper/include libnativehelper/
 repo sync
 ls $SCRIPT_DIR/patch/* | while read filename; do
     echo patching $filename

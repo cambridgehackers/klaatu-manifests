@@ -26,6 +26,12 @@ $SCRIPT_DIR/update.py $PRODUCT_DIR/system/bin/linker $PRODUCT_DIR/system/bin/lin
 
 dirname $ANDROID_TOOLCHAIN | sed -e "s/.*prebuilt/\/aroot\/prebuilt/" > compiler_filelist
 cat compiler_filelist
+echo PLATVER $PLATVER
+BUILDDIRNAME=base
+if [ "$PLATVER" == "4.1.1_r4" ] ; then
+    BUILDDIRNAME=native
+fi
+echo "/aroot/frameworks/$BUILDDIRNAME/build" >>output_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
@@ -103,6 +109,5 @@ AutoReqProv: 0
 /aroot/dalvik/null.mk
 /aroot/system/core/include
 /aroot/external/stlport/stlport
-/aroot/frameworks/base/build
 /aroot/out/host/linux-x86/bin
 /aroot/device/sample/skins

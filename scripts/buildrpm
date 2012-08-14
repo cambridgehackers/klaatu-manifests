@@ -3,7 +3,7 @@ set -e
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 TEMPDIR=`pwd`/tmp
 #PLATVER=$(subst .,_,$(PLATFORM_VERSION))
-PLATVER=`(cd .repo/manifests; git branch -vv) | sed -e "s/.*-//"`
+export PLATVER=`(cd .repo/manifests; git branch -vv) | sed -e "s/.*-//"`
 echo PLATVER $PLATVER TAR ${TARGET_PRODUCT#*_}
 rm -rf tmp
 mkdir -p `dirname tmp/$TEMPDIR`

@@ -18,7 +18,8 @@ repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION
 ln -s $SCRIPT_DIR/../manifests/gitorious-stripped-$ANDROID_VERSION.xml .repo/local_manifest.xml
 mkdir libnativehelper
 ln -s ../dalvik/libnativehelper/include libnativehelper/
-repo sync
+#repo sync
+repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/$ANDROID_VERSION/zip_files.sh
 ls $SCRIPT_DIR/$ANDROID_VERSION/patch/* | while read filename; do
     echo patching $filename

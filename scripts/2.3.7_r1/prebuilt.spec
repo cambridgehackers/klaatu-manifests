@@ -31,7 +31,7 @@ cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
 cd $RPM_BUILD_ROOT/aroot
 pwd
-#need cleanup patch -p0 <$SCRIPT_DIR/patch.no_product_copy
+patch -p0 <$SCRIPT_DIR/patch.no_product_copy
 mkdir -p usr/include usr/lib
 cd usr/include/
 ln -s ../../bionic/libc/include/* .

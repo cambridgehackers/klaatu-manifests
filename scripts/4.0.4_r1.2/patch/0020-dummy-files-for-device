@@ -59,3 +59,703 @@ diff -Naur foo/apns-conf_sdk.xml development/data/etc/apns-conf_sdk.xml
 +        mmsc="null"
 +    />
 +</apns>
+diff -Naur foo/apns-conf.xml development/data/etc/apns-conf.xml
+--- foo/apns-conf.xml	1969-12-31 19:00:00.000000000 -0500
++++ development/data/etc/apns-conf.xml	2012-07-12 22:57:54.601353053 -0400
+@@ -0,0 +1,265 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/*
++** Copyright 2006, Google Inc.
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++
++<!-- use empty string to specify no proxy or port -->
++<!-- This version must agree with that in apps/common/res/apns.xml -->
++<apns version="7">
++    <apn carrier="T-Mobile US"
++         mcc="310"
++         mnc="260"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++    />
++
++    <apn carrier="T-Mobile US 250"
++         mcc="310"
++         mnc="250"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 660"
++         mcc="310"
++         mnc="660"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 230"
++         mcc="310"
++         mnc="230"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 310"
++         mcc="310"
++         mnc="310"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 580"
++         mcc="310"
++         mnc="580"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 240"
++         mcc="310"
++         mnc="240"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 800"
++         mcc="310"
++         mnc="800"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 210"
++         mcc="310"
++         mnc="210"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 160"
++         mcc="310"
++         mnc="160"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 270"
++         mcc="310"
++         mnc="270"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 200"
++         mcc="310"
++         mnc="200"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 220"
++         mcc="310"
++         mnc="220"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <apn carrier="T-Mobile US 490"
++         mcc="310"
++         mnc="490"
++         apn="epc.tmobile.com"
++         user="none"
++         server="*"
++         password="none"
++         mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc"
++            />
++
++    <!-- T-Mobile Europe -->
++    <apn carrier="T-Mobile UK"
++         mcc="234"
++         mnc="30"
++         apn="general.t-mobile.uk"
++         user="t-mobile"
++         password="tm"
++         server="*"
++         mmsproxy="149.254.201.135"
++         mmsport="8080"
++         mmsc="http://mmsc.t-mobile.co.uk:8002"
++    />
++
++    <apn carrier="T-Mobile D"
++         mcc="262"
++         mnc="01"
++         apn="internet.t-mobile"
++         user="t-mobile"
++         password="tm"
++         server="*"
++         mmsproxy="172.028.023.131"
++         mmsport="8008"
++         mmsc="http://mms.t-mobile.de/servlets/mms"
++    />
++
++    <apn carrier="T-Mobile A"
++         mcc="232"
++         mnc="03"
++         apn="gprsinternet"
++         user="t-mobile"
++         password="tm"
++         server="*"
++         mmsproxy="010.012.000.020"
++         mmsport="80"
++         mmsc="http://mmsc.t-mobile.at/servlets/mms"
++         type="default,supl"
++    />
++
++    <apn carrier="T-Mobile A MMS"
++         mcc="232"
++         mnc="03"
++         apn="gprsmms"
++         user="t-mobile"
++         password="tm"
++         server="*"
++         mmsproxy="010.012.000.020"
++         mmsport="80"
++         mmsc="http://mmsc.t-mobile.at/servlets/mms"
++         type="mms"
++    />
++
++    <apn carrier="T-Mobile CZ"
++         mcc="230"
++         mnc="01"
++         apn="internet.t-mobile.cz"
++         user="wap"
++         password="wap"
++         server="*"
++         mmsproxy="010.000.000.010"
++         mmsport="80"
++         mmsc="http://mms"
++         type="default,supl"
++    />
++
++    <apn carrier="T-Mobile CZ MMS"
++         mcc="230"
++         mnc="01"
++         apn="mms.t-mobile.cz"
++         user="mms"
++         password="mms"
++         server="*"
++         mmsproxy="010.000.000.010"
++         mmsport="80"
++         mmsc="http://mms"
++         type="mms"
++    />
++
++    <apn carrier="T-Mobile NL"
++         mcc="204"
++         mnc="16"
++         apn="internet"
++         user="*"
++         password="*"
++         server="*"
++         mmsproxy="010.010.010.011"
++         mmsport="8080"
++         mmsc="http://t-mobilemms"
++         type="default,supl"
++    />
++
++    <apn carrier="T-Mobile NL MMS"
++         mcc="204"
++         mnc="16"
++         apn="mms"
++         user="tmobilemms"
++         password="tmobilemms"
++         server="*"
++         mmsproxy="010.010.010.011"
++         mmsport="8080"
++         mmsc="http://t-mobilemms"
++         type="mms"
++    />
++</apns>
+diff -Naur foo/vold.conf development/data/etc/vold.conf
+--- foo/vold.conf	1969-12-31 19:00:00.000000000 -0500
++++ development/data/etc/vold.conf	2012-07-12 22:57:54.601353053 -0400
+@@ -0,0 +1,10 @@
++## vold configuration file for the emulator/SDK
++
++volume_sdcard {
++    ## This is the direct uevent device path to the SD slot on the device
++    emu_media_path /devices/platform/goldfish_mmc.0/mmc_host/mmc0
++
++    media_type     mmc
++    mount_point    /sdcard
++    ums_path       /devices/platform/usb_mass_storage/lun0
++}
+--- foo2	2012-08-14 17:34:14.881223144 -0400
++++ development/tools/emulator/system/camera/media_profiles.xml	2012-07-12 22:57:55.011350103 -0400
+@@ -0,0 +1,414 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2010 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<!DOCTYPE MediaSettings [
++<!ELEMENT MediaSettings (CamcorderProfiles,
++                         EncoderOutputFileFormat+,
++                         VideoEncoderCap+,
++                         AudioEncoderCap+,
++                         VideoDecoderCap,
++                         AudioDecoderCap)>
++<!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
++<!ELEMENT EncoderProfile (Video, Audio)>
++<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
++<!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
++<!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
++<!ATTLIST EncoderProfile cameraId (0|1) #REQUIRED>
++<!ELEMENT Video EMPTY>
++<!ATTLIST Video codec (h264|h263|m4v) #REQUIRED>
++<!ATTLIST Video bitRate CDATA #REQUIRED>
++<!ATTLIST Video width CDATA #REQUIRED>
++<!ATTLIST Video height CDATA #REQUIRED>
++<!ATTLIST Video frameRate CDATA #REQUIRED>
++<!ELEMENT Audio EMPTY>
++<!ATTLIST Audio codec (amrnb|amrwb|aac) #REQUIRED>
++<!ATTLIST Audio bitRate CDATA #REQUIRED>
++<!ATTLIST Audio sampleRate CDATA #REQUIRED>
++<!ATTLIST Audio channels (1|2) #REQUIRED>
++<!ELEMENT ImageEncoding EMPTY>
++<!ATTLIST ImageEncoding quality (90|80|70|60|50|40) #REQUIRED>
++<!ELEMENT ImageDecoding EMPTY>
++<!ATTLIST ImageDecoding memCap CDATA #REQUIRED>
++<!ELEMENT Camera EMPTY>
++<!ELEMENT EncoderOutputFileFormat EMPTY>
++<!ATTLIST EncoderOutputFileFormat name (mp4|3gp) #REQUIRED>
++<!ELEMENT VideoEncoderCap EMPTY>
++<!ATTLIST VideoEncoderCap name (h264|h263|m4v|wmv) #REQUIRED>
++<!ATTLIST VideoEncoderCap enabled (true|false) #REQUIRED>
++<!ATTLIST VideoEncoderCap minBitRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxBitRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameRate CDATA #REQUIRED>
++<!ELEMENT AudioEncoderCap EMPTY>
++<!ATTLIST AudioEncoderCap name (amrnb|amrwb|aac|wma) #REQUIRED>
++<!ATTLIST AudioEncoderCap enabled (true|false) #REQUIRED>
++<!ATTLIST AudioEncoderCap minBitRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap maxBitRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap minSampleRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap maxSampleRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap minChannels (1|2) #REQUIRED>
++<!ATTLIST AudioEncoderCap maxChannels (1|2) #REQUIRED>
++<!ELEMENT VideoDecoderCap EMPTY>
++<!ATTLIST VideoDecoderCap name (wmv) #REQUIRED>
++<!ATTLIST VideoDecoderCap enabled (true|false) #REQUIRED>
++<!ELEMENT AudioDecoderCap EMPTY>
++<!ATTLIST AudioDecoderCap name (wma) #REQUIRED>
++<!ATTLIST AudioDecoderCap enabled (true|false) #REQUIRED>
++<!ELEMENT VideoEditorCap EMPTY>
++<!ATTLIST VideoEditorCap maxInputFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxInputFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxOutputFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxOutputFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxPrefetchYUVFrames CDATA #REQUIRED>
++<!ELEMENT ExportVideoProfile EMPTY>
++<!ATTLIST ExportVideoProfile name (h264|h263|m4v) #REQUIRED>
++<!ATTLIST ExportVideoProfile profile CDATA #REQUIRED>
++<!ATTLIST ExportVideoProfile level CDATA #REQUIRED>
++]>
++<!--
++     This file is used to declare the multimedia profiles and capabilities
++     on an android-powered device.
++-->
++<MediaSettings>
++    <!-- Each camcorder profile defines a set of predefined configuration parameters -->
++    <CamcorderProfiles cameraId="0">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="1">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="2">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="3">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="4">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="5">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="6">
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
++            <Video codec="m4v"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="15" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++            <!-- audio setting is ignored -->
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <ImageEncoding quality="95" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <EncoderOutputFileFormat name="3gp" />
++    <EncoderOutputFileFormat name="mp4" />
++
++    <!--
++         If a codec is not enabled, it is invisible to the applications
++         In other words, the applications won't be able to use the codec
++         or query the capabilities of the codec at all if it is disabled
++    -->
++    <VideoEncoderCap name="h264" enabled="true"
++        minBitRate="64000" maxBitRate="192000"
++        minFrameWidth="176" maxFrameWidth="320"
++        minFrameHeight="144" maxFrameHeight="240"
++        minFrameRate="15" maxFrameRate="30" />
++
++    <VideoEncoderCap name="h263" enabled="true"
++        minBitRate="64000" maxBitRate="192000"
++        minFrameWidth="176" maxFrameWidth="320"
++        minFrameHeight="144" maxFrameHeight="240"
++        minFrameRate="15" maxFrameRate="30" />
++
++    <VideoEncoderCap name="m4v" enabled="true"
++        minBitRate="64000" maxBitRate="192000"
++        minFrameWidth="176" maxFrameWidth="320"
++        minFrameHeight="144" maxFrameHeight="240"
++        minFrameRate="15" maxFrameRate="30" />
++
++    <AudioEncoderCap name="aac" enabled="true"
++        minBitRate="8000" maxBitRate="96000"
++        minSampleRate="8000" maxSampleRate="48000"
++        minChannels="1" maxChannels="1" />
++
++    <AudioEncoderCap name="amrwb" enabled="true"
++        minBitRate="6600" maxBitRate="23050"
++        minSampleRate="16000" maxSampleRate="16000"
++        minChannels="1" maxChannels="1" />
++
++    <AudioEncoderCap name="amrnb" enabled="true"
++        minBitRate="5525" maxBitRate="12200"
++        minSampleRate="8000" maxSampleRate="8000"
++        minChannels="1" maxChannels="1" />
++
++    <!--
++        FIXME:
++        We do not check decoder capabilities at present
++        At present, we only check whether windows media is visible
++        for TEST applications. For other applications, we do
++        not perform any checks at all.
++    -->
++    <VideoDecoderCap name="wmv" enabled="false"/>
++    <AudioDecoderCap name="wma" enabled="false"/>
++
++    <!--
++        The VideoEditor Capability configuration:
++        - maxInputFrameWidth: maximum video width of imported video clip.
++        - maxInputFrameHeight: maximum video height of imported video clip.
++        - maxOutputFrameWidth: maximum video width of exported video clip.
++        - maxOutputFrameHeight: maximum video height of exported video clip.
++        - maxPrefetchYUVFrames: maximum prefetch YUV frames for encoder,
++        used to limit the amount of memory for prefetched YUV frames.
++        For this platform, it allows maximum ~1MB(~0.1MB per QVGA frame x 10
++        frames) memory.
++    -->
++
++    <VideoEditorCap  maxInputFrameWidth="320"
++        maxInputFrameHeight="240" maxOutputFrameWidth="320"
++        maxOutputFrameHeight="240" maxPrefetchYUVFrames="10" />
++    <!--
++        The VideoEditor Export codec profile and level values
++        correspond to the values in OMX_Video.h.
++        E.g. for h264, profile value 1 means OMX_VIDEO_AVCProfileBaseline
++        and  level 4096 means OMX_VIDEO_AVCLevel41.
++        Please note that the values are in decimal.
++        These values are for video encoder.
++    -->
++    <!--
++      Codec = h.264, Baseline profile, level 4.1
++    -->
++    <ExportVideoProfile name="h264" profile= "1" level="512"/>
++    <!--
++      Codec = h.263, Baseline profile, level 0
++    -->
++    <ExportVideoProfile name="h263" profile= "1" level="1"/>
++    <!--
++      Codec = mpeg4, Simple profile, level 3
++    -->
++    <ExportVideoProfile name="m4v" profile= "1" level="16"/>
++</MediaSettings>

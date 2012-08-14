@@ -26,7 +26,6 @@
 /name="platform\/external\/eyes-free"/d
 /name="platform\/external\/fdlibm"/d
 /name="platform\/external\/fsck_msdos"/d
-/name="platform\/external\/genext2fs"/d
 /name="platform\/external\/google-diff-match-patch"/d
 /name="platform\/external\/grub"/d
 /name="platform\/external\/guava"/d

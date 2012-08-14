@@ -31,7 +31,7 @@ cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
 cd $RPM_BUILD_ROOT/aroot
 pwd
-patch -p0 <$SCRIPT_DIR/patch.no_product_copy
+#need cleanup patch -p0 <$SCRIPT_DIR/patch.no_product_copy
 mkdir -p usr/include usr/lib
 cd usr/include/
 ln -s ../../bionic/libc/include/* .
@@ -77,7 +77,8 @@ AutoReqProv: 0
 %description gcc
 
 %files gcc
-/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.6
+#/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.6
+/aroot/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
 

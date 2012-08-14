@@ -10,3 +10,9 @@ diff -Naur foo packages/apps/Nfc/migrate_nfc.txt
 @@ -0,0 +1,2 @@
 +
 +
+--- foo	2012-08-14 15:31:23.521210290 -0400
++++ development/data/etc/apns-conf_sdk.xml	2012-08-14 15:31:39.381183541 -0400
+@@ -0,0 +1,2 @@
++
++
+

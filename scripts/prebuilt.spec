@@ -1,8 +1,7 @@
 
-Name: android_%{_android_platform}
+Name: android_%{_android_platform}_%{_android_product}
 Version: 1
 Release: 1
-#4.0.4_r1.2
 License: GPL
 Summary: prebuilt stuff
 
@@ -41,7 +40,6 @@ cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
 cd $RPM_BUILD_ROOT/aroot
 pwd
-#patch -p0 <$SCRIPT_DIR/patch.no_product_copy
 sed -f $SCRIPT_DIR/sed/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
 mkdir -p usr/include usr/lib
 cd usr/include/

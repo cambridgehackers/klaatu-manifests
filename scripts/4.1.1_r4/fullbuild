@@ -19,7 +19,7 @@ ls $SCRIPT_DIR/patch/* | while read filename; do
     patch -p0 <$filename
 done
 #not yet (cd frameworks/base; patch -p1 <$SCRIPT_DIR/patch.frameworks_base)
-cp $SCRIPT_DIR/cambridge-logo-mask.png frameworks/base/core/res/assets/images/cambridge-logo-mask.png
+cp $SCRIPT_DIR/../cambridge-logo-mask.png frameworks/base/core/res/assets/images/cambridge-logo-mask.png
 
 source build/envsetup.sh; lunch full_maguro-userdebug
 #TARGET_NO_RECOVERY=true make -j33

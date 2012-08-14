@@ -1,14 +1,15 @@
 
-Name: android
+Name: android_%{_android_platform}
 Version: 1
-Release: 4.0.4_r1.2
+Release: 1
+#4.0.4_r1.2
 License: GPL
 Summary: prebuilt stuff
 
 %description
 
 %install
-PRODUCT_DIR=out/target/product/maguro
+PRODUCT_DIR=out/target/product/%{_android_product}
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find dalvik/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
@@ -23,6 +24,9 @@ cp prebuilt/.git/config prebuilt/git.config
 cp prebuilt/.git/HEAD prebuilt/git.HEAD
 $SCRIPT_DIR/update.py $PRODUCT_DIR/system/bin/linker $PRODUCT_DIR/system/bin/linker.chroot
 
+dirname $ANDROID_TOOLCHAIN | sed -e "s/.*prebuilt/\/aroot\/prebuilt/" > compiler_filelist
+cat compiler_filelist
+
 mkdir -p $RPM_BUILD_ROOT/aroot
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
 rm $RPM_BUILD_ROOT/aroot/Makefile $RPM_BUILD_ROOT/aroot/build
@@ -31,7 +35,8 @@ cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
 cd $RPM_BUILD_ROOT/aroot
 pwd
-patch -p0 <$SCRIPT_DIR/patch.no_product_copy
+#patch -p0 <$SCRIPT_DIR/patch.no_product_copy
+sed -f $SCRIPT_DIR/sed/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
 mkdir -p usr/include usr/lib
 cd usr/include/
 ln -s ../../bionic/libc/include/* .
@@ -76,8 +81,8 @@ AutoReqProv: 0
 
 %description gcc
 
-%files gcc
-/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
+%files gcc -f compiler_filelist
+#/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
 

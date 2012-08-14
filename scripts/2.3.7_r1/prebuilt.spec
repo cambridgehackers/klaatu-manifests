@@ -8,7 +8,7 @@ Summary: prebuilt stuff
 %description
 
 %install
-PRODUCT_DIR=out/target/product/maguro
+PRODUCT_DIR=out/target/product/crespo
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find dalvik/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
@@ -50,29 +50,24 @@ ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
 ln -s ../../external/zlib/zlib.h ../external/zlib/zconf.h .
 (cd android; ln -s ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../system/core/include/android/log.h .)
 cd ../lib
-#ln -s ../../out/target/product/maguro/obj/lib/crtbegin_dynamic.o crtbegin_dynamic.o
-#ln -s ../../out/target/product/maguro/obj/lib/crtbegin_so.o crtbegin_so.o
-#ln -s ../../out/target/product/maguro/obj/lib/crtbegin_static.o crtbegin_static.o
-#ln -s ../../out/target/product/maguro/obj/lib/crtend_android.o crtend_android.o
-#ln -s ../../out/target/product/maguro/obj/lib/crtend_so.o crtend_so.o
-ln -s ../../out/target/product/maguro/obj/lib/*.o .
-ln -s ../../out/target/product/maguro/obj/lib/libandroid.so .
-ln -s ../../out/target/product/maguro/obj/lib/libc.so .
-ln -s ../../out/target/product/maguro/obj/lib/libdl.so .
-ln -s ../../out/target/product/maguro/obj/lib/libEGL.so .
-ln -s ../../out/target/product/maguro/obj/lib/libGLESv1_CM.so .
-ln -s ../../out/target/product/maguro/obj/lib/libGLESv2.so .
-ln -s ../../out/target/product/maguro/obj/lib/libjnigraphics.so .
-ln -s ../../out/target/product/maguro/obj/lib/liblog.so .
-ln -s ../../out/target/product/maguro/obj/lib/libm.so .
-ln -s ../../out/target/product/maguro/obj/lib/libOpenMAXAL.so .
-ln -s ../../out/target/product/maguro/obj/lib/libOpenSLES.so .
-ln -s ../../out/target/product/maguro/obj/lib/libstdc++.so .
-ln -s ../../out/target/product/maguro/obj/lib/libthread_db.so .
-ln -s ../../out/target/product/maguro/obj/lib/libz.so .
-ln -s ../../out/target/product/maguro/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
-ln -s ../../out/target/product/maguro/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
-ln -s ../../out/target/product/maguro/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
+ln -s ../../$PRODUCT_DIR/obj/lib/*.o .
+ln -s ../../$PRODUCT_DIR/obj/lib/libandroid.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libc.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libdl.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libEGL.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv1_CM.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv2.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libjnigraphics.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/liblog.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libm.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libOpenMAXAL.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libOpenSLES.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libstdc++.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libthread_db.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libz.so .
+ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
+ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
+ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
 
 %package gcc
 BuildArch: noarch

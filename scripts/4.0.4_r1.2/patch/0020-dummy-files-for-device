@@ -10,9 +10,52 @@ diff -Naur foo packages/apps/Nfc/migrate_nfc.txt
 @@ -0,0 +1,2 @@
 +
 +
---- foo	2012-08-14 15:31:23.521210290 -0400
-+++ development/data/etc/apns-conf_sdk.xml	2012-08-14 15:31:39.381183541 -0400
-@@ -0,0 +1,2 @@
+diff -Naur foo/apns-conf_sdk.xml development/data/etc/apns-conf_sdk.xml
+--- foo/apns-conf_sdk.xml	1969-12-31 19:00:00.000000000 -0500
++++ development/data/etc/apns-conf_sdk.xml	2012-07-12 22:57:54.601353053 -0400
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2008 The Android Open Source Project
 +
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++  
++          http://www.apache.org/licenses/LICENSE-2.0
++  
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
 +
-
++<!-- This file contains fake APNs that are necessary for the emulator
++     to talk to the network.  It should only be installed for SDK builds.
++
++     This file is not installed by the local Android.mk, it's installed using
++     a PRODUCT_COPY_FILES line in the sdk section of the toplevel Makefile.
++-->
++
++<!-- use empty string to specify no proxy or port -->
++<!-- This version must agree with that in apps/common/res/apns.xml -->
++<apns version="7">
++    <apn carrier="Android"
++        mcc="310"
++        mnc="995"
++        apn="internet"
++        user="*"
++        server="*"
++        password="*"
++        mmsc="null"
++    />
++    <apn carrier="TelKila"
++        mcc="310"
++        mnc="260"
++        apn="internet"
++        user="*"
++        server="*"
++        password="*"
++        mmsc="null"
++    />
++</apns>

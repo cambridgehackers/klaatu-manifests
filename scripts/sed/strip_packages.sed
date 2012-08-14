@@ -1,5 +1,4 @@
 /name="platform\/bootable\/bootloader\/legacy"/d
-/name="platform\/bootable\/diskinstaller"/d
 /name="platform\/cts"/d
 /name="platform\/dalvik"/d
 /name="platform\/development"/d

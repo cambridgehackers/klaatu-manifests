@@ -15,7 +15,7 @@ ANDROID_VERSION=$1
 ANDROID_MANIFEST_FILE=default.xml
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+repo init -u $ANDROID_GENERIC_HOST -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 ln -s $SCRIPT_DIR/../manifests/gitorious-stripped-$ANDROID_VERSION.xml .repo/local_manifest.xml
 mkdir libnativehelper

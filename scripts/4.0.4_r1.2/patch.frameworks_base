@@ -11,22 +11,6 @@ index 154dbb8..00287ce 100644
      initTexture(&mAndroid[1], mAssets, "images/android-logo-shine.png");
  
      // clear screen
-diff --git a/cmds/servicemanager/service_manager.c b/cmds/servicemanager/service_manager.c
-index 2df450f..f4ac53c 100644
---- a/cmds/servicemanager/service_manager.c
-+++ b/cmds/servicemanager/service_manager.c
-@@ -46,6 +46,7 @@ static struct {
-     { AID_RADIO, "isms" },
-     { AID_RADIO, "iphonesubinfo" },
-     { AID_RADIO, "simphonebook" },
-+    { AID_RADIO, "sigyn" }
- };
- 
- void *svcmgr_handle;
-diff --git a/core/res/assets/images/cambridge-logo-mask.png b/core/res/assets/images/cambridge-logo-mask.png
-new file mode 100644
-index 0000000..3657c94
-Binary files /dev/null and b/core/res/assets/images/cambridge-logo-mask.png differ
 diff --git a/libs/binder/IServiceManager.cpp b/libs/binder/IServiceManager.cpp
 index 1fa4c35..7ce022e 100644
 --- a/libs/binder/IServiceManager.cpp

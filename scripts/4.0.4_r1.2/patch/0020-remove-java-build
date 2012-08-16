@@ -19,8 +19,8 @@ diff -aur build/core/config.mk.001 build/core/config.mk
  BUILD_NATIVE_TEST := $(BUILD_SYSTEM)/native_test.mk
  BUILD_HOST_NATIVE_TEST := $(BUILD_SYSTEM)/host_native_test.mk
 diff -aur build/core/host_java_library.mk.001 build/core/host_java_library.mk
---- build/core/host_java_library.mk.001	2012-07-23 21:20:00.421221093 -0400
-+++ build/core/host_java_library.mk	2012-07-23 22:18:29.371220685 -0400
+--- build/core/host_java_library.mk.001        2012-07-23 21:20:00.421221093 -0400
++++ build/core/host_java_library.mk    2012-07-23 22:18:29.371220685 -0400
 @@ -41,7 +41,7 @@
  LOCAL_INTERMEDIATE_SOURCE_DIR := $(intermediates.COMMON)/src
  endif # LOCAL_BUILD_HOST_DEX
@@ -80,14 +80,6 @@ diff -Naur libcore.001/Docs.mk libcore/Docs.mk
  # build libaudioeffect_jni.so
 -include $(call all-makefiles-under,$(LOCAL_PATH))
 +#include $(call all-makefiles-under,$(LOCAL_PATH))
---- frameworks/base/native/android/Android.mk	2012-08-10 10:52:27.971222879 -0400
-+++ frameworks/base/native/android/Android.mk	2012-08-10 11:05:52.701225671 -0400
-@@ -34,4 +34,4 @@
- 
- LOCAL_MODULE:= libandroid
- 
--include $(BUILD_SHARED_LIBRARY)
-+#include $(BUILD_SHARED_LIBRARY)
 --- frameworks/base/services/jni/Android.mk	2012-08-10 10:52:28.151223407 -0400
 +++ frameworks/base/services/jni/Android.mk	2012-08-10 11:03:33.991223385 -0400
 @@ -5,8 +5,6 @@
@@ -126,30 +118,4 @@ diff -Naur libcore.001/Docs.mk libcore/Docs.mk
                            libmedia
  
  # Don't prelink this library.  For more efficient code, you may want
-
---- system/media/mca/filterfw/jni/Android.mk	2012-08-10 10:52:57.831222871 -0400
-+++ system/media/mca/filterfw/jni/Android.mk	2012-08-10 10:27:58.081222564 -0400
-@@ -47,5 +47,5 @@
- # part of a system image.
- LOCAL_PRELINK_MODULE := false
- 
--include $(BUILD_STATIC_LIBRARY)
-+#include $(BUILD_STATIC_LIBRARY)
- 
---- system/media/wilhelm/tests/native-media/jni/Android.mk	2012-08-10 10:52:58.081233324 -0400
-+++ system/media/wilhelm/tests/native-media/jni/Android.mk	2012-08-10 10:32:40.021237728 -0400
-@@ -12,4 +12,4 @@
- LOCAL_SHARED_LIBRARIES += libutils libOpenMAXAL libandroid
- 
- 
--include $(BUILD_SHARED_LIBRARY)
-+#include $(BUILD_SHARED_LIBRARY)
---- frameworks/base/native/graphics/jni/Android.mk
-+++ frameworks/base/native/graphics/jni/Android.mk
-@@ -30,5 +30,5 @@ LOCAL_C_INCLUDES += \
- 
- LOCAL_MODULE:= libjnigraphics
- 
--include $(BUILD_SHARED_LIBRARY)
-+#include $(BUILD_SHARED_LIBRARY)
 

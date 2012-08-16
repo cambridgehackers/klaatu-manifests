@@ -76,7 +76,6 @@
 /name="platform\/external\/valgrind"/d
 /name="platform\/external\/webkit"/d
 /name="platform\/external\/xmlwriter"/d
-/name="platform\/external\/yaffs2"/d
 /name="platform\/frameworks\/compile\//d
 /name="platform\/frameworks\/ex"/d
 /name="platform\/frameworks\/opt\/calendar"/d

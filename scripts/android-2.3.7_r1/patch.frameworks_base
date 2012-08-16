@@ -11,16 +11,3 @@ index 154dbb8..00287ce 100644
      initTexture(&mAndroid[1], mAssets, "images/android-logo-shine.png");
  
      // clear screen
---- a/cmds/servicemanager/service_manager.c.001	2012-08-14 13:48:50.001189587 -0400
-+++ b/cmds/servicemanager/service_manager.c	2012-08-14 13:51:20.591222040 -0400
-@@ -39,6 +39,7 @@
-     { AID_RADIO, "radio.sms" },
-     { AID_RADIO, "radio.phonesubinfo" },
-     { AID_RADIO, "radio.simphonebook" },
-+    { AID_RADIO, "sigyn" },
- /* TODO: remove after phone services are updated: */
-     { AID_RADIO, "phone" },
-     { AID_RADIO, "sip" },
-diff --git a/core/res/assets/images/cambridge-logo-mask.png b/core/res/assets/images/cambridge-logo-mask.png
-new file mode 100644
-index 0000000..3657c94

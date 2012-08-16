@@ -4,6 +4,7 @@
 #    cd test
 #    run script
 set -e
+set -x
 ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/platform/manifest}
 
 if test -z "$1"; then
@@ -11,15 +12,17 @@ if test -z "$1"; then
     exit 1
 fi
 ANDROID_VERSION=$1
+ANDROID_MANIFEST_FILE=default.xml
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION
+repo init -u $ANDROID_GENERIC_HOST -b android-$ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 ln -s $SCRIPT_DIR/../manifests/gitorious-stripped-$ANDROID_VERSION.xml .repo/local_manifest.xml
 mkdir libnativehelper
 ln -s ../dalvik/libnativehelper/include libnativehelper/
 #repo sync
 repo sync -n -j 4 && repo sync -l -j 20
+sed -i.001 -f $SCRIPT_DIR/sed/build_core_config.sed build/core/config.mk
 $SCRIPT_DIR/$ANDROID_VERSION/zip_files.sh
 ls $SCRIPT_DIR/$ANDROID_VERSION/patch/* | while read filename; do
     echo patching $filename

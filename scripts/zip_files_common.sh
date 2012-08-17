@@ -6,7 +6,6 @@ gzip frameworks/base/native/graphics/jni/Android.mk
 gzip frameworks/base/tests/BrowserTestPlugin/jni/Android.mk
 gzip frameworks/base/tools/layoutlib/Android.mk
 gzip hardware/ril/mock-ril/Android.mk
-gzip frameworks/base/libs/rs/Android.mk
 gzip frameworks/base/graphics/jni/Android.mk
 gzip frameworks/base/data/fonts/Android.mk
 gzip build/core/tasks/apicheck.mk
@@ -14,7 +13,6 @@ gzip build/tools/apicheck/Android.mk
 gzip frameworks/base/cmds/app_process/Android.mk
 gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk
-sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
 sed -i.001 -e "/(LOCAL_PATH)\/[sn]dk\/Android.mk/d" prebuilt/Android.mk
 sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk

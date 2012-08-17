@@ -35,7 +35,7 @@ ls $SCRIPT_DIR/$ANDROID_VERSION/patch/* | while read filename; do
     patch -p0 <$filename
 done
 fi
-sed -i.001 -f $SCRIPT_DIR/sed/dialer_allowed.sed frameworks/base/cmds/servicemanager/service_manager.c
+sed -i.001 -e "/simphonebook\" },/s/}/},\n    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
 (cd frameworks/base; patch -p1 <$SCRIPT_DIR/$ANDROID_VERSION/patch.frameworks_base)
 cp $SCRIPT_DIR/cambridge-logo-mask.png frameworks/base/core/res/assets/images/cambridge-logo-mask.png
 

@@ -5,26 +5,35 @@
 #    run script
 set -e
 set -x
-ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/platform/manifest}
+ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/}
+ANDROID_GENERIC_HOST_CODEAURORA=${ANDROID_GENERIC_HOST_CODEAURORA:-git://codeaurora.org/}
 
 if test -z "$1"; then
     echo "$0 <android version>"
     exit 1
 fi
 ANDROID_VERSION=$1
-ANDROID_MANIFEST_FILE=$2
-#default.xml
+if test -z "$2"; then
+    ANDROID_MANIFEST_FILE=default.xml
+else
+    ANDROID_MANIFEST_FILE=$2
+fi
+#ANDROID_MANIFEST_FILE=M76XXUSNEKNLYA2045.xml
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-repo init -u $ANDROID_GENERIC_HOST -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+repo init -u $ANDROID_GENERIC_HOST/platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 mkdir libnativehelper
 ln -s ../dalvik/libnativehelper/include libnativehelper/
 repo sync -n -j 4 && repo sync -l -j 20
+if [ -e device/qcom/common/common.mk ] ; then
+    # llvm config in device/qcom????
+    sed -i.001 -e "/llvm-select.mk/s/^/#/" device/qcom/common/common.mk
+fi
 $SCRIPT_DIR/zip_files_common.sh
 $SCRIPT_DIR/$ANDROID_VERSION/zip_files.sh
+(cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 (cd $SCRIPT_DIR/$ANDROID_VERSION/template; tar cf - .) | tar xf -
-cp $SCRIPT_DIR/cambridge-logo-mask.png frameworks/base/core/res/assets/images/cambridge-logo-mask.png
 
 #source build/envsetup.sh; lunch full_maguro-userdebug
 #TARGET_NO_RECOVERY=true make -j33

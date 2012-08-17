@@ -1,4 +1,6 @@
 #
+mkdir libnativehelper
+ln -s ../dalvik/libnativehelper/include libnativehelper/
 gzip frameworks/base/core/jni/Android.mk
 gzip frameworks/base/media/jni/Android.mk
 gzip frameworks/base/media/jni/*/Android.mk
@@ -30,3 +32,10 @@ sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalv
 #
 sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp
 sed -i.001 -e "/simphonebook\" },/s/}/},\n    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
+#set TARGET_NO_RECOVERY=true as the default
+sed -i.001 -e "s/\$(TARGET_NO_RECOVERY)/true/" build/core/Makefile 
+if [ -e device/qcom/common/common.mk ] ; then
+    # llvm config in device/qcom????
+    sed -i.001 -e "/llvm-select.mk/s/^/#/" device/qcom/common/common.mk
+fi
+

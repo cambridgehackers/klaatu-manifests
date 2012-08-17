@@ -1,0 +1,27 @@
+#!/bin/bash
+# Usage:
+#    mkdir test
+#    cd test
+#    run script
+set -e
+set -x
+ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/platform/manifest}
+
+if test -z "$1"; then
+    echo "$0 <android version>"
+    exit 1
+fi
+ANDROID_VERSION=$1
+ANDROID_MANIFEST_FILE=$2
+#default.xml
+
+export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+repo init -u $ANDROID_GENERIC_HOST -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+(cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
+(cd .repo; ln -s ~/bionicsf-manifests/manifests/cambridge-stripped-4.1.1_r3.xml local_manifest.xml)
+repo sync -n -j 4 && repo sync -l -j 20
+$SCRIPT_DIR/zip_files_common.sh
+$SCRIPT_DIR/zip_files_$ANDROID_VERSION.sh
+(cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
+
+#source build/envsetup.sh; lunch full_maguro-userdebug

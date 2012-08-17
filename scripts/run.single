@@ -14,4 +14,4 @@ source build/envsetup.sh; lunch full_maguro-userdebug
 rm -rf frameworks/base/media/libstagefright/
 tar xzf ../stage.tgz 
 
-#TARGET_NO_RECOVERY=true TARGET_NO_BOOTLOADER=true TARGET_NO_KERNEL=true make -j33
+#TARGET_NO_BOOTLOADER=true TARGET_NO_KERNEL=true make -j33

@@ -29,9 +29,6 @@ sed -i.001 -e "/com_android_server_InputManager.cpp/d"  -e "/com_android_server_
 sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalvik\/null/" \
     -e "/BUILD_JAVA_LIBRARY:=/s/BUILD_SYSTEM)\/java_library/TOPDIR)dalvik\/null/" \
     -e "/BUILD_DROIDDOC:=/s/BUILD_SYSTEM)\/droiddoc/TOPDIR)dalvik\/null/" build/core/config.mk
-#
-sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp
-sed -i.001 -e "/simphonebook\" },/s/}/},\n    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
 #set TARGET_NO_RECOVERY=true as the default
 sed -i.001 -e "s/\$(TARGET_NO_RECOVERY)/true/" build/core/Makefile 
 if [ -e device/qcom/common/common.mk ] ; then
@@ -39,3 +36,6 @@ if [ -e device/qcom/common/common.mk ] ; then
     sed -i.001 -e "/llvm-select.mk/s/^/#/" device/qcom/common/common.mk
 fi
 
+# these perform local modifications to frameworks/base
+sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp
+sed -i.001 -e "/simphonebook\" },/s/}/},\n    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c

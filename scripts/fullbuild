@@ -31,9 +31,8 @@ if [ -e device/qcom/common/common.mk ] ; then
     sed -i.001 -e "/llvm-select.mk/s/^/#/" device/qcom/common/common.mk
 fi
 $SCRIPT_DIR/zip_files_common.sh
-$SCRIPT_DIR/$ANDROID_VERSION/zip_files.sh
+$SCRIPT_DIR/zip_files-$ANDROID_VERSION.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
-(cd $SCRIPT_DIR/$ANDROID_VERSION/template; tar cf - .) | tar xf -
 
 #source build/envsetup.sh; lunch full_maguro-userdebug
 #TARGET_NO_RECOVERY=true make -j33

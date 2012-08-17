@@ -128,4 +128,4 @@
 /name="platform\/frameworks\/rs"/d
 /name="platform\/frameworks\/testing"/d
 /name="platform\/libnativehelper"/d
-/<\/manifest>/s/^/<!-- Add busybox -->\n<remote name="busybox-android" fetch="git:\/\/github.com\/Gnurou\/"\/>\n<project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"\/>\n<!-- Stubs for missing JNI functions (since dalvik not included) -->\n<remote name="cambridge" fetch="git:\/\/gitorious.org\/cambridge\/" \/>\n<project path="dalvik" name="klaatu-jni-stub.git" remote="cambridge" revision="master"\/>\n\n/
+/<\/manifest>/s/^/<remote name="busybox-android" fetch="git:\/\/github.com\/Gnurou\/"\/>\n<project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"\/>\n<remote name="CAMBRIDGEJNI" fetch="git:\/\/gitorious.org\/cambridge\/" \/>\n<project path="dalvik" name="klaatu-jni-stub.git" remote="CAMBRIDGEJNI" revision="master"\/>\n\n/

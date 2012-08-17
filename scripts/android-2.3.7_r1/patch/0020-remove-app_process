@@ -1,9 +1,0 @@
---- frameworks/base/cmds/app_process/Android.mk.001	2012-08-01 11:37:10.891184157 -0400
-+++ frameworks/base/cmds/app_process/Android.mk	2012-08-01 13:49:29.001220756 -0400
-@@ -12,4 +12,4 @@
- 
- LOCAL_MODULE:= app_process
- 
--include $(BUILD_EXECUTABLE)
-+#include $(BUILD_EXECUTABLE)
-

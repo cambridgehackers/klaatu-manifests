@@ -1,8 +1,0 @@
---- frameworks/base/graphics/jni/Android.mk.001	2012-08-01 11:37:12.651220000 -0400
-+++ frameworks/base/graphics/jni/Android.mk	2012-08-01 13:53:59.121223098 -0400
-@@ -33,4 +33,4 @@
- LOCAL_MODULE_TAGS := optional
- LOCAL_REQUIRED_MODULES := libRS
- 
--include $(BUILD_SHARED_LIBRARY)
-+#include $(BUILD_SHARED_LIBRARY)

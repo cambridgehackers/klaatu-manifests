@@ -1,8 +1,0 @@
---- system/core/sh/Android.mk.001	2012-08-12 08:36:15.771222055 -0400
-+++ system/core/sh/Android.mk	2012-08-12 08:51:43.051220922 -0400
-@@ -50,4 +50,4 @@
- 	sh ./mknodes.sh nodetypes nodes.c.pat .
- 	sh ./mkinit.sh $(PRIVATE_SRC_FILES) 
- 
--include $(BUILD_EXECUTABLE)
-+#include $(BUILD_EXECUTABLE)

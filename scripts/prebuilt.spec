@@ -54,10 +54,11 @@ ln -s ../../bionic/libthread_db/include/thread_db.h .
 ln -s ../../bionic/libm/include/*.h .
 ln -s ../../bionic/libm/include/arm/*.h .
 ln -s ../../bionic/libc/arch-arm/include/machine/ .
-ln -s ../../frameworks/base/opengl/include/* .
+#this moved from frameworks/base to frameworks/native in 4.1.1
+ln -s ../../frameworks/*/opengl/include/* .
 ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
-ln -s ../../external/zlib/zlib.h ../external/zlib/zconf.h .
-(cd android; ln -s ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../system/core/include/android/log.h .)
+ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
+(cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h` .)
 cd ../lib
 ln -s ../../$PRODUCT_DIR/obj/lib/*.o .
 ln -s ../../$PRODUCT_DIR/obj/lib/libandroid.so .
@@ -66,10 +67,10 @@ ln -s ../../$PRODUCT_DIR/obj/lib/libdl.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libEGL.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv1_CM.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv2.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libjnigraphics.so .
+#no longer built ln -s ../../$PRODUCT_DIR/obj/lib/libjnigraphics.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/liblog.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libm.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libOpenMAXAL.so .
+#not in 2.3.7 ln -s ../../$PRODUCT_DIR/obj/lib/libOpenMAXAL.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libOpenSLES.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libstdc++.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libthread_db.so .

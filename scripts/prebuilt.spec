@@ -4,8 +4,8 @@ Version: 1
 Release: 1
 License: GPL
 Summary: prebuilt stuff
-
 %description
+Package up the results of an android source build
 
 %install
 PRODUCT_DIR=out/target/product/%{_android_product}
@@ -16,22 +16,25 @@ find hardware/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>t
 find device/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find build/ -type f >>temp_filelist
 find . -name vendorsetup.sh >>temp_filelist
-find out/target -name \*.a >>temp_filelist
-printf "$PRODUCT_DIR/obj/lib\n$PRODUCT_DIR/system\n$PRODUCT_DIR/symbols\n$PRODUCT_DIR/obj/include\n" >>temp_filelist
-fgrep -v Android.mk temp_filelist | fgrep -v " " | fgrep -v /stlport/ | sed -e "s/^/\/aroot\//" >output_filelist
+echo "$PRODUCT_DIR/obj/lib" >>temp_filelist
+echo "$PRODUCT_DIR/obj/include" >>temp_filelist
+ls -d frameworks/*/build >>temp_filelist
+fgrep -v Android.mk temp_filelist | fgrep -v " " | fgrep -v /stlport/ >devel_filelist
+find out/target -name \*.a >devel_static_filelist
 cp prebuilt/.git/config prebuilt/git.config
 cp prebuilt/.git/HEAD prebuilt/git.HEAD
 $SCRIPT_DIR/update.py $PRODUCT_DIR/system/bin/linker $PRODUCT_DIR/system/bin/linker.chroot
 
 dirname $ANDROID_TOOLCHAIN | sed -e "s/.*prebuilt/\/aroot\/prebuilt/" > compiler_filelist
 cat compiler_filelist
-echo PLATVER $PLATVER
-BUILDDIRNAME=base
-if [ "$PLATVER" == "4.1.1_r4" ] ; then
-    BUILDDIRNAME=native
-fi
-echo "/aroot/frameworks/$BUILDDIRNAME/build" >>output_filelist
-ls $PRODUCT_DIR/*.img | sed -e "s/^/\/aroot\//" >image_filelist
+echo "$PRODUCT_DIR/root" >targetroot_filelist
+echo "$PRODUCT_DIR/system" >>targetroot_filelist
+echo "$PRODUCT_DIR/data" >>targetroot_filelist
+echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
+
+echo "$PRODUCT_DIR/symbols" >image_filelist
+echo "$PRODUCT_DIR/installed-files.txt" >>image_filelist
+ls $PRODUCT_DIR/*.img >>image_filelist
 find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot
@@ -42,6 +45,12 @@ tar czfh $RPM_BUILD_ROOT/aroot/git_files.tgz `cat git_filelist`
 
 cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
+
+sed -i.001 -e "s/^/\/aroot\//" image_filelist
+sed -i.001 -e "s/^/\/aroot\//" devel_filelist
+sed -i.001 -e "s/^/\/aroot\//" devel_static_filelist
+sed -i.001 -e "s/^/\/aroot\//" targetroot_filelist
+
 cd $RPM_BUILD_ROOT/aroot
 pwd
 sed -f $SCRIPT_DIR/sed/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
@@ -88,6 +97,7 @@ BuildArch: noarch
 Summary: gcc cross compiler and /usr/include, /usr/lib
 AutoReqProv: 0
 %description gcc
+The 'gcc' package contains the prebuilt gcc/binutils compiler toolchain.
 %files gcc -f compiler_filelist
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
@@ -97,16 +107,37 @@ BuildArch: noarch
 Summary: Output flash images
 AutoReqProv: 0
 %description image
+The 'image' package contains the *.img files that can be
+directly flashed to a device.
 %files image -f image_filelist
 
-%package sysroot
+%package devel_static
+BuildArch: noarch
+Summary: library archive files
+AutoReqProv: 0
+%description devel_static
+The 'devel_static' package contains the *.a libraries that 
+are used to build some source packages.
+%files devel_static -f devel_static_filelist
+
+%package targetroot
+BuildArch: noarch
+Summary: library archive files
+AutoReqProv: 0
+%description targetroot
+The 'targetroot' package contains the system, root, etc
+directories from the target image, allowing regeneration
+of the *.img files
+%files targetroot -f targetroot_filelist
+
+%package devel
 BuildArch: noarch
 Summary: /usr/lib
 AutoReqProv: 0
-
-%description sysroot
-
-%files sysroot -f output_filelist
+%description devel
+The 'devel' package contains the headers, libraries and build scripts
+needed to compile other source packages.  (but not the compiler)
+%files devel -f devel_filelist
 /aroot/usr
 /aroot/bionic/lib*/include
 /aroot/bionic/libc/arch-*/include

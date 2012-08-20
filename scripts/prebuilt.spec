@@ -31,11 +31,14 @@ if [ "$PLATVER" == "4.1.1_r4" ] ; then
     BUILDDIRNAME=native
 fi
 echo "/aroot/frameworks/$BUILDDIRNAME/build" >>output_filelist
+ls $PRODUCT_DIR/*.img >image_filelist
+find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
 rm -f $RPM_BUILD_ROOT/aroot/tmp
 rm $RPM_BUILD_ROOT/aroot/Makefile $RPM_BUILD_ROOT/aroot/build
+tar czfh $RPM_BUILD_ROOT/aroot/git_files.tgz `cat git_filelist`
 
 cp Makefile $RPM_BUILD_ROOT/aroot/
 tar cf - build | (cd $RPM_BUILD_ROOT/aroot; tar xf -)
@@ -84,13 +87,17 @@ ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.
 BuildArch: noarch
 Summary: gcc cross compiler and /usr/include, /usr/lib
 AutoReqProv: 0
-
 %description gcc
-
 %files gcc -f compiler_filelist
-#/aroot/prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
+
+%package image
+BuildArch: noarch
+Summary: Output flash images
+AutoReqProv: 0
+%description image
+%files image -f image_filelist
 
 %package sysroot
 BuildArch: noarch
@@ -111,3 +118,4 @@ AutoReqProv: 0
 /aroot/external/stlport/stlport
 /aroot/out/host/linux-x86/bin
 /aroot/device/sample/skins
+/aroot/git_files.tgz

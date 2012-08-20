@@ -31,7 +31,7 @@ if [ "$PLATVER" == "4.1.1_r4" ] ; then
     BUILDDIRNAME=native
 fi
 echo "/aroot/frameworks/$BUILDDIRNAME/build" >>output_filelist
-ls $PRODUCT_DIR/*.img >image_filelist
+ls $PRODUCT_DIR/*.img | sed -e "s/^/\/aroot\//" >image_filelist
 find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot

@@ -1,5 +1,6 @@
 
-Name: android_%{_android_platform}_%{_android_product}
+#Name: android_%{_android_platform}_%{_android_product}
+Name: android_%{_android_platform}
 Version: 1
 Release: 1
 License: GPL
@@ -92,52 +93,52 @@ ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
 ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
 ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
 
-%package gcc
+%package toolchain
 BuildArch: noarch
 Summary: gcc cross compiler and /usr/include, /usr/lib
 AutoReqProv: 0
-%description gcc
-The 'gcc' package contains the prebuilt gcc/binutils compiler toolchain.
-%files gcc -f compiler_filelist
+%description toolchain
+The 'toolchain' package contains the prebuilt gcc compiler and binutils toolchain.
+%files toolchain -f compiler_filelist
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
 
-%package image
+%package %{_android_product}_image
 BuildArch: noarch
 Summary: Output flash images
 AutoReqProv: 0
-%description image
+%description %{_android_product}_image
 The 'image' package contains the *.img files that can be
 directly flashed to a device.
-%files image -f image_filelist
+%files %{_android_product}_image -f image_filelist
 
-%package devel_static
+%package %{_android_product}_devel_static
 BuildArch: noarch
 Summary: library archive files
 AutoReqProv: 0
-%description devel_static
+%description %{_android_product}_devel_static
 The 'devel_static' package contains the *.a libraries that 
 are used to build some source packages.
-%files devel_static -f devel_static_filelist
+%files %{_android_product}_devel_static -f devel_static_filelist
 
-%package targetroot
+%package %{_android_product}_targetroot
 BuildArch: noarch
 Summary: library archive files
 AutoReqProv: 0
-%description targetroot
+%description %{_android_product}_targetroot
 The 'targetroot' package contains the system, root, etc
 directories from the target image, allowing regeneration
 of the *.img files
-%files targetroot -f targetroot_filelist
+%files %{_android_product}_targetroot -f targetroot_filelist
 
-%package devel
+%package %{_android_product}_devel
 BuildArch: noarch
 Summary: /usr/lib
 AutoReqProv: 0
-%description devel
+%description %{_android_product}_devel
 The 'devel' package contains the headers, libraries and build scripts
 needed to compile other source packages.  (but not the compiler)
-%files devel -f devel_filelist
+%files %{_android_product}_devel -f devel_filelist
 /aroot/usr
 /aroot/bionic/lib*/include
 /aroot/bionic/libc/arch-*/include

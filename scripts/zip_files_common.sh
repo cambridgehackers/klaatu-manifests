@@ -19,7 +19,7 @@ sed -i.001 -e "/(LOCAL_PATH)\/[sn]dk\/Android.mk/d" prebuilt/Android.mk
 sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk
 sed -i.001 -e "/^include/d" build/core/java.mk
-sed -i.001 -e "/^service zygote/s/^/service powermanager \/system\/bin\/powermanager\n    class main\n    user system\n    group system\n\n/" -e "/^service zygote/,+6d" system/core/rootdir/init.rc
+sed -i.001 -e "/^service zygote/,/restart netd/{s/^service zygote.*/service powermanager \/system\/bin\/powermanager\n    class main \n    user system \n    group system \n  \n/;/^ /d}" system/core/rootdir/init.rc
 sed -i.001 -e "/com_android_server_InputManager.cpp/d"  -e "/com_android_server_InputWindowHandle.cpp/d" \
     -e "/onload.cpp/d" -e "/com_android_server_input_InputManagerService.cpp/d" \
     -e "/com_android_server_input_InputWindowHandle.cpp/d" \

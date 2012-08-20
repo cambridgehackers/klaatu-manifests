@@ -16,6 +16,6 @@ rpmbuild -bb --root `pwd`/tmp/ --dbpath=`pwd`/tmp/ --macros=../suse/macros \
     --define "_binaries_in_noarch_packages_terminate_build 0" \
     --define "_unpackaged_files_terminate_build 0" --define '__check_files ""' \
     $SCRIPT_DIR/prebuilt.spec
-(cd tmp/BUILDROOT; find -L . -type l)
+(cd tmp/BUILDROOT; find -L . -type l | fgrep -v svn)
 mv tmp/RPMS/noarch/*.rpm ..
 rm -rf tmp

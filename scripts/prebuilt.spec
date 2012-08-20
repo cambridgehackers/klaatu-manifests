@@ -34,6 +34,7 @@ echo "/aroot/frameworks/$BUILDDIRNAME/build" >>output_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
+rm -f $RPM_BUILD_ROOT/aroot/tmp
 rm $RPM_BUILD_ROOT/aroot/Makefile $RPM_BUILD_ROOT/aroot/build
 
 cp Makefile $RPM_BUILD_ROOT/aroot/

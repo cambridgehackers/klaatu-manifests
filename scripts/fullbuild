@@ -24,6 +24,9 @@ fi
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u $ANDROID_GENERIC_HOST/platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
+if test -n "$3"; then
+    (cd .repo; ln -s "$3" local_manifest.xml)
+fi
 repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/zip_files_common.sh
 $SCRIPT_DIR/zip_files_$ANDROID_VERSION.sh

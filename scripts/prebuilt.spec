@@ -33,9 +33,8 @@ echo "$PRODUCT_DIR/system" >>targetroot_filelist
 echo "$PRODUCT_DIR/data" >>targetroot_filelist
 echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
 
-echo "$PRODUCT_DIR/symbols" >image_filelist
-echo "$PRODUCT_DIR/installed-files.txt" >>image_filelist
-ls $PRODUCT_DIR/*.img >>image_filelist
+echo "$PRODUCT_DIR/symbols" >targetroot_debug_filelist
+ls $PRODUCT_DIR/*.txt $PRODUCT_DIR/*.img >image_filelist
 find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_filelist
 
 mkdir -p $RPM_BUILD_ROOT/aroot
@@ -51,6 +50,7 @@ sed -i.001 -e "s/^/\/aroot\//" image_filelist
 sed -i.001 -e "s/^/\/aroot\//" devel_filelist
 sed -i.001 -e "s/^/\/aroot\//" devel_static_filelist
 sed -i.001 -e "s/^/\/aroot\//" targetroot_filelist
+sed -i.001 -e "s/^/\/aroot\//" targetroot_debug_filelist
 
 cd $RPM_BUILD_ROOT/aroot
 pwd
@@ -72,7 +72,7 @@ ln -s ../../bionic/libc/arch-arm/include/machine/ .
 ln -s ../../frameworks/*/opengl/include/* .
 ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
 ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
-(cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h` .)
+(cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h 2>/dev/null` .)
 cd ../lib
 ln -s ../../$PRODUCT_DIR/obj/lib/*.o .
 ln -s ../../$PRODUCT_DIR/obj/lib/libandroid.so .
@@ -130,6 +130,16 @@ The 'targetroot' package contains the system, root, etc
 directories from the target image, allowing regeneration
 of the *.img files
 %files %{_android_product}_targetroot -f targetroot_filelist
+
+%package %{_android_product}_targetroot_debug
+BuildArch: noarch
+Summary: library archive files
+AutoReqProv: 0
+%description %{_android_product}_targetroot_debug
+The 'targetroot' package contains the system, root, etc
+directories from the target image, allowing regeneration
+of the *.img files
+%files %{_android_product}_targetroot_debug -f targetroot_debug_filelist
 
 %package %{_android_product}_devel
 BuildArch: noarch

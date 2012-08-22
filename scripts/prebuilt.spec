@@ -55,6 +55,16 @@ sed -i.001 -e "s/^/\/aroot\//" targetroot_debug_filelist
 cd $RPM_BUILD_ROOT/aroot
 pwd
 sed -f $SCRIPT_DIR/sed/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
+
+# if we are not running on a stripped sysroot, we need to 
+# add a null.mk to dalvik.  No effect on the full build but it
+# would be better if the stripped makerules added this dynamically
+if [ ! -e dalvik/null.mk ]; then
+    touch dalvik/null.mk
+fi
+
+
+
 mkdir -p usr/include usr/lib
 cd usr/include/
 ln -s ../../bionic/libc/include/* .
@@ -72,6 +82,39 @@ ln -s ../../bionic/libc/arch-arm/include/machine/ .
 ln -s ../../frameworks/*/opengl/include/* .
 ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
 ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
+ln -s ../../system/core/include/pixelflinger .
+ln -s ../../system/core/include/system .
+ln -s ../../system/core/include/cutils .
+
+case  "%{_android_platform}" in 
+	"4.0.4_r1.2") 
+	ln -s ../../frameworks/base/include/gui .
+	ln -s ../../frameworks/base/include/surfaceflinger .
+	ln -s ../../frameworks/base/include/binder .
+	ln -s ../../frameworks/base/include/utils .	
+	ln -s ../../frameworks/base/include/ui .
+	;;
+	"4.1.1_r4") 
+        # they moved the surfaceflinger include files to gui
+	ln -s ../../frameworks/native/include/gui .
+	ln -s ../../frameworks/native/include/gui surfaceflinger
+	ln -s ../../frameworks/native/include/binder .
+	ln -s ../../frameworks/native/include/utils .
+	ln -s ../../frameworks/native/include/ui .
+	;;
+    *)
+	echo "if you get here you probably need to add another version case"
+	;;
+esac
+ln -s ../../hardware/libhardware/include/hardware .
+ln -s ../../bionic .
+ln -s ../../external/stlport/stlport .
+# this may or may not exist
+if [ -d ../../external/bionicsf-services/include ]; then
+    ln -s ../../external/bionicsf-services/include/* .
+fi
+
+
 (cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h 2>/dev/null` .)
 cd ../lib
 ln -s ../../$PRODUCT_DIR/obj/lib/*.o .
@@ -92,6 +135,50 @@ ln -s ../../$PRODUCT_DIR/obj/lib/libz.so .
 ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
 ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
 ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
+ln -s ../../$PRODUCT_DIR/obj/lib/libutils.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libgui.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libstlport.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libbinder.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libcutils.so .
+
+cd ../..
+mkdir -p toolchain
+cd toolchain
+# get this from the env variable ANDROID_EABI_TOOLCHAIN
+case  "%{_android_platform}" in 
+	"4.0.4_r1.2") 
+	TC_DIR=prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
+	;;
+	"4.1.1_r4") 
+        TC_DIR=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6
+	;;
+esac
+
+
+ln -s ../${TC_DIR}/arm-linux-androideabi .
+ln -s ../${TC_DIR}/include .
+ln -s ../${TC_DIR}/lib .
+ln -s ../${TC_DIR}/lib32 .
+ln -s ../${TC_DIR}/libexec .
+ln -s ../${TC_DIR}/share .
+mkdir bin
+# we want a consistent name for the toolchain.
+cd bin
+for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov gdb gdbtui gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf run size strings strip; do
+    ln -s ../../${TC_DIR}/bin/arm-linux-androideabi-$i arm-bionic-eabi-$i;
+done
+
+cd ..
+mkdir -p libgcc-arm
+cd libgcc-arm
+case  "%{_android_platform}" in 
+	"4.0.4_r1.2") 
+	ln -s ../../${TC_DIR}/lib/gcc/arm-linux-androideabi/4.4.3/armv7-a/libgcc.a
+	;;
+	"4.1.1_r4") 
+        ln -s ../../${TC_DIR}/lib/gcc/arm-linux-androideabi/4.6.x-google/armv7-a/libgcc.a .
+	;;
+esac
 
 %package toolchain
 BuildArch: noarch
@@ -102,6 +189,7 @@ The 'toolchain' package contains the prebuilt gcc compiler and binutils toolchai
 %files toolchain -f compiler_filelist
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
+/aroot/toolchain
 
 %package %{_android_product}_image
 BuildArch: noarch

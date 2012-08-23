@@ -28,8 +28,11 @@ sed -i.001 -e "/com_android_server_InputManager.cpp/d"  -e "/com_android_server_
     frameworks/base/services/jni/Android.mk
 sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalvik\/null/" \
     -e "/BUILD_JAVA_LIBRARY:=/s/BUILD_SYSTEM)\/java_library/TOPDIR)dalvik\/null/" \
-    -e "/(filter 64-Bit, \$(shell java -version/,/^endif/d" \
+    -e "/(filter 64-Bit, .(shell java -version/,/^endif/d" \
+    -e "/find-jdk-tools-jar.sh/,/endif/{s/:=.*/:=/;tx;d;:x}" \
     -e "/BUILD_DROIDDOC:=/s/BUILD_SYSTEM)\/droiddoc/TOPDIR)dalvik\/null/" build/core/config.mk
+sed -i.001 -e "s/(.*java_version))/(true/" -e "s/(.*javac_version))/(true/" build/core/main.mk
+
 #set TARGET_NO_RECOVERY=true as the default
 sed -i.001 -e "s/\$(TARGET_NO_RECOVERY)/true/" build/core/Makefile 
 if [ -e device/qcom/common/common.mk ] ; then

@@ -169,6 +169,9 @@ for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov g
 done
 
 cd ..
+GCC_SPEC_LOCATION=`bin/arm-bionic-eabi-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`/specs
+cp $SCRIPT_DIR/gcc_sysroot.specs $GCC_SPEC_LOCATION
+ln -s $GCC_SPEC_LOCATION .
 mkdir -p libgcc-arm
 cd libgcc-arm
 case  "%{_android_platform}" in 

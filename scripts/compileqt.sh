@@ -11,11 +11,14 @@ cd ..
 export KLAATU_SYSROOT=`pwd`/mysysroot/aroot
 INSTALL_TARGET=`pwd`/outdir
 
-git clone ssh://leda/git/bionicsf-qtbase
+#git clone ssh://leda/git/bionicsf-qtbase
+git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtbase.git
 (cd bionicsf-qtbase; git checkout remotes/origin/bionicsf_2012-08-23 -b testing)
-git clone ssh://leda/git/bionicsf-qtjsbackend
+#git clone ssh://leda/git/bionicsf-qtjsbackend
+git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtjsbackend.git
 (cd bionicsf-qtjsbackend; git checkout remotes/origin/bionicsf_2012-08-23 -b testing)
-git clone ssh://leda/git/bionicsf-qtdeclarative
+#git clone ssh://leda/git/bionicsf-qtdeclarative
+git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtdeclarative.git
 (cd bionicsf-qtdeclarative; git checkout remotes/origin/bionicsf_2012-08-23 -b testing)
 git clone ssh://leda/git/loki
 

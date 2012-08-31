@@ -39,6 +39,8 @@ if [ -e device/qcom/common/common.mk ] ; then
     # llvm config in device/qcom????
     sed -i.001 -e "/llvm-select.mk/s/^/#/" device/qcom/common/common.mk
 fi
+# add /data/usr/lib to default LD_LIBRARY_PATH
+sed -i.001 -e "/\/system\/lib/s/,/,\"\/data\/usr\/lib\",/" bionic/linker/linker.c
 
 # these perform local modifications to frameworks/base
 sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp

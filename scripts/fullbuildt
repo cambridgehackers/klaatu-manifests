@@ -27,8 +27,8 @@ repo init -u $ANDROID_GENERIC_HOST_OMAPZOOM/platform/omapmanifest -b $ANDROID_VE
 #sed -i.001 -e "s/git:\/\/git.omapzoom.org/$REPLSTR/" .repo/manifest.xml
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 repo sync -n -j 4 && repo sync -l -j 20
-$SCRIPT_DIR/zip_files_common.sh
-$SCRIPT_DIR/zip_files_$ANDROID_VERSION.sh
+$SCRIPT_DIR/fixup_common.sh
+$SCRIPT_DIR/fixup_$ANDROID_VERSION.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
 #source build/envsetup.sh ; setpaths

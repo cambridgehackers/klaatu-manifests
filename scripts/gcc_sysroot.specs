@@ -6,7 +6,7 @@
 --sysroot=%(local_sysroot_prefix)
 
 *cpp:
-%(subtarget_cpp_spec)					%{msoft-float:%{mhard-float:							%e-msoft-float and -mhard_float may not be used together}}	%{mbig-endian:%{mlittle-endian:							%e-mbig-endian and -mlittle-endian may not be used together}} -I%(local_sysroot_prefix)/usr/include
+%(subtarget_cpp_spec)					%{msoft-float:%{mhard-float:							%e-msoft-float and -mhard_float may not be used together}}	%{mbig-endian:%{mlittle-endian:							%e-mbig-endian and -mlittle-endian may not be used together}} -I%(local_sysroot_prefix)/usr/include -DHAVE_SYS_UIO_H -DHAVE_OFF64_T -DHAVE_PTHREADS
 
 *endfile:
 %{mno-android|tno-android-ld:%{shared|pie:%(local_sysroot_prefix)/usr/lib/crtendS.o%s;:%(local_sysroot_prefix)/usr/lib/crtend.o%s} crtn.o%s;:%{!shared: %(local_sysroot_prefix)/usr/lib/crtend_android%O%s}}

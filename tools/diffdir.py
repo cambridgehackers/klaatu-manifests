@@ -112,7 +112,7 @@ def main(source_dir, dest_dir):
     # now look for files only in destination
     for root, dirs, files in os.walk(dest_dir):
         # get string for directory after 'source_dir' root
-        myroot = '.'+root[len(source_dir):]
+        myroot = '.'+root[len(dest_dir):]
         if not os.path.isdir(root):
             print "not dir", root
             return 1

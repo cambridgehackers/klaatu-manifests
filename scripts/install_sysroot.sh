@@ -1,7 +1,7 @@
 #
 #rpm2cpio ../android_4.0.4_r1.2-toolchain-1-1.noarch.rpm | cpio -idm
 #rpm2cpio ../android_4.0.4_r1.2-maguro_devel-1-1.noarch.rpm | cpio -idm
-RPM_DIR=../android_
+RPM_DIR=~/android_
 RPM_ANDROID_VERSION=4.0.4_r1.2
 RPM_VERSION=-1-1.noarch.rpm
 RPM_PRODUCT=maguro

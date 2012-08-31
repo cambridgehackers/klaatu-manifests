@@ -93,6 +93,7 @@ case  "%{_android_platform}" in
 	ln -s ../../frameworks/base/include/binder .
 	ln -s ../../frameworks/base/include/utils .	
 	ln -s ../../frameworks/base/include/ui .
+        ln -s ../../frameworks/base/include/media .
 	;;
 	"4.1.1_r4") 
         # they moved the surfaceflinger include files to gui
@@ -101,12 +102,15 @@ case  "%{_android_platform}" in
 	ln -s ../../frameworks/native/include/binder .
 	ln -s ../../frameworks/native/include/utils .
 	ln -s ../../frameworks/native/include/ui .
+        ln -s ../../frameworks/av/include/media .
 	;;
     *)
 	echo "if you get here you probably need to add another version case"
 	;;
 esac
 ln -s ../../hardware/libhardware/include/hardware .
+ln -s ../../hardware/libhardware_legacy/include/hardware_legacy .
+ln -s ../../hardware/ril/include/telephony .
 ln -s ../../bionic .
 ln -s ../../external/stlport/stlport .
 # this may or may not exist
@@ -140,6 +144,11 @@ ln -s ../../$PRODUCT_DIR/obj/lib/libgui.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libstlport.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libbinder.so .
 ln -s ../../$PRODUCT_DIR/obj/lib/libcutils.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libhardware.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libhardware_legacy.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libinput.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libmedia.so .
+ln -s ../../$PRODUCT_DIR/obj/lib/libsigyn.so .
 
 cd ../..
 mkdir -p toolchain

@@ -19,12 +19,9 @@ if test -z "$2"; then
 else
     ANDROID_MANIFEST_FILE=$2
 fi
-#ANDROID_MANIFEST_FILE=M76XXUSNEKNLYA2045.xml
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u $ANDROID_GENERIC_HOST_OMAPZOOM/platform/omapmanifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
-#REPLSTR=`echo $ANDROID_GENERIC_HOST_OMAPZOOM | sed -e "s/\//\\\\\\\\\//g"`
-#sed -i.001 -e "s/git:\/\/git.omapzoom.org/$REPLSTR/" .repo/manifest.xml
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/fixup_common.sh

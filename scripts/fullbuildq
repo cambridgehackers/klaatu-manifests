@@ -19,16 +19,13 @@ if test -z "$2"; then
 else
     ANDROID_MANIFEST_FILE=$2
 fi
-#ANDROID_MANIFEST_FILE=M76XXUSNEKNLYA2045.xml
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u $ANDROID_GENERIC_HOST_CODEAURORA/platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
-#REPLSTR=`echo $ANDROID_GENERIC_HOST_CODEAURORA | sed -e "s/\//\\\\\\\\\//g"`
-#sed -i.001 -e "s/git:\/\/codeaurora.org/$REPLSTR/" .repo/manifest.xml
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/fixup_common.sh
 $SCRIPT_DIR/fixup_$ANDROID_VERSION.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
-#source build/envsetup.sh; lunch full_eng
+#source build/envsetup.sh; choosecombo 2 msm8960 eng

@@ -6,7 +6,7 @@
 set -e
 set -x
 ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/}
-ANDROID_GENERIC_HOST_CODEAURORA=${ANDROID_GENERIC_HOST_CODEAURORA:-git://codeaurora.org/}
+ANDROID_GENERIC_HOST_CODEAURORA=${ANDROID_GENERIC_HOST_CODEAURORA:-git://codeaurora.org}
 ANDROID_GENERIC_HOST_OMAPZOOM=${ANDROID_GENERIC_HOST_OMAPZOOM:-git://git.omapzoom.org}
 
 if test -z "$1"; then
@@ -23,9 +23,14 @@ fi
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u $ANDROID_GENERIC_HOST_OMAPZOOM/platform/omapmanifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
+if test -n "$3"; then
+    ln -s $3 .repo/local_manifest.xml
+fi
 repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/fixup_common.sh
-$SCRIPT_DIR/fixup_$ANDROID_VERSION.sh
+THISVER=`make -f $SCRIPT_DIR/find_version.mk platform_version`
+echo VERSION `make -f $SCRIPT_DIR/find_version.mk platform_version` BUILD_ID `make -f $SCRIPT_DIR/find_version.mk build_id`
+$SCRIPT_DIR/fixup_$THISVER.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
 #source build/envsetup.sh ; setpaths

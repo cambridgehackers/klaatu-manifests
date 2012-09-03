@@ -31,7 +31,6 @@ ls jj.* | while read filename ; do
     cat $filename | while read item ; do
         cat "$item" >>/tmp/xx.tmp
     done
-    echo `echo $filename | sed -e "s/jj\.//" -e "s/Z123Z/\//g" -e "s/file_/ /"` `wc -l /tmp/xx.tmp | sed -e "s/ .*//"`
-    # "     " `wc -l $filename | sed -e "s/ .*//"`
+    echo `echo $filename | sed -e "s/jj\.//" -e "s/Z123Z/\//g" -e "s/file_/ /"` `wc -l /tmp/xx.tmp | sed -e "s/ .*//"` | sed -e "s/\(.*\) \(.*\) \(.*\)/\2 \1 \3/"
     rm $filename /tmp/xx.tmp
 done

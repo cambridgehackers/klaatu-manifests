@@ -28,7 +28,9 @@ if test -n "$3"; then
 fi
 repo sync -n -j 4 && repo sync -l -j 20
 $SCRIPT_DIR/fixup_common.sh
-$SCRIPT_DIR/fixup_$ANDROID_VERSION.sh
+THISVER=`make -f $SCRIPT_DIR/find_version.mk platform_version`
+echo VERSION `make -f $SCRIPT_DIR/find_version.mk platform_version` BUILD_ID `make -f $SCRIPT_DIR/find_version.mk build_id`
+$SCRIPT_DIR/fixup_$THISVER.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
 #source build/envsetup.sh; choosecombo 2 msm8960 eng

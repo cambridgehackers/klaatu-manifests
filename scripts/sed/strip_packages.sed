@@ -84,7 +84,7 @@
 /name="platform\/frameworks\/opt\/vcard"/d
 /name="platform\/frameworks\/support"/d
 /name="platform\/libcore"/d
-/name="platform\/[gpns]dk"/d
+/name="platform\/[gps]dk"/d
 /name="platform\/packages\//d
 /name="platform\/external\/aes"/d
 /name="platform\/external\/bluez"/d

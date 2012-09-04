@@ -81,4 +81,8 @@ if [ -e vendor_extra/qcom/proprietary ] ; then
     sed -i.001 -e "/^RECOVERY_FROM_BOOT_PATCH/d" device/qcom/common/generate_extra_images.mk
     sed -i.001 -e "/include/d" vendor_extra/qcom/proprietary/mm-http/Android.mk
     (cd prebuilt/ndk; ln -s ../../prebuilts/ndk/* .)
+    # 2.3.6
+    #[ -f vendor/qcom/android-open/libopencorehw/Android.mk ] && gzip vendor/qcom/android-open/libopencorehw/Android.mk
+    chmod a+x vendor/qcom/proprietary/common/build/vendorsetup.sh
+#sed -i.001 -e "s/external\/opencore\/extern_libs_v2\/khronos\/openmax\/include/vendor\/qcom\/opensource\/omx\/mm-core\/omxcore\/inc/" vendor/qcom/proprietary/mm-video/DivxDrmDecrypt/Android.mk
 fi

@@ -112,7 +112,6 @@
 /name="platform\/external\/linux-tools-perf"/d
 /name="platform\/external\/littlemock"/d
 /name="platform\/external\/naver-fonts"/d
-/name="platform\/external\/opencore"/d
 /name="platform\/external\/openfst"/d
 /name="platform\/external\/openssh"/d
 /name="platform\/external\/openvpn"/d

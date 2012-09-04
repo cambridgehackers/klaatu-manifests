@@ -87,6 +87,14 @@ ln -s ../../system/core/include/system .
 ln -s ../../system/core/include/cutils .
 
 case  "%{_android_platform}" in 
+	"2.3.7_r1") 
+	ln -s ../../frameworks/base/include/gui .
+	ln -s ../../frameworks/base/include/surfaceflinger .
+	ln -s ../../frameworks/base/include/binder .
+	ln -s ../../frameworks/base/include/utils .	
+	ln -s ../../frameworks/base/include/ui .
+        ln -s ../../frameworks/base/include/media .
+	;;
 	"4.0.4_r1.2") 
 	ln -s ../../frameworks/base/include/gui .
 	ln -s ../../frameworks/base/include/surfaceflinger .
@@ -154,12 +162,17 @@ cd ../..
 mkdir -p toolchain
 cd toolchain
 # get this from the env variable ANDROID_EABI_TOOLCHAIN
+GCCPREFIX=arm-linux-androideabi
 case  "%{_android_platform}" in 
 	"4.0.4_r1.2") 
 	TC_DIR=prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
 	;;
 	"4.1.1_r4") 
         TC_DIR=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6
+	;;
+	"2.3.7_r1") 
+        TC_DIR=prebuilt/linux-x86/toolchain/arm-eabi-4.4.3
+        GCCPREFIX=arm-eabi
 	;;
 esac
 
@@ -174,7 +187,7 @@ mkdir bin
 # we want a consistent name for the toolchain.
 cd bin
 for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov gdb gdbtui gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf run size strings strip; do
-    ln -s ../../${TC_DIR}/bin/arm-linux-androideabi-$i arm-bionic-eabi-$i;
+    ln -s ../../${TC_DIR}/bin/${GCCPREFIX}-$i arm-bionic-eabi-$i;
 done
 
 cd ..
@@ -189,6 +202,9 @@ case  "%{_android_platform}" in
 	;;
 	"4.1.1_r4") 
         ln -s ../../${TC_DIR}/lib/gcc/arm-linux-androideabi/4.6.x-google/armv7-a/libgcc.a .
+	;;
+	"2.3.7_r1") 
+        ln -s ../../${TC_DIR}/lib/gcc/arm-eabi/4.4.3/android/libgcc.a .
 	;;
 esac
 

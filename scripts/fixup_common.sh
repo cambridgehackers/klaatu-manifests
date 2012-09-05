@@ -12,6 +12,7 @@ gzip frameworks/base/graphics/jni/Android.mk
 gzip frameworks/base/data/fonts/Android.mk
 gzip build/core/tasks/apicheck.mk
 gzip build/tools/apicheck/Android.mk
+sed -i.001 -e "/^include.*external\/svox/d" build/target/product/sdk.mk
 gzip frameworks/base/cmds/app_process/Android.mk
 gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk

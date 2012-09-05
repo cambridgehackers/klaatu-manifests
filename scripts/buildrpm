@@ -12,7 +12,7 @@ ln -s $TEMPDIR tmp/$TEMPDIR
 ln -s `pwd` $TEMPDIR/BUILD
 rpmbuild -bb --root `pwd`/tmp/ --dbpath=`pwd`/tmp/ --macros=../suse/macros \
     --define "_topdir $TEMPDIR" --define "_tmppath $TEMPDIR" \
-    --define "_android_platform $PLATVER" \
+    --define "_android_platform $PLATVER" --define "_android_arch $TARGETARCH" \
     --define "_android_product ${TARGET_PRODUCT#full_}" \
     --define "_binaries_in_noarch_packages_terminate_build 0" \
     --define "_unpackaged_files_terminate_build 0" --define '__check_files ""' \

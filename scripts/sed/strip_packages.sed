@@ -127,4 +127,3 @@
 /name="platform\/frameworks\/rs"/d
 /name="platform\/frameworks\/testing"/d
 /name="platform\/libnativehelper"/d
-/<\/manifest>/s/^/<remote name="busybox-android" fetch="git:\/\/github.com\/Gnurou\/"\/>\n<project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"\/>\n<remote name="CAMBRIDGEJNI" fetch="git:\/\/gitorious.org\/cambridge\/" \/>\n<project path="dalvik" name="klaatu-jni-stub.git" remote="CAMBRIDGEJNI" revision="master"\/>\n\n/

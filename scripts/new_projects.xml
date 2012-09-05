@@ -1,0 +1,10 @@
+
+<!-- these projects are common to all Klaatu builds -->
+    <remote name="busybox-android" fetch="git://github.com/Gnurou/"/>
+    <project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"/>
+
+    <remote name="CAMBRIDGEJNI" fetch="git://gitorious.org/cambridge/" />
+    <project path="dalvik" name="klaatu-jni-stub.git" remote="CAMBRIDGEJNI" revision="master"/>
+    <project path="external/klaatu-services" name="klaatu-services.git" remote="CAMBRIDGEJNI" revision="master"/>
+
+</manifest>

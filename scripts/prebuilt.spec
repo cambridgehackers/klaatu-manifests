@@ -186,7 +186,27 @@ cp $SCRIPT_DIR/gcc_sysroot.specs $GCC_SPEC_DIR/specs
 ln -s $GCC_SPEC_DIR/specs .
 mkdir -p libgcc-arm
 cd libgcc-arm
-ln -s `ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/armv7-a/libgcc.a 2>/dev/null` .
+LIB_GCC=
+if test "%{_android_arch}" == "arm" ; then
+    case  "%{_android_platform}" in
+        "2.3.6" | "2.3.7")
+            LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a`
+            ;;
+	"4.0.4" | "4.1.1") 
+            LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/armv7-a/libgcc.a`
+            ;;
+        *)
+            echo "prebuilt.spec: ERROR: where is your libgcc.a?"
+            ;;
+    esac
+else
+    # needed for x86 target
+    LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/libgcc.a`
+fi
+echo LIBGCC $LIB_GCC
+if test "$LIB_GCC" != "" ; then
+    ln -s $LIB_GCC .
+fi
 
 %package toolchain
 BuildArch: noarch

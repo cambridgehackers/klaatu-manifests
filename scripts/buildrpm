@@ -2,9 +2,10 @@
 set -e
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 TEMPDIR=`pwd`/tmp
-#PLATVER=$(subst .,_,$(PLATFORM_VERSION))
-export PLATVER=`(cd .repo/manifests; git branch -vv) | sed -e "s/.*-//"`
-echo PLATVER $PLATVER TAR ${TARGET_PRODUCT#full_}
+export TOOLPREFIX=`make -f $SCRIPT_DIR/printvar.mk TARGET_TOOLS_PREFIX`
+export TARGETARCH=`make -f $SCRIPT_DIR/printvar.mk TARGET_ARCH`
+export PLATVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
+echo TAR ${TARGET_PRODUCT#full_} PREF $TOOLPREFIX VER $PLATVER
 rm -rf tmp
 mkdir -p `dirname tmp/$TEMPDIR`
 ln -s $TEMPDIR tmp/$TEMPDIR
@@ -17,6 +18,6 @@ rpmbuild -bb --root `pwd`/tmp/ --dbpath=`pwd`/tmp/ --macros=../suse/macros \
     --define "_unpackaged_files_terminate_build 0" --define '__check_files ""' \
     $SCRIPT_DIR/prebuilt.spec
 echo "Now print out any broken links in BUILDROOT"
-(cd tmp/BUILDROOT; find -L . -type l | fgrep -v svn)
+(cd tmp/BUILDROOT; find -L . -type l -exec file {} \;| fgrep -v svn | fgrep -v .git | fgrep -v libpulse-browse.so | fgrep -v libaudiofile.so | fgrep -v libpulse-mainloop-glib.so)
 mv tmp/RPMS/noarch/*.rpm ..
 rm -rf tmp

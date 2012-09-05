@@ -26,9 +26,9 @@ SKIP="1"
                 KERNELSHA=`fgrep '"kernel"' $ANDROID_MANIFEST_FILE | sed -e "s/.*revision=\"//" -e "s/\".*//"`
                 (cd build; git reset --hard -q; git checkout -q $BUILDSHA )
                 (cd kernel; git reset --hard -q; git checkout -q $KERNELSHA Makefile )
-                echo `make -f $SCRIPT_DIR/../scripts/find_version.mk platform_version` \
+                echo `make -f $SCRIPT_DIR/../scripts/printvar.mk PLATFORM_VERSION` \
                     `head -4 kernel/Makefile | sed -e "s/.*= //" | sed -e :a -e '$!N; s/\n/./; ta' -e "s/\.\.*/./g" -e "s/\.EXTRAVERSION.*=//" ` \
-                    `make -f $SCRIPT_DIR/../scripts/find_version.mk build_id` $ANDROID_VERSION `basename $ANDROID_MANIFEST_FILE`
+                    `make -f $SCRIPT_DIR/../scripts/printvar.mk BUILD_ID` $ANDROID_VERSION `basename $ANDROID_MANIFEST_FILE`
             fi
         done
     fi

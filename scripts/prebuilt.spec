@@ -9,7 +9,8 @@ Summary: prebuilt stuff
 Package up the results of an android source build
 
 %install
-PRODUCT_DIR=out/target/product/%{_android_product}
+#PRODUCT_DIR=out/target/product/%{_android_product}
+PRODUCT_DIR=${ANDROID_PRODUCT_OUT#$ANDROID_BUILD_TOP/}
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find dalvik/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
@@ -21,7 +22,7 @@ echo "$PRODUCT_DIR/obj/lib" >>temp_filelist
 echo "$PRODUCT_DIR/obj/include" >>temp_filelist
 ls -d frameworks/*/build >>temp_filelist
 fgrep -v Android.mk temp_filelist | fgrep -v " " | fgrep -v /stlport/ >devel_filelist
-find out/target -name \*.a >devel_static_filelist
+find $PRODUCT_DIR -name \*.a >devel_static_filelist
 cp prebuilt/.git/config prebuilt/git.config
 cp prebuilt/.git/HEAD prebuilt/git.HEAD
 $SCRIPT_DIR/update.py $PRODUCT_DIR/system/bin/linker $PRODUCT_DIR/system/bin/linker.chroot
@@ -87,7 +88,7 @@ ln -s ../../system/core/include/system .
 ln -s ../../system/core/include/cutils .
 
 case  "%{_android_platform}" in 
-	"2.3.7_r1") 
+	"2.3.7") 
 	ln -s ../../frameworks/base/include/gui .
 	ln -s ../../frameworks/base/include/surfaceflinger .
 	ln -s ../../frameworks/base/include/binder .
@@ -95,7 +96,7 @@ case  "%{_android_platform}" in
 	ln -s ../../frameworks/base/include/ui .
         ln -s ../../frameworks/base/include/media .
 	;;
-	"4.0.4_r1.2") 
+	"4.0.4") 
 	ln -s ../../frameworks/base/include/gui .
 	ln -s ../../frameworks/base/include/surfaceflinger .
 	ln -s ../../frameworks/base/include/binder .
@@ -103,7 +104,7 @@ case  "%{_android_platform}" in
 	ln -s ../../frameworks/base/include/ui .
         ln -s ../../frameworks/base/include/media .
 	;;
-	"4.1.1_r4") 
+	"4.1.1") 
         # they moved the surfaceflinger include files to gui
 	ln -s ../../frameworks/native/include/gui .
 	ln -s ../../frameworks/native/include/gui surfaceflinger
@@ -161,23 +162,12 @@ ln -s ../../$PRODUCT_DIR/obj/lib/libsigyn.so .
 cd ../..
 mkdir -p toolchain
 cd toolchain
-# get this from the env variable ANDROID_EABI_TOOLCHAIN
-GCCPREFIX=arm-linux-androideabi
-case  "%{_android_platform}" in 
-	"4.0.4_r1.2") 
-	TC_DIR=prebuilt/linux-x86/toolchain/arm-linux-androideabi-4.4.x
-	;;
-	"4.1.1_r4") 
-        TC_DIR=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6
-	;;
-	"2.3.7_r1") 
-        TC_DIR=prebuilt/linux-x86/toolchain/arm-eabi-4.4.3
-        GCCPREFIX=arm-eabi
-	;;
-esac
+TC_TMP=`dirname $TOOLPREFIX`
+TC_DIR=`dirname $TC_TMP`
+echo TC_DIR $TC_DIR
+TOOL_DIRNAME=`basename ${TOOLPREFIX%\-}`
 
-
-ln -s ../${TC_DIR}/arm-linux-androideabi .
+ln -s ../${TC_DIR}/$TOOL_DIRNAME .
 ln -s ../${TC_DIR}/include .
 ln -s ../${TC_DIR}/lib .
 ln -s ../${TC_DIR}/lib32 .
@@ -187,26 +177,16 @@ mkdir bin
 # we want a consistent name for the toolchain.
 cd bin
 for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov gdb gdbtui gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf run size strings strip; do
-    ln -s ../../${TC_DIR}/bin/${GCCPREFIX}-$i arm-bionic-eabi-$i;
+    [ -e ../../${TOOLPREFIX}$i ] && ln -s ../../${TOOLPREFIX}$i arm-bionic-eabi-$i;
 done
 
 cd ..
-GCC_SPEC_LOCATION=`bin/arm-bionic-eabi-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`/specs
-cp $SCRIPT_DIR/gcc_sysroot.specs $GCC_SPEC_LOCATION
-ln -s $GCC_SPEC_LOCATION .
+GCC_SPEC_DIR=`bin/arm-bionic-eabi-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`
+cp $SCRIPT_DIR/gcc_sysroot.specs $GCC_SPEC_DIR/specs
+ln -s $GCC_SPEC_DIR/specs .
 mkdir -p libgcc-arm
 cd libgcc-arm
-case  "%{_android_platform}" in 
-	"4.0.4_r1.2") 
-	ln -s ../../${TC_DIR}/lib/gcc/arm-linux-androideabi/4.4.3/armv7-a/libgcc.a
-	;;
-	"4.1.1_r4") 
-        ln -s ../../${TC_DIR}/lib/gcc/arm-linux-androideabi/4.6.x-google/armv7-a/libgcc.a .
-	;;
-	"2.3.7_r1") 
-        ln -s ../../${TC_DIR}/lib/gcc/arm-eabi/4.4.3/android/libgcc.a .
-	;;
-esac
+ln -s `ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/armv7-a/libgcc.a 2>/dev/null` .
 
 %package toolchain
 BuildArch: noarch

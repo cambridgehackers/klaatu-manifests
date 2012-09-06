@@ -1,4 +1,6 @@
-#
+#!/bin/bash
+set -x
+
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 LOCAL_MANIFEST=$2
 

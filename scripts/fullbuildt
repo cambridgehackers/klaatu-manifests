@@ -21,7 +21,8 @@ else
 fi
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-repo init -u $ANDROID_GENERIC_HOST_OMAPZOOM/platform/omapmanifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+repo init -u git://gitorious.org/rowboat/manifest.git -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+#repo init -u $ANDROID_GENERIC_HOST_OMAPZOOM/platform/omapmanifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 if test -n "$3"; then
     ln -s $3 .repo/local_manifest.xml
@@ -35,3 +36,6 @@ $SCRIPT_DIR/fixup_$THISVER.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
 #setpaths
+#Beagleboard Cx
+#we have C4
+#make TARGET_PRODUCT=3.x

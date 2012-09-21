@@ -10,7 +10,8 @@ Package up the results of an android source build
 
 %install
 #PRODUCT_DIR=out/target/product/%{_android_product}
-PRODUCT_DIR=${ANDROID_PRODUCT_OUT#$ANDROID_BUILD_TOP/}
+#PRODUCT_DIR=${ANDROID_PRODUCT_OUT#$ANDROID_BUILD_TOP/}
+PRODUCT_DIR=%{_android_product_out}
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find dalvik/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
@@ -32,7 +33,11 @@ cat compiler_filelist
 echo "$PRODUCT_DIR/root" >targetroot_filelist
 echo "$PRODUCT_DIR/system" >>targetroot_filelist
 echo "$PRODUCT_DIR/data" >>targetroot_filelist
-echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
+if test "%{_android_platform}" != "2.3.4" ; then
+    # can't locate for TI built yet
+    echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
+    echo "/aroot/device/sample/skins" >>devel_filelist
+fi
 
 echo "$PRODUCT_DIR/symbols" >targetroot_debug_filelist
 ls $PRODUCT_DIR/*.txt $PRODUCT_DIR/*.img >image_filelist
@@ -88,7 +93,7 @@ ln -s ../../system/core/include/system .
 ln -s ../../system/core/include/cutils .
 
 case  "%{_android_platform}" in 
-	"2.3.7") 
+	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7") 
 	ln -s ../../frameworks/base/include/gui .
 	ln -s ../../frameworks/base/include/surfaceflinger .
 	ln -s ../../frameworks/base/include/binder .
@@ -189,7 +194,7 @@ cd libgcc-arm
 LIB_GCC=
 if test "%{_android_arch}" == "arm" ; then
     case  "%{_android_platform}" in
-        "2.3.6" | "2.3.7")
+	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7") 
             LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a`
             ;;
 	"4.0.4" | "4.1.1") 
@@ -275,5 +280,4 @@ needed to compile other source packages.  (but not the compiler)
 /aroot/system/core/include
 /aroot/external/stlport/stlport
 /aroot/out/host/linux-x86/bin
-/aroot/device/sample/skins
 /aroot/git_files.tgz

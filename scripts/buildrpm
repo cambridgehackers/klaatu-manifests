@@ -5,7 +5,8 @@ TEMPDIR=`pwd`/tmp
 export TOOLPREFIX=`make -f $SCRIPT_DIR/printvar.mk TARGET_TOOLS_PREFIX`
 export TARGETARCH=`make -f $SCRIPT_DIR/printvar.mk TARGET_ARCH`
 export PLATVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
-echo TAR ${TARGET_PRODUCT#full_} PREF $TOOLPREFIX VER $PLATVER
+export PRODOUT=`make -f $SCRIPT_DIR/printvar.mk PRODUCT_OUT`
+echo TAR ${TARGET_PRODUCT#full_} PREF $TOOLPREFIX VER $PLATVER PRODOUT $PRODOUT
 rm -rf tmp
 mkdir -p `dirname tmp/$TEMPDIR`
 ln -s $TEMPDIR tmp/$TEMPDIR
@@ -14,6 +15,7 @@ rpmbuild -bb --root `pwd`/tmp/ --dbpath=`pwd`/tmp/ --macros=../suse/macros \
     --define "_topdir $TEMPDIR" --define "_tmppath $TEMPDIR" \
     --define "_android_platform $PLATVER" --define "_android_arch $TARGETARCH" \
     --define "_android_product ${TARGET_PRODUCT#full_}" \
+    --define "_android_product_out ${PRODOUT}" \
     --define "_binaries_in_noarch_packages_terminate_build 0" \
     --define "_unpackaged_files_terminate_build 0" --define '__check_files ""' \
     $SCRIPT_DIR/prebuilt.spec

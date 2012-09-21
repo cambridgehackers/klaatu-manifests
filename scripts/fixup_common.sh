@@ -84,5 +84,42 @@ if [ -e vendor_extra/qcom/proprietary ] ; then
     gzip vendor_extra/qcom/proprietary/wfd/wdsm/service/jni/Android.mk
     sed -i.001 -e "/\.apk/s/^/#/" vendor_extra/qcom/proprietary/common/config/device-vendor.mk
 fi
+
+THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
+case ${THISVER:0:3} in
+2.3)
+    gzip frameworks/base/libs/rs/Android.mk
+    sed -i.001 -e "/^droidcore: /s/doc-comment-check-docs//" frameworks/base/Android.mk
+    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
+    ;;
+4.0)
+    gzip frameworks/base/libs/rs/Android.mk
+    gzip frameworks/base/media/libstagefright/chromium_http/Android.mk
+    gzip system/media/wilhelm/tests/native-media/jni/Android.mk
+    gzip system/media/mca/filterfw/jni/Android.mk
+    sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" system/media/mca/filterfw/Android.mk
+    sed -i.001 -e "/^bool checkPermission(/,/^{/ {/^{/s/$/\n    \/\/ For now, we'll always allow root programs to have permission\n    if (uid == 0)\n        return true;\n\n/}" frameworks/base/libs/binder/IServiceManager.cpp
+    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
+    ;;
+4.1)
+    gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
+    gzip frameworks/wilhelm/tests/native-media/jni/Android.mk
+    gzip frameworks/base/media/mca/filterfw/jni/Android.mk
+    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
+    sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
+    sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" frameworks/base/media/mca/filterfw/Android.mk
+    sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
+
+    #QCOM
+    if [ -e vendor_extra/qcom/proprietary ] ; then
+        [ -f vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
+        [ -f vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
+    fi
+    ;;
+esac
 #bash bug: don't end the file with a conditional
 true

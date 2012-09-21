@@ -33,7 +33,7 @@ cat compiler_filelist
 echo "$PRODUCT_DIR/root" >targetroot_filelist
 echo "$PRODUCT_DIR/system" >>targetroot_filelist
 echo "$PRODUCT_DIR/data" >>targetroot_filelist
-if test "%{_android_platform}" != "2.3.4" ; then
+if test -e $PRODUCT_DIR/kernel ; then
     # can't locate for TI built yet
     echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
 fi

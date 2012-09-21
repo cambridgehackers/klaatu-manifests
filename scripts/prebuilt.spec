@@ -36,7 +36,9 @@ echo "$PRODUCT_DIR/data" >>targetroot_filelist
 if test "%{_android_platform}" != "2.3.4" ; then
     # can't locate for TI built yet
     echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
-    echo "/aroot/device/sample/skins" >>devel_filelist
+fi
+if test -e device/sample/skins ; then
+    echo "device/sample/skins" >>devel_filelist
 fi
 
 echo "$PRODUCT_DIR/symbols" >targetroot_debug_filelist

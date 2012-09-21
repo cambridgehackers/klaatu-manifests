@@ -5,9 +5,6 @@
 #    run script
 set -e
 set -x
-ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/}
-ANDROID_GENERIC_HOST_CODEAURORA=${ANDROID_GENERIC_HOST_CODEAURORA:-git://codeaurora.org}
-ANDROID_GENERIC_HOST_OMAPZOOM=${ANDROID_GENERIC_HOST_OMAPZOOM:-git://git.omapzoom.org}
 
 if test -z "$1"; then
     echo "$0 <android version>"
@@ -21,7 +18,7 @@ else
 fi
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-repo init -u $ANDROID_GENERIC_HOST_CODEAURORA/platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+repo init -u git://codeaurora.org/platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 (cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
 if test -n "$3"; then
     ln -s $3 .repo/local_manifest.xml
@@ -31,7 +28,6 @@ unset TARGET_PRODUCT
 $SCRIPT_DIR/fixup_common.sh
 THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
 echo VERSION `make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION` BUILD_ID `make -f $SCRIPT_DIR/printvar.mk BUILD_ID`
-$SCRIPT_DIR/fixup_$THISVER.sh
 (cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
 
 #choosecombo 2 msm8960 eng

@@ -1,7 +1,7 @@
-diff --git a/.repo/repo/manifest_xml.py b/.repo/repo/manifest_xml.py
+diff --git a/manifest_xml.py b/manifest_xml.py
 index 8e9efd1..817d4e8 100644
---- a/.repo/repo/manifest_xml.py
-+++ b/.repo/repo/manifest_xml.py
+--- a/manifest_xml.py
++++ b/manifest_xml.py
 @@ -20,7 +20,7 @@ import sys
  import urlparse
  import xml.dom.minidom
@@ -29,40 +29,26 @@ index 8e9efd1..817d4e8 100644
  
    def ToRemoteSpec(self, projectName):
      url = self.resolvedFetchUrl.rstrip('/') + '/' + projectName
-diff --git a/.repo/repo/project.py b/.repo/repo/project.py
-index 4621013..3c5f9b9 100644
---- a/.repo/repo/project.py
-+++ b/.repo/repo/project.py
-@@ -1622,8 +1623,21 @@ class Project(object):
+diff --git a/project.py b/project.py
+index 4621013..e20b3ea 100644
+--- a/project.py
++++ b/project.py
+@@ -1622,8 +1622,16 @@ class Project(object):
  
    def _InitGitDir(self):
      if not os.path.exists(self.gitdir):
 -      os.makedirs(self.gitdir)
 -      self.bare_git.init()
-+      print "InitGitDir", self.name, self.gitdir, self.remote.url
 +      if self.remote.url[0] == '/':
-+          foo = self.work_git.clone
 +          tempdir = self.worktree
 +          self.worktree = os.path.dirname(self.gitdir)
 +          if not os.path.exists(self.worktree):
 +              os.makedirs(self.worktree)
-+          print 'calling bareclone', foo, self.worktree
-+          foo(self.remote.url)
-+          print 'after bareclone', foo
++          self.work_git.clone('--bare', self.remote.url)
 +          self.worktree = tempdir
-+          #self.bare_git.clone(['--bare', self.remote.url])
 +      else:
 +          os.makedirs(self.gitdir)
 +          self.bare_git.init()
  
        mp = self.manifest.manifestProject
        ref_dir = mp.config.GetString('repo.reference')
-@@ -1950,6 +1964,8 @@ class Project(object):
-       name = name.replace('_', '-')
-       def runner(*args):
-         cmdv = [name]
-+        if name == 'clone':
-+            cmdv.append('--bare')
-         cmdv.extend(args)
-         p = GitCommand(self._project,
-                        cmdv,

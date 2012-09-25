@@ -18,8 +18,11 @@ else
 fi
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+#for tracing git commands
+#export REPO_TRACE=1
 repo init -u https://android.googlesource.com//platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
-(cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
+patch -p1 <$SCRIPT_DIR/support_local_repo.patch
+$SCRIPT_DIR/strip-projects.sh .repo/manifest.xml
 if test -n "$3"; then
     ln -s $3 .repo/local_manifest.xml
 fi

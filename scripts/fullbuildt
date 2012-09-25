@@ -20,7 +20,7 @@ fi
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 repo init -u git://gitorious.org/rowboat/manifest.git -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
 #repo init -u git://git.omapzoom.org/platform/omapmanifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
-(cd .repo; $SCRIPT_DIR/strip-projects.sh manifest.xml)
+$SCRIPT_DIR/strip-projects.sh .repo/manifest.xml
 if test -n "$3"; then
     ln -s $3 .repo/local_manifest.xml
 fi

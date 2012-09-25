@@ -1,0 +1,68 @@
+diff --git a/.repo/repo/manifest_xml.py b/.repo/repo/manifest_xml.py
+index 8e9efd1..817d4e8 100644
+--- a/.repo/repo/manifest_xml.py
++++ b/.repo/repo/manifest_xml.py
+@@ -20,7 +20,7 @@ import sys
+ import urlparse
+ import xml.dom.minidom
+ 
+-from git_config import GitConfig
++from git_config import GitConfig, GitCommand
+ from project import RemoteSpec, Project, MetaProject, R_HEADS, HEAD
+ from error import ManifestParseError
+ 
+@@ -60,7 +60,16 @@ class _XmlRemote(object):
+     if manifestUrl.find(':') != manifestUrl.find('/') - 1:
+         manifestUrl = 'gopher://' + manifestUrl
+     url = urlparse.urljoin(manifestUrl, url)
+-    return re.sub(r'^gopher://', '', url)
++    tempurl = re.sub(r'^gopher://', '', url)
++    if not os.path.exists('.repo/tempgitdir/.git/config'):
++        os.mkdir('.repo/tempgitdir')
++        GitCommand(None, [ 'init'], cwd='.repo/tempgitdir').Wait()
++    GitCommand(None, [ 'config', '--replace-all', 'remote.aosp.url', tempurl], cwd='.repo/tempgitdir').Wait()
++    p = GitCommand(None, [ 'remote', '-v'], capture_stdout=True, cwd='.repo/tempgitdir')
++    if p.Wait() != 0:
++        print "gitremote_v error", p.stderr
++        sys.exit(1)
++    return p.stdout.split()[1];
+ 
+   def ToRemoteSpec(self, projectName):
+     url = self.resolvedFetchUrl.rstrip('/') + '/' + projectName
+diff --git a/.repo/repo/project.py b/.repo/repo/project.py
+index 4621013..3c5f9b9 100644
+--- a/.repo/repo/project.py
++++ b/.repo/repo/project.py
+@@ -1622,8 +1623,21 @@ class Project(object):
+ 
+   def _InitGitDir(self):
+     if not os.path.exists(self.gitdir):
+-      os.makedirs(self.gitdir)
+-      self.bare_git.init()
++      print "InitGitDir", self.name, self.gitdir, self.remote.url
++      if self.remote.url[0] == '/':
++          foo = self.work_git.clone
++          tempdir = self.worktree
++          self.worktree = os.path.dirname(self.gitdir)
++          if not os.path.exists(self.worktree):
++              os.makedirs(self.worktree)
++          print 'calling bareclone', foo, self.worktree
++          foo(self.remote.url)
++          print 'after bareclone', foo
++          self.worktree = tempdir
++          #self.bare_git.clone(['--bare', self.remote.url])
++      else:
++          os.makedirs(self.gitdir)
++          self.bare_git.init()
+ 
+       mp = self.manifest.manifestProject
+       ref_dir = mp.config.GetString('repo.reference')
+@@ -1950,6 +1964,8 @@ class Project(object):
+       name = name.replace('_', '-')
+       def runner(*args):
+         cmdv = [name]
++        if name == 'clone':
++            cmdv.append('--bare')
+         cmdv.extend(args)
+         p = GitCommand(self._project,
+                        cmdv,

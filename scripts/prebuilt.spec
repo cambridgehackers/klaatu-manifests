@@ -9,8 +9,6 @@ Summary: prebuilt stuff
 Package up the results of an android source build
 
 %install
-#PRODUCT_DIR=out/target/product/%{_android_product}
-#PRODUCT_DIR=${ANDROID_PRODUCT_OUT#$ANDROID_BUILD_TOP/}
 PRODUCT_DIR=%{_android_product_out}
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
@@ -45,6 +43,8 @@ echo "$PRODUCT_DIR/symbols" >targetroot_debug_filelist
 ls $PRODUCT_DIR/*.txt $PRODUCT_DIR/*.img >image_filelist
 find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_filelist
 
+$SCRIPT_DIR/makeusr "%{_android_platform}" "$PRODUCT_DIR"
+
 mkdir -p $RPM_BUILD_ROOT/aroot
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
 rm -f $RPM_BUILD_ROOT/aroot/tmp
@@ -71,102 +71,6 @@ if [ ! -e dalvik/null.mk ]; then
     touch dalvik/null.mk
 fi
 
-
-
-mkdir -p usr/include usr/lib
-cd usr/include/
-ln -s ../../bionic/libc/include/* .
-rm -f android
-mkdir android
-ln -s ../../bionic/libc/kernel/arch-arm/asm/ .
-ln -s ../../bionic/libc/kernel/common/asm-generic/ .
-ln -s ../../bionic/libc/kernel/common/linux/ .
-ln -s ../../bionic/libc/kernel/common/mtd/ .
-ln -s ../../bionic/libthread_db/include/thread_db.h .
-ln -s ../../bionic/libm/include/*.h .
-ln -s ../../bionic/libm/include/arm/*.h .
-ln -s ../../bionic/libc/arch-arm/include/machine/ .
-#this moved from frameworks/base to frameworks/native in 4.1.1
-ln -s ../../frameworks/*/opengl/include/* .
-ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
-ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
-ln -s ../../system/core/include/pixelflinger .
-ln -s ../../system/core/include/system .
-ln -s ../../system/core/include/cutils .
-
-case  "%{_android_platform}" in 
-	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7") 
-	ln -s ../../frameworks/base/include/gui .
-	ln -s ../../frameworks/base/include/surfaceflinger .
-	ln -s ../../frameworks/base/include/binder .
-	ln -s ../../frameworks/base/include/utils .	
-	ln -s ../../frameworks/base/include/ui .
-        ln -s ../../frameworks/base/include/media .
-	;;
-	"4.0.4") 
-	ln -s ../../frameworks/base/include/gui .
-	ln -s ../../frameworks/base/include/surfaceflinger .
-	ln -s ../../frameworks/base/include/binder .
-	ln -s ../../frameworks/base/include/utils .	
-	ln -s ../../frameworks/base/include/ui .
-        ln -s ../../frameworks/base/include/media .
-	;;
-	"4.1.1") 
-        # they moved the surfaceflinger include files to gui
-	ln -s ../../frameworks/native/include/gui .
-	ln -s ../../frameworks/native/include/gui surfaceflinger
-	ln -s ../../frameworks/native/include/binder .
-	ln -s ../../frameworks/native/include/utils .
-	ln -s ../../frameworks/native/include/ui .
-        ln -s ../../frameworks/av/include/media .
-	;;
-    *)
-	echo "if you get here you probably need to add another version case"
-	;;
-esac
-ln -s ../../hardware/libhardware/include/hardware .
-ln -s ../../hardware/libhardware_legacy/include/hardware_legacy .
-ln -s ../../hardware/ril/include/telephony .
-ln -s ../../bionic .
-ln -s ../../external/stlport/stlport .
-# this may or may not exist
-if [ -d ../../external/bionicsf-services/include ]; then
-    ln -s ../../external/bionicsf-services/include/* .
-fi
-
-
-(cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h 2>/dev/null` .)
-cd ../lib
-ln -s ../../$PRODUCT_DIR/obj/lib/*.o .
-ln -s ../../$PRODUCT_DIR/obj/lib/libandroid.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libc.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libdl.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libEGL.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv1_CM.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libGLESv2.so .
-#no longer built ln -s ../../$PRODUCT_DIR/obj/lib/libjnigraphics.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/liblog.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libm.so .
-#not in 2.3.7 ln -s ../../$PRODUCT_DIR/obj/lib/libOpenMAXAL.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libOpenSLES.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libstdc++.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libthread_db.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libz.so .
-ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
-ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
-ln -s ../../$PRODUCT_DIR/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
-ln -s ../../$PRODUCT_DIR/obj/lib/libutils.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libgui.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libstlport.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libbinder.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libcutils.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libhardware.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libhardware_legacy.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libinput.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libmedia.so .
-ln -s ../../$PRODUCT_DIR/obj/lib/libsigyn.so .
-
-cd ../..
 mkdir -p toolchain
 cd toolchain
 TC_TMP=`dirname $TOOLPREFIX`
@@ -217,7 +121,7 @@ fi
 
 %package toolchain
 BuildArch: noarch
-Summary: gcc cross compiler and /usr/include, /usr/lib
+Summary: gcc cross compiler
 AutoReqProv: 0
 %description toolchain
 The 'toolchain' package contains the prebuilt gcc compiler and binutils toolchain.
@@ -266,13 +170,13 @@ of the *.img files
 
 %package %{_android_product}_devel
 BuildArch: noarch
-Summary: /usr/lib
+Summary: /usr/include and /usr/lib
 AutoReqProv: 0
 %description %{_android_product}_devel
 The 'devel' package contains the headers, libraries and build scripts
 needed to compile other source packages.  (but not the compiler)
 %files %{_android_product}_devel -f devel_filelist
-/aroot/usr
+/aroot/usr/*
 /aroot/bionic/lib*/include
 /aroot/bionic/libc/arch-*/include
 /aroot/bionic/libc/kernel/common

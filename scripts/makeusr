@@ -1,0 +1,99 @@
+#!/bin/bash
+set -e
+set -x
+
+#if test -z "$1" -o -z "$2"; then
+#    echo "$0 <PLATFORM_VERSION> <PRODUCT_DIR>"
+#    exit 1
+#fi
+export PLATVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
+export PRODOUT=`make -f $SCRIPT_DIR/printvar.mk PRODUCT_OUT`
+
+#PLATVER="$1"
+#PRODOUT="$2"
+[ -e usr/include ] && rm -rf usr/include
+[ -e usr/lib ] && rm -rf usr/lib
+mkdir -p usr/include usr/lib
+cd usr/include/
+ln -s ../../bionic/libc/include/* .
+rm -f android
+mkdir android
+ln -s ../../bionic/libc/kernel/arch-arm/asm/ .
+ln -s ../../bionic/libc/kernel/common/asm-generic/ .
+ln -s ../../bionic/libc/kernel/common/linux/ .
+ln -s ../../bionic/libc/kernel/common/mtd/ .
+ln -s ../../bionic/libthread_db/include/thread_db.h .
+ln -s ../../bionic/libm/include/*.h .
+ln -s ../../bionic/libm/include/arm/*.h .
+ln -s ../../bionic/libc/arch-arm/include/machine/ .
+#this moved from frameworks/base to frameworks/native in 4.1.1
+ln -s ../../frameworks/*/opengl/include/* .
+ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .
+ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
+ln -s ../../system/core/include/pixelflinger .
+ln -s ../../system/core/include/system .
+ln -s ../../system/core/include/cutils .
+
+case  "$PLATVER" in 
+	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7" | "4.0.4") 
+	ln -s ../../frameworks/base/include/gui .
+	ln -s ../../frameworks/base/include/surfaceflinger .
+	ln -s ../../frameworks/base/include/binder .
+	ln -s ../../frameworks/base/include/utils .	
+	ln -s ../../frameworks/base/include/ui .
+        ln -s ../../frameworks/base/include/media .
+	;;
+	"4.1.1") 
+        # they moved the surfaceflinger include files to gui
+	ln -s ../../frameworks/native/include/gui .
+	ln -s ../../frameworks/native/include/gui surfaceflinger
+	ln -s ../../frameworks/native/include/binder .
+	ln -s ../../frameworks/native/include/utils .
+	ln -s ../../frameworks/native/include/ui .
+        ln -s ../../frameworks/av/include/media .
+	;;
+    *)
+	echo "if you get here you probably need to add another version case"
+	;;
+esac
+ln -s ../../hardware/libhardware/include/hardware .
+ln -s ../../hardware/libhardware_legacy/include/hardware_legacy .
+ln -s ../../hardware/ril/include/telephony .
+ln -s ../../bionic .
+ln -s ../../external/stlport/stlport .
+# this may or may not exist
+if [ -d ../../external/bionicsf-services/include ]; then
+    ln -s ../../external/bionicsf-services/include/* .
+fi
+
+(cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h 2>/dev/null` .)
+cd ../lib
+ln -s ../../$PRODOUT/obj/lib/*.o .
+ln -s ../../$PRODOUT/obj/lib/libandroid.so .
+ln -s ../../$PRODOUT/obj/lib/libc.so .
+ln -s ../../$PRODOUT/obj/lib/libdl.so .
+ln -s ../../$PRODOUT/obj/lib/libEGL.so .
+ln -s ../../$PRODOUT/obj/lib/libGLESv1_CM.so .
+ln -s ../../$PRODOUT/obj/lib/libGLESv2.so .
+#no longer built ln -s ../../$PRODOUT/obj/lib/libjnigraphics.so .
+ln -s ../../$PRODOUT/obj/lib/liblog.so .
+ln -s ../../$PRODOUT/obj/lib/libm.so .
+#not in 2.3.7 ln -s ../../$PRODOUT/obj/lib/libOpenMAXAL.so .
+ln -s ../../$PRODOUT/obj/lib/libOpenSLES.so .
+ln -s ../../$PRODOUT/obj/lib/libstdc++.so .
+ln -s ../../$PRODOUT/obj/lib/libthread_db.so .
+ln -s ../../$PRODOUT/obj/lib/libz.so .
+ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
+ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
+ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
+ln -s ../../$PRODOUT/obj/lib/libutils.so .
+ln -s ../../$PRODOUT/obj/lib/libgui.so .
+ln -s ../../$PRODOUT/obj/lib/libstlport.so .
+ln -s ../../$PRODOUT/obj/lib/libbinder.so .
+ln -s ../../$PRODOUT/obj/lib/libcutils.so .
+ln -s ../../$PRODOUT/obj/lib/libhardware.so .
+ln -s ../../$PRODOUT/obj/lib/libhardware_legacy.so .
+ln -s ../../$PRODOUT/obj/lib/libinput.so .
+ln -s ../../$PRODOUT/obj/lib/libmedia.so .
+ln -s ../../$PRODOUT/obj/lib/libsigyn.so .
+

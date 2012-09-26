@@ -22,7 +22,7 @@ git clone ssh://leda/git/loki
 cd cambridge-qtbase
 ./configure -no-c++11 -no-linuxfb -no-kms \
     	-no-accessibility -opensource -confirm-license \
-        -device linux-android-maguro-es-g++ \
+        -device linux-android-maguro-es-g++-klaatu \
         -nomake examples -nomake demos -nomake tests \
         -opengl es2 -no-glib -prefix /data/usr
 make -j32

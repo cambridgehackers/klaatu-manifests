@@ -1,14 +1,11 @@
 #!/bin/bash
 set -e
 #set -x
-ANDROID_GENERIC_HOST=${ANDROID_GENERIC_HOST:-https://android.googlesource.com/}
-ANDROID_GENERIC_HOST_CODEAURORA=${ANDROID_GENERIC_HOST_CODEAURORA:-git://codeaurora.org}
-ANDROID_GENERIC_HOST_OMAPZOOM=${ANDROID_GENERIC_HOST_OMAPZOOM:-git://git.omapzoom.org}
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-[ -e manifest ] || git clone $ANDROID_GENERIC_HOST_CODEAURORA/platform/manifest.git
-[ -e build ] || git clone $ANDROID_GENERIC_HOST_CODEAURORA/platform/build
-[ -e kernel ] || git clone $ANDROID_GENERIC_HOST_CODEAURORA/kernel/msm kernel
+[ -e manifest ] || git clone git://codeaurora.org/platform/manifest.git
+[ -e build ] || git clone git://codeaurora.org/platform/build
+[ -e kernel ] || git clone git://codeaurora.org/kernel/msm kernel
 
 SKIP="1"
 #for all branches in the manifest

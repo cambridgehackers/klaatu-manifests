@@ -24,7 +24,7 @@ cd cambridge-qtbase
     	-no-accessibility -opensource -confirm-license \
         -device linux-android-maguro-es-g++-klaatu \
         -nomake examples -nomake demos -nomake tests \
-        -opengl es2 -no-glib -prefix /data/usr
+        -opengl es2 -no-glib -no-c++11 -prefix /data/usr
 make -j32
 INSTALL_ROOT=$INSTALL_TARGET make install
 echo -e "[Paths]\nPrefix=$INSTALL_TARGET/data/usr\nHostData=$INSTALL_TARGET/data/usr" >$INSTALL_TARGET/data/usr/bin/qt.conf

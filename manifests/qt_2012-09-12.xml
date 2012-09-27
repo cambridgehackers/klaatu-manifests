@@ -1,0 +1,11 @@
+<manifest>
+    <remote name="CAMBRIDGEQT" fetch="git://gitorious.org/+cambridgehackers/qt/" />
+
+    <project path="qtbase" name="cambridge-qtbase" remote="CAMBRIDGEQT" revision="bionicsf_2012-09-12"/>
+    <project path="qtjsbackend" name="cambridge-qtjsbackend" remote="CAMBRIDGEQT" revision="bionicsf_2012-09-12"/>
+    <project path="qtdeclarative" name="cambridge-qtdeclarative" remote="CAMBRIDGEQT" revision="bionicsf_2012-09-12"/>
+
+    <remote name="WORKAREA" fetch="ssh://leda/git/" />
+
+    <project path="loki" name="loki" remote="WORKAREA" revision="master"/>
+</manifest>

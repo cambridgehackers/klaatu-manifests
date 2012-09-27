@@ -7,5 +7,6 @@
 
     <remote name="WORKAREA" fetch="ssh://leda/git/" />
 
+    <project path="sysroot/external/bionicsf-services" name="bionicsf-services" remote="WORKAREA" revision="master"/>
     <project path="loki" name="loki" remote="WORKAREA" revision="master"/>
 </manifest>

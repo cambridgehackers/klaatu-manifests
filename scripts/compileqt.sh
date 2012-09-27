@@ -1,24 +1,16 @@
 #!/bin/bash
 set -e
 set -x
-[ -e mysysroot ] || mkdir mysysroot
+[ -e sysroot ] || mkdir sysroot
 [ -e outdir ] || mkdir outdir
+export KLAATU_SYSROOT=`pwd`/sysroot/aroot
+export INSTALL_TARGET=`pwd`/outdir
 repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
+repo sync
 
-cd mysysroot
-.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro
-cd ..
-export KLAATU_SYSROOT=`pwd`/mysysroot/aroot
-INSTALL_TARGET=`pwd`/outdir
+(cd sysroot; ../.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro)
 
-#git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtbase.git
-#(cd cambridge-qtbase; git checkout remotes/origin/bionicsf_2012-09-12 -b testing)
-#git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtjsbackend.git
-#(cd cambridge-qtjsbackend; git checkout remotes/origin/bionicsf_2012-09-12 -b testing)
-#git clone git://gitorious.org/+cambridgehackers/qt/cambridge-qtdeclarative.git
-#(cd cambridge-qtdeclarative; git checkout remotes/origin/bionicsf_2012-09-12 -b testing)
-#git clone ssh://leda/git/loki
-
+# first build qtbase to get qmake
 cd qtbase
 ./configure -no-c++11 -no-linuxfb -no-kms \
     	-no-accessibility -opensource -confirm-license \
@@ -28,6 +20,8 @@ cd qtbase
 make -j32
 INSTALL_ROOT=$INSTALL_TARGET make install
 echo -e "[Paths]\nPrefix=$INSTALL_TARGET/data/usr\nHostData=$INSTALL_TARGET/data/usr" >$INSTALL_TARGET/data/usr/bin/qt.conf
+
+# compile remaining qt modules
 cd ../qtjsbackend
 $INSTALL_TARGET/data/usr/bin/qmake
 make -j32
@@ -40,6 +34,10 @@ cd tools
 $INSTALL_TARGET/data/usr/bin/qmake
 make -j32
 make install
-cd ../loki
+
+# now compile services
+(cd sysroot/aroot; make -j32)
+# now compile the test programs
+cd ../../loki
 $INSTALL_TARGET/data/usr/bin/qmake
-#make -j32
+make -j32

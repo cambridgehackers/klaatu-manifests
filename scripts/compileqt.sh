@@ -5,17 +5,21 @@ set -x
 KLAATU_TOPDIR=`pwd`
 export KLAATU_SYSROOT=$KLAATU_TOPDIR/aroot
 export INSTALL_TARGET=$KLAATU_TOPDIR/outdir
-#repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
-repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-05-30.xml
+#MANIFEST=qt_2012-09-12.xml
+MANIFEST=qt_2012-05-30.xml
+repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/$MANIFEST
 repo sync
 
 .repo/manifests/scripts/install_sysroot.sh ~/klaatu-rpm 4.0.4_r1.2 maguro
 
 # first build qtbase to get qmake
 cd $KLAATU_TOPDIR/qtbase
-./configure -no-c++11 -no-linuxfb -no-kms \
-    	-no-accessibility -opensource -confirm-license \
-        -device linux-android-maguro-es-g++-klaatu \
+if test "$MANIFEST" != "qt_2012-05-30.xml" ; then
+    EXTRAOPTIONS="-no-c++11 -no-linuxfb -no-kms"
+fi
+./configure $EXTRAOPTIONS \
+        -device linux-android-maguro-es-g++-klaatu -sysroot $KLAATU_SYSROOT \
+    	-no-pch -no-accessibility -opensource -confirm-license \
         -nomake examples -nomake demos -nomake tests \
         -opengl es2 -no-glib -prefix /data/usr
 make -j32

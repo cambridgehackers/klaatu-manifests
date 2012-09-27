@@ -13,9 +13,9 @@ PRODUCT_DIR=%{_android_product_out}
 find frameworks/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >temp_filelist
 find external/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
 find dalvik/ -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
-find hardware/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
-find device/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" >>temp_filelist
-find build/ -type f >>temp_filelist
+find hardware/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" | fgrep -v Android.mk >>temp_filelist
+find device/ -name "*.mk" -o -name "*.h" -o -name "*.hxx" -o -name "*.hpp" -o -name "*.txt" | fgrep -v Android.mk >>temp_filelist
+find build/ -type f | grep -v "/tools/.*/Android.mk" >>temp_filelist
 find . -name vendorsetup.sh >>temp_filelist
 echo "$PRODUCT_DIR/obj/lib" >>temp_filelist
 echo "$PRODUCT_DIR/obj/include" >>temp_filelist

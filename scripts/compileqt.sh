@@ -44,6 +44,8 @@ make install
 # now compile added services
 cd $KLAATU_TOPDIR/aroot
 source build/envsetup.sh; lunch full_maguro-userdebug
+#hack for now
+touch out/target/product/maguro/kernel
 make showcommands
 $KLAATU_TOPDIR/.repo/manifests/scripts/makeusr
 

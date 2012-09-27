@@ -5,7 +5,8 @@ set -x
 KLAATU_TOPDIR=`pwd`
 export KLAATU_SYSROOT=$KLAATU_TOPDIR/aroot
 export INSTALL_TARGET=$KLAATU_TOPDIR/outdir
-repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
+#repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
+repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-05-30.xml
 repo sync
 
 .repo/manifests/scripts/install_sysroot.sh ~/klaatu-rpm 4.0.4_r1.2 maguro

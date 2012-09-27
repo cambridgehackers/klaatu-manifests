@@ -1,9 +1,9 @@
 <manifest>
     <remote name="CAMBRIDGEQT" fetch="git://gitorious.org/+cambridgehackers/qt/" />
 
-    <project path="qtbase" name="cambridge-qtbase" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-23"/>
-    <project path="qtjsbackend" name="cambridge-qtjsbackend" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-23"/>
-    <project path="qtdeclarative" name="cambridge-qtdeclarative" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-23"/>
+    <project path="qtbase" name="cambridge-qtbase" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
+    <project path="qtjsbackend" name="cambridge-qtjsbackend" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
+    <project path="qtdeclarative" name="cambridge-qtdeclarative" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
 
     <remote name="WORKAREA" fetch="ssh://leda/git/" />
 

@@ -34,7 +34,7 @@ echo "$PRODUCT_DIR/system" >>targetroot_filelist
 echo "$PRODUCT_DIR/data" >>targetroot_filelist
 if test -e $PRODUCT_DIR/kernel ; then
     # can't locate for TI built yet
-    echo "$PRODUCT_DIR/kernel" >>targetroot_filelist
+    echo "$PRODUCT_DIR/kernel" >>devel_filelist
 fi
 if test -e device/sample/skins ; then
     echo "device/sample/skins" >>devel_filelist

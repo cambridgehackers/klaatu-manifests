@@ -93,4 +93,6 @@ ln -s ../../$PRODOUT/obj/lib/libhardware_legacy.so .
 ln -s ../../$PRODOUT/obj/lib/libinput.so .
 ln -s ../../$PRODOUT/obj/lib/libmedia.so .
 ln -s ../../$PRODOUT/obj/lib/libsigyn.so .
+ln -s ../../$PRODOUT/obj/lib/libnetutils.so .
+ln -s ../../$PRODOUT/obj/lib/libheimd.so .
 

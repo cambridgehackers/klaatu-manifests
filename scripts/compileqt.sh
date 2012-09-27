@@ -7,7 +7,7 @@ export INSTALL_TARGET=`pwd`/outdir
 repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
 repo sync
 
-../.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro
+.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro
 
 # first build qtbase to get qmake
 cd qtbase

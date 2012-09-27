@@ -2,15 +2,10 @@
 set -e
 set -x
 
-#if test -z "$1" -o -z "$2"; then
-#    echo "$0 <PLATFORM_VERSION> <PRODUCT_DIR>"
-#    exit 1
-#fi
+export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 export PLATVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
 export PRODOUT=`make -f $SCRIPT_DIR/printvar.mk PRODUCT_OUT`
 
-#PLATVER="$1"
-#PRODOUT="$2"
 [ -e usr/include ] && rm -rf usr/include
 [ -e usr/lib ] && rm -rf usr/lib
 mkdir -p usr/include usr/lib
@@ -42,6 +37,7 @@ case  "$PLATVER" in
 	ln -s ../../frameworks/base/include/utils .	
 	ln -s ../../frameworks/base/include/ui .
         ln -s ../../frameworks/base/include/media .
+        ln -s ../../frameworks/base/services/input .
 	;;
 	"4.1.1") 
         # they moved the surfaceflinger include files to gui
@@ -51,6 +47,7 @@ case  "$PLATVER" in
 	ln -s ../../frameworks/native/include/utils .
 	ln -s ../../frameworks/native/include/ui .
         ln -s ../../frameworks/av/include/media .
+        ln -s ../../frameworks/base/services/input .
 	;;
     *)
 	echo "if you get here you probably need to add another version case"

@@ -1,14 +1,13 @@
 #!/bin/bash
 set -e
 set -x
-[ -e sysroot ] || mkdir sysroot
 [ -e outdir ] || mkdir outdir
-export KLAATU_SYSROOT=`pwd`/sysroot/aroot
+export KLAATU_SYSROOT=`pwd`/aroot
 export INSTALL_TARGET=`pwd`/outdir
 repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/qt_2012-09-12.xml
 repo sync
 
-(cd sysroot; ../.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro)
+../.repo/manifests/scripts/install_sysroot.sh ~/rpm 4.0.4_r1.2 maguro
 
 # first build qtbase to get qmake
 cd qtbase
@@ -36,7 +35,8 @@ make -j32
 make install
 
 # now compile services
-(cd sysroot/aroot; make -j32)
+(cd aroot; make -j32)
+
 # now compile the test programs
 cd ../../loki
 $INSTALL_TARGET/data/usr/bin/qmake

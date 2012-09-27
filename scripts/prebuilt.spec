@@ -20,7 +20,8 @@ find . -name vendorsetup.sh >>temp_filelist
 echo "$PRODUCT_DIR/obj/lib" >>temp_filelist
 echo "$PRODUCT_DIR/obj/include" >>temp_filelist
 ls -d frameworks/*/build >>temp_filelist
-fgrep -v Android.mk temp_filelist | fgrep -v " " | fgrep -v /stlport/ >devel_filelist
+#fgrep -v Android.mk temp_filelist | fgrep -v " " | fgrep -v /stlport/ >devel_filelist
+fgrep -v " " temp_filelist | fgrep -v /stlport/ >devel_filelist
 find $PRODUCT_DIR -name \*.a >devel_static_filelist
 cp prebuilt/.git/config prebuilt/git.config
 cp prebuilt/.git/HEAD prebuilt/git.HEAD

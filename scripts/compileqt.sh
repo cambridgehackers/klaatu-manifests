@@ -10,7 +10,7 @@ MANIFEST=qt_2012-05-30.xml
 repo init -u git://gitorious.org/cambridge/klaatu-manifests.git -m manifests/$MANIFEST
 repo sync
 
-.repo/manifests/scripts/install_sysroot.sh ~/klaatu-rpm 4.0.4_r1.2 maguro
+.repo/manifests/scripts/install_sysroot.sh ~/klaatu-rpm 4.0.4 maguro
 
 # first build qtbase to get qmake
 cd $KLAATU_TOPDIR/qtbase
@@ -18,7 +18,7 @@ if test "$MANIFEST" != "qt_2012-05-30.xml" ; then
     EXTRAOPTIONS="-no-c++11 -no-linuxfb -no-kms"
 fi
 ./configure $EXTRAOPTIONS \
-        -device linux-android-maguro-es-g++-klaatu -sysroot $KLAATU_SYSROOT \
+        -device linux-android-maguro-es-g++-klaatu \
     	-no-pch -no-accessibility -opensource -confirm-license \
         -nomake examples -nomake demos -nomake tests \
         -opengl es2 -no-glib -prefix /data/usr
@@ -43,8 +43,9 @@ make install
 
 # now compile added services
 cd $KLAATU_TOPDIR/aroot
-make -j32
-.repo/manifests/scripts/makeusr
+source build/envsetup.sh; lunch full_maguro-userdebug
+make showcommands
+$KLAATU_TOPDIR/.repo/manifests/scripts/makeusr
 
 # now compile the test programs
 cd $KLAATU_TOPDIR/loki

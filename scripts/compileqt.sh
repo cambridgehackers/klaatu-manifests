@@ -36,6 +36,10 @@ cd ../cambridge-qtdeclarative
 $INSTALL_TARGET/data/usr/bin/qmake
 make -j32
 make install
+cd tools
+$INSTALL_TARGET/data/usr/bin/qmake
+make -j32
+make install
 cd ../loki
 $INSTALL_TARGET/data/usr/bin/qmake
 #make -j32

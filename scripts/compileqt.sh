@@ -44,7 +44,7 @@ make install
 # now compile added services
 cd $KLAATU_TOPDIR/aroot
 source build/envsetup.sh; lunch full_maguro-userdebug
-make showcommands
+make userdataimage-nodeps systemimage-nodeps showcommands
 $KLAATU_TOPDIR/.repo/manifests/scripts/makeusr
 
 # now compile the test programs

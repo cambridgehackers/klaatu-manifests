@@ -1,0 +1,38 @@
+#!/bin/bash
+# for xilinx board
+# Usage:
+#    mkdir test
+#    cd test
+#    run script
+set -e
+set -x
+
+#if test -z "$1"; then
+#    echo "$0 <android version>"
+#    exit 1
+#fi
+ANDROID_VERSION=$1
+if test -z "$2"; then
+    ANDROID_MANIFEST_FILE=default.xml
+else
+    ANDROID_MANIFEST_FILE=$2
+fi
+
+export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+#for tracing git commands
+#export REPO_TRACE=1
+repo init -u https://android.googlesource.com//platform/manifest -b $ANDROID_VERSION -m $ANDROID_MANIFEST_FILE
+repo init -u git://git.iveia.com/scm/xilinx/android/platform/manifest.git -b android-zynq-1.0
+(cd .repo/repo; patch -p1 <$SCRIPT_DIR/support_local_repo.patch)
+$SCRIPT_DIR/strip-projects.sh .repo/manifest.xml
+if test -n "$3"; then
+    ln -s $3 .repo/local_manifest.xml
+fi
+repo sync -n -j 4 && repo sync -l -j 20
+unset TARGET_PRODUCT
+$SCRIPT_DIR/fixup_common.sh
+THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
+echo VERSION `make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION` BUILD_ID `make -f $SCRIPT_DIR/printvar.mk BUILD_ID`
+(cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
+
+echo "source build/envsetup.sh; lunch full_maguro-userdebug"

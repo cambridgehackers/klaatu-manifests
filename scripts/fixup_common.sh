@@ -11,6 +11,7 @@ gzip build/core/tasks/apicheck.mk
 gzip build/tools/apicheck/Android.mk
 sed -i.001 -e "/^include.*external\/svox/d" build/target/product/sdk.mk
 sed -i.001 -e "/(TARGET_ARCH),arm/s/arm/armfalse/" frameworks/base/cmds/app_process/Android.mk
+sed -i.001 -e "/libsqlite/d" frameworks/base/media/jni/Android.mk
 gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk
 gzip sdk/emulator/qtools/Android.mk

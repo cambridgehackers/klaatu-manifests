@@ -84,7 +84,7 @@
 /path="frameworks\/opt\/vcard"/d
 /path="frameworks\/support"/d
 /path="libcore"/d
-/path="[gps]dk"/d
+/path="[gp]dk"/d
 /path="packages\//d
 /path="external\/aes"/d
 /path="external\/bluez"/d

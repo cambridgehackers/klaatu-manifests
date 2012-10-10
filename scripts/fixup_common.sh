@@ -3,31 +3,22 @@ set -x
 mkdir libnativehelper
 ln -s ../dalvik/libnativehelper/include libnativehelper/
 gzip frameworks/base/core/jni/Android.mk
-gzip frameworks/base/media/jni/Android.mk
-gzip frameworks/base/media/jni/*/Android.mk
-gzip frameworks/base/native/graphics/jni/Android.mk
 gzip frameworks/base/tests/BrowserTestPlugin/jni/Android.mk
 gzip frameworks/base/tools/layoutlib/Android.mk
 gzip hardware/ril/mock-ril/Android.mk
 gzip frameworks/base/graphics/jni/Android.mk
-gzip frameworks/base/data/fonts/Android.mk
 gzip build/core/tasks/apicheck.mk
 gzip build/tools/apicheck/Android.mk
 sed -i.001 -e "/^include.*external\/svox/d" build/target/product/sdk.mk
-gzip frameworks/base/cmds/app_process/Android.mk
+sed -i.001 -e "/(TARGET_ARCH),arm/s/arm/armfalse/" frameworks/base/cmds/app_process/Android.mk
 gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk
-sed -i.001 -e "/(LOCAL_PATH)\/[sn]dk\/Android.mk/d" prebuilt/Android.mk
+gzip sdk/emulator/qtools/Android.mk
+sed -i.001 -e "/(LOCAL_PATH)\/ndk\/Android.mk/d" prebuilt/Android.mk
 sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk
 sed -i.001 -e "/^include/d" build/core/java.mk
 sed -i.001 -e "/^service zygote/,/restart netd/{s/^service zygote.*/service powermanager \/system\/bin\/powermanager\n    class main \n    user system \n    group system \n  \n/;/^ /d}" system/core/rootdir/init.rc
-sed -i.001 -e "/com_android_server_InputManager.cpp/d"  -e "/com_android_server_InputWindowHandle.cpp/d" \
-    -e "/onload.cpp/d" -e "/com_android_server_input_InputManagerService.cpp/d" \
-    -e "/com_android_server_input_InputWindowHandle.cpp/d" \
-    -e "/com_android_server_PowerManagerService.cpp/d" -e "/com_android_server_UsbDeviceManager.cpp/d" \
-    -e "/com_android_server_UsbHostManager.cpp/d" -e "/com_android_server_location_GpsLocationProvider.cpp/d" \
-    frameworks/base/services/jni/Android.mk
 sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalvik\/null/" \
     -e "/BUILD_JAVA_LIBRARY:=/s/BUILD_SYSTEM)\/java_library/TOPDIR)dalvik\/null/" \
     -e "/(filter 64-Bit, .(shell java -version/,/^endif/d" \
@@ -95,19 +86,15 @@ case ${THISVER:0:3} in
 4.0)
     gzip frameworks/base/libs/rs/Android.mk
     gzip frameworks/base/media/libstagefright/chromium_http/Android.mk
-    gzip system/media/wilhelm/tests/native-media/jni/Android.mk
-    gzip system/media/mca/filterfw/jni/Android.mk
-    sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" system/media/mca/filterfw/Android.mk
+    #sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" system/media/mca/filterfw/Android.mk
     sed -i.001 -e "/^bool checkPermission(/,/^{/ {/^{/s/$/\n    \/\/ For now, we'll always allow root programs to have permission\n    if (uid == 0)\n        return true;\n\n/}" frameworks/base/libs/binder/IServiceManager.cpp
     sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
     ;;
 4.1)
     gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
-    gzip frameworks/wilhelm/tests/native-media/jni/Android.mk
-    gzip frameworks/base/media/mca/filterfw/jni/Android.mk
     sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
     sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
-    sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" frameworks/base/media/mca/filterfw/Android.mk
+    #sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" frameworks/base/media/mca/filterfw/Android.mk
     sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
 
     #QCOM

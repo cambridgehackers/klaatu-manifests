@@ -26,7 +26,8 @@ $SCRIPT_DIR/strip-projects.sh .repo/manifest.xml
 if test -n "$3"; then
     ln -s $3 .repo/local_manifest.xml
 fi
-repo sync -n -j 4 && repo sync -l -j 20
+#repo sync -n -j 4 && repo sync -l -j 20
+repo sync
 unset TARGET_PRODUCT
 $SCRIPT_DIR/fixup_common.sh
 THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`

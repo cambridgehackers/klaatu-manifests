@@ -63,7 +63,7 @@ sed -i.001 -e "s/^/\/aroot\//" targetroot_debug_filelist
 
 cd $RPM_BUILD_ROOT/aroot
 pwd
-sed -f $SCRIPT_DIR/sed/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
+sed -f $SCRIPT_DIR/../data/no_product_copy.sed <$RPM_BUILD_DIR/build/core/Makefile >build/core/Makefile
 
 # if we are not running on a stripped sysroot, we need to 
 # add a null.mk to dalvik.  No effect on the full build but it

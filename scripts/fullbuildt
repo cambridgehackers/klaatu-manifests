@@ -30,7 +30,7 @@ unset TARGET_PRODUCT
 $SCRIPT_DIR/fixup_common.sh
 THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
 echo VERSION `make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION` BUILD_ID `make -f $SCRIPT_DIR/printvar.mk BUILD_ID`
-(cd $SCRIPT_DIR/template; tar cf - .) | tar xf -
+(cd $SCRIPT_DIR/../template; tar cf - .) | tar xf -
 
 #setpaths
 #Beagleboard Cx

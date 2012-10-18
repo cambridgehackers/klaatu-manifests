@@ -77,7 +77,7 @@ if [ -e vendor_extra/qcom/proprietary ] ; then
     sed -i.001 -e "/\.apk/s/^/#/" vendor_extra/qcom/proprietary/common/config/device-vendor.mk
 fi
 
-THISVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
+THISVER=`make -f $SCRIPT_DIR/../data/printvar.mk PLATFORM_VERSION`
 case ${THISVER:0:3} in
 2.3)
     gzip frameworks/base/libs/rs/Android.mk

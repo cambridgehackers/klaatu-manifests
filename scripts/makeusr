@@ -3,8 +3,8 @@ set -e
 set -x
 
 export SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-export PLATVER=`make -f $SCRIPT_DIR/printvar.mk PLATFORM_VERSION`
-export PRODOUT=`make -f $SCRIPT_DIR/printvar.mk PRODUCT_OUT`
+export PLATVER=`make -f $SCRIPT_DIR/../data/printvar.mk PLATFORM_VERSION`
+export PRODOUT=`make -f $SCRIPT_DIR/../data/printvar.mk PRODUCT_OUT`
 
 [ -e usr/include ] && rm -rf usr/include
 [ -e usr/lib ] && rm -rf usr/lib

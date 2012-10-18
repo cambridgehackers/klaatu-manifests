@@ -94,7 +94,7 @@ done
 
 cd ..
 GCC_SPEC_DIR=`bin/arm-bionic-eabi-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`
-cp $SCRIPT_DIR/gcc_sysroot.specs $GCC_SPEC_DIR/specs
+cp $SCRIPT_DIR/../data/gcc_sysroot.specs $GCC_SPEC_DIR/specs
 ln -s $GCC_SPEC_DIR/specs .
 mkdir -p libgcc-arm
 cd libgcc-arm

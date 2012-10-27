@@ -1,0 +1,8 @@
+The 2012-05-30*** manifests allow for building qt and klaatu-qmlscene as part of the standard android build process.
+
+WARNING: You need to run make twice!! This is due to how the qt apps are installed and when in the android make process the .img files are created.  the second make will pick up and include all the qt stuff in the .img files.  klaatu-qmlscene provides an example of how to add additional qt based apps that rely on qmake/make to the android tree.
+
+qt_2012-05-30-withdemo.xml -- This uses the klaatu-qmlsscene to run a qml demo on the nexus. 
+qt_2012-05-30.xml          -- This just builds klaatu-qmlscene.  run whatever qml app you'd like.  The relevant environment variables are set in /init.klaatu.rc
+qt_2012-09-12.xml          -- This version is not currently supported.  Maybe soon.
+

@@ -6,3 +6,12 @@ qt_2012-05-30-withdemo.xml -- This uses the klaatu-qmlsscene to run a qml demo o
 qt_2012-05-30.xml          -- This just builds klaatu-qmlscene.  run whatever qml app you'd like.  The relevant environment variables are set in /init.klaatu.rc
 qt_2012-09-12.xml          -- This version is not currently supported.  Maybe soon.
 
+To use these manifests :
+Symbolic-link to the preferred local manifest file.  
+
+inside android_src:
+    cd .repo
+    ln -s ../../klaatu-manifests/manifests/qt_2012-05-30.xml \
+          local_manifest.xml
+
+Note that these are currenlty working with 4.1.2_r1 

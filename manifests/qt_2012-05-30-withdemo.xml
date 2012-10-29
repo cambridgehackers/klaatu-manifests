@@ -32,4 +32,8 @@
 <project path="external/cambridge-qtdeclarative" name="cambridge-qtdeclarative" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
 
 
+<!-- Add the klaatu demo, if you can't reach this just use any qml file with klaatu-qmlscene for fun -->
+<project path="external/klaatu-demos" name="klaatu-demos" remote="PRIVATE_WORKAREA" revision="master"/>
+
+
 </manifest>

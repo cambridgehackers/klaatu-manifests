@@ -3,7 +3,6 @@
 
     <project path="external/klaatu-api" name="klaatu-api" remote="CAMBRIDGE" revision="master"/>
     <project path="external/klaatu-gfx" name="klaatu-gfx" remote="CAMBRIDGE" revision="master"/>
-    <project path="external/klaatu-gfx-extra" name="klaatu-gfx-extra" remote="CAMBRIDGE" revision="master"/>
     <project path="external/klaatu-gfx-examples" name="klaatu-gfx-examples" remote="CAMBRIDGE" revision="master"/>
     <project path="external/klaatu-openal-soft" name="klaatu-openal-soft" remote="CAMBRIDGE" revision="sio2_example"/>
     <project path="external/klaatu-recastnavigation" name="klaatu-recastnavigation" remote="CAMBRIDGE" revision="sio2_example"/>

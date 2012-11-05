@@ -1,0 +1,18 @@
+<manifest>
+    <remote name="CAMBRIDGE" fetch="git://gitorious.org/cambridge/" />
+
+    <project path="external/klaatu-api" name="klaatu-api" remote="CAMBRIDGE" revision="master"/>
+    <project path="external/klaatu-gfx" name="klaatu-gfx" remote="CAMBRIDGE" revision="master"/>
+    <project path="external/klaatu-gfx-extra" name="klaatu-gfx-extra" remote="CAMBRIDGE" revision="master"/>
+    <project path="external/klaatu-gfx-examples" name="klaatu-gfx-examples" remote="CAMBRIDGE" revision="master"/>
+    <project path="external/klaatu-openal-soft" name="klaatu-openal-soft" remote="CAMBRIDGE" revision="sio2_example"/>
+    <project path="external/klaatu-recastnavigation" name="klaatu-recastnavigation" remote="CAMBRIDGE" revision="sio2_example"/>
+    <project path="external/klaatu-nvtristrip" name="klaatu-nvtristrip" remote="CAMBRIDGE" revision="master"/>
+    <project path="external/klaatu-bullet" name="klaatu-bullet" remote="CAMBRIDGE" revision="tags_bullet-2.78"/>
+
+    <remote name="WORKAREA" fetch="ssh://leda/git/" />
+
+    <!-- Vendor binaries -->
+    <project path="vendor" name="bionicsf-vendor" remote="WORKAREA" revision="4.1.1_JRO03H"/>
+
+</manifest>

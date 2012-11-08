@@ -14,7 +14,6 @@
 /path="external\/chromium"/d
 /path="external\/clang"/d
 /path="external\/collada"/d
-/path="external\/dhcpcd"/d
 /path="external\/dnsmasq"/d
 /path="external\/doclava"/d
 /path="external\/dropbear"/d

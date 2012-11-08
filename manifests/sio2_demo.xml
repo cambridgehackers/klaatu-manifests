@@ -9,6 +9,9 @@
     <project path="external/klaatu-nvtristrip" name="klaatu-nvtristrip" remote="CAMBRIDGE" revision="master"/>
     <project path="external/klaatu-bullet" name="klaatu-bullet" remote="CAMBRIDGE" revision="tags_bullet-2.78"/>
 
+    <remote name="busybox-android" fetch="git://github.com/Gnurou/"/>
+    <project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"/>
+
     <remote name="WORKAREA" fetch="ssh://leda/git/" />
 
     <!-- Vendor binaries -->

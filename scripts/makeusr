@@ -8,7 +8,10 @@ export PRODOUT=`make -f $SCRIPT_DIR/../data/printvar.mk PRODUCT_OUT`
 
 [ -e usr/include ] && rm -rf usr/include
 [ -e usr/lib ] && rm -rf usr/lib
-mkdir -p usr/include usr/lib
+[ -e usr/bin ] && rm -rf usr/bin
+mkdir -p usr/include usr/lib usr/bin
+#modify a copy of '/system/bin/linker' so that it runs under qemu
+$SCRIPT_DIR/update.py $PRODOUT/system/bin/linker usr/bin/linker
 cd usr/include/
 ln -s ../../bionic/libc/include/* .
 rm -f android
@@ -39,7 +42,7 @@ case  "$PLATVER" in
         ln -s ../../frameworks/base/include/media .
         ln -s ../../frameworks/base/services/input .
 	;;
-	"4.1.1") 
+	"4.1.1" | "4.1.2") 
         # they moved the surfaceflinger include files to gui
 	ln -s ../../frameworks/native/include/gui .
 	ln -s ../../frameworks/native/include/gui surfaceflinger

@@ -25,7 +25,6 @@ fgrep -v " " temp_filelist | fgrep -v /stlport/ >devel_filelist
 find $PRODUCT_DIR -name \*.a >devel_static_filelist
 cp prebuilt/.git/config prebuilt/git.config
 cp prebuilt/.git/HEAD prebuilt/git.HEAD
-$SCRIPT_DIR/update.py $PRODUCT_DIR/system/bin/linker $PRODUCT_DIR/system/bin/linker.chroot
 
 dirname $ANDROID_TOOLCHAIN | sed -e "s/.*prebuilt/\/aroot\/prebuilt/" > compiler_filelist
 cat compiler_filelist
@@ -46,7 +45,7 @@ find . -name .git | fgrep -v .repo | sed -e "s/.*/&\/config\n&\/HEAD/" >git_file
 
 $SCRIPT_DIR/makeusr "%{_android_platform}" "$PRODUCT_DIR"
 
-mkdir -p $RPM_BUILD_ROOT/aroot
+mkdir -p $RPM_BUILD_ROOT/aroot/toolchain/bin
 ln -s `pwd`/* $RPM_BUILD_ROOT/aroot
 rm -f $RPM_BUILD_ROOT/aroot/tmp
 rm $RPM_BUILD_ROOT/aroot/Makefile $RPM_BUILD_ROOT/aroot/build
@@ -72,7 +71,6 @@ if [ ! -e dalvik/null.mk ]; then
     touch dalvik/null.mk
 fi
 
-mkdir -p toolchain
 cd toolchain
 TC_TMP=`dirname $TOOLPREFIX`
 TC_DIR=`dirname $TC_TMP`
@@ -85,7 +83,6 @@ ln -s ../${TC_DIR}/lib .
 ln -s ../${TC_DIR}/lib32 .
 ln -s ../${TC_DIR}/libexec .
 ln -s ../${TC_DIR}/share .
-mkdir bin
 # we want a consistent name for the toolchain.
 cd bin
 for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov gdb gdbtui gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf run size strings strip; do
@@ -104,7 +101,7 @@ if test "%{_android_arch}" == "arm" ; then
 	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7") 
             LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a`
             ;;
-	"4.0.4" | "4.1.1") 
+	"4.0.4" | "4.1.1" | "4.1.2") 
             LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/armv7-a/libgcc.a`
             ;;
         *)

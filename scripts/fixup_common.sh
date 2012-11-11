@@ -36,6 +36,11 @@ if [ -e device/qcom/common/common.mk ] ; then
 fi
 # add /data/usr/lib to default LD_LIBRARY_PATH
 sed -i.001 -e "/\/system\/lib/s/,/,\"\/data\/usr\/lib\",/" bionic/linker/linker.c
+# needed for qemu execution on ubuntu.... use old 
+# ARM kernel hack: __get_tls() (*(__kernel_get_tls_t *)0xffff0fe0)()
+# Instead of new armv6 instruction: __get_tls() asm ("mrc p15, 0, r0, c13, c0, 3"...
+# is this also at 0xffff0ff0 ??? (code seems to imply...)
+sed -i.001 -e "s/ifdef LIBC_STATIC/if 1/" bionic/libc/private/bionic_tls.h
 
 # these perform local modifications to frameworks/base
 sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp

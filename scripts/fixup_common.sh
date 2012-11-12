@@ -46,6 +46,11 @@ sed -i.001 -e "s/ifdef LIBC_STATIC/if 1/" bionic/libc/private/bionic_tls.h
 # these perform local modifications to frameworks/base
 sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp
 sed -i.001 -e "/simphonebook\" },/s/}/},    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
+#fixes for case-insensitive filesystems (macos)
+sed -i.001 -e "/Case-insensitive filesystems not supported/d" build/core/main.mk
+mv hardware/ti/omap4xxx/libtiutils/Semaphore.h hardware/ti/omap4xxx/libtiutils/big_Semaphore.h
+sed -i.001 -e "s/\"Semaphore.h/\"big_Semaphore.h/" hardware/ti/omap4xxx/libtiutils/Semaphore.cpp 
+sed -i.001 -e "s/\"Semaphore.h/\"big_Semaphore.h/" hardware/ti/omap4xxx/camera/inc/CameraHal.h
 
 [ -e vendor ] || ln -s vendor_extra vendor
 

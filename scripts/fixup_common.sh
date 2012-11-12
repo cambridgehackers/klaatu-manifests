@@ -44,7 +44,7 @@ sed -i.001 -e "s/ifdef LIBC_STATIC/if 1/" bionic/libc/private/bionic_tls.h
 
 # these perform local modifications to frameworks/base
 sed -i.001 -e "s/android-logo-mask.png/cambridge-logo-mask.png/" frameworks/base/cmds/bootanimation/BootAnimation.cpp
-sed -i.001 -e "/simphonebook\" },/s/}/},\n    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
+sed -i.001 -e "/simphonebook\" },/s/}/},    { AID_RADIO, \"sigyn\" }/" frameworks/base/cmds/servicemanager/service_manager.c
 
 [ -e vendor ] || ln -s vendor_extra vendor
 

@@ -1,0 +1,11 @@
+
+service powermanager /system/bin/powermanager
+    class main 
+    user system 
+    group system 
+
+service schedmanager /system/bin/schedulingmanager
+    class main 
+    user system 
+    group system 
+

@@ -19,7 +19,8 @@ sed -i.001 -e "/(LOCAL_PATH)\/ndk\/Android.mk/d" prebuilt/Android.mk
 sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk
 sed -i.001 -e "/^include/d" build/core/java.mk
-sed -i.001 -e "/^service zygote/,/restart netd/{s/^service zygote.*/service powermanager \/system\/bin\/powermanager\n    class main \n    user system \n    group system \n\nservice schedmanager \/system\/bin\/schedulingmanager\n    class main \n    user system \n    group system \n  \n/;/^ /d}" system/core/rootdir/init.rc
+sed -i.001 -e "/^service zygote/a \ \ \ \ disabled" \
+    -e "\$r $SCRIPT_DIR/../data/new_init.txt"  system/core/rootdir/init.rc
 sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalvik\/null/" \
     -e "/BUILD_JAVA_LIBRARY:=/s/BUILD_SYSTEM)\/java_library/TOPDIR)dalvik\/null/" \
     -e "/(filter 64-Bit, .(shell java -version/,/^endif/d" \
@@ -93,7 +94,8 @@ case ${THISVER:0:3} in
     gzip frameworks/base/libs/rs/Android.mk
     gzip frameworks/base/media/libstagefright/chromium_http/Android.mk
     #sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" system/media/mca/filterfw/Android.mk
-    sed -i.001 -e "/^bool checkPermission(/,/^{/ {/^{/s/$/\n    \/\/ For now, we'll always allow root programs to have permission\n    if (uid == 0)\n        return true;\n\n/}" frameworks/base/libs/binder/IServiceManager.cpp
+    # For now, we'll always allow root programs to have permission
+    sed -i.001 -e "/^bool checkPermission(/,/^{/ {/^{/s/$/if (uid == 0) return true;/}" frameworks/base/libs/binder/IServiceManager.cpp
     sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
     ;;
 4.1)

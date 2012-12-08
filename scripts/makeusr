@@ -16,14 +16,14 @@ cd usr/include/
 ln -s ../../bionic/libc/include/* .
 rm -f android
 mkdir android
-ln -s ../../bionic/libc/kernel/arch-arm/asm/ .
-ln -s ../../bionic/libc/kernel/common/asm-generic/ .
-ln -s ../../bionic/libc/kernel/common/linux/ .
-ln -s ../../bionic/libc/kernel/common/mtd/ .
+ln -s ../../bionic/libc/kernel/arch-arm/asm .
+ln -s ../../bionic/libc/kernel/common/asm-generic .
+ln -s ../../bionic/libc/kernel/common/linux .
+ln -s ../../bionic/libc/kernel/common/mtd .
 ln -s ../../bionic/libthread_db/include/thread_db.h .
 ln -s ../../bionic/libm/include/*.h .
 ln -s ../../bionic/libm/include/arm/*.h .
-ln -s ../../bionic/libc/arch-arm/include/machine/ .
+ln -s ../../bionic/libc/arch-arm/include/machine .
 #this moved from frameworks/base to frameworks/native in 4.1.1
 ln -s ../../frameworks/*/opengl/include/* .
 ln -s ../../dalvik/libnativehelper/include/nativehelper/jni.h .

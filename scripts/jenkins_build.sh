@@ -8,13 +8,19 @@ fi
 script="$(dirname $0)/$1"
 shift
 
-build_dir="/ramdisk/jenkins_builds/${JOB_NAME}_${BUILD_ID}"
+rm -rf $WORKSPACE/*
+
+if [ -d /ramdisk ]; then
+	build_dir="/ramdisk/jenkins_builds/${JOB_NAME}_${BUILD_ID}"
+else
+	mkdir -p "$WORKSPACE"/jenkins_build
+	build_dir="$WORKSPACE"/jenkins_build
+fi
 
 echo "Build start at $(date --rfc-3339=seconds)"
 
 fail=0
 
-rm -f $WORKSPACE/*
 if ( "$script" $build_dir ); then
 	echo "Build success at $(date --rfc-3339=seconds)"
 	out_dir=`find "$build_dir/out/" -name userdata.img`

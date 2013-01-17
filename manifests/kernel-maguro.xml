@@ -1,0 +1,17 @@
+<manifest>
+
+<remote name="AOSPMASTER" fetch="https://android.googlesource.com/" />
+<!-- to compile linux
+#
+export ARCH=arm
+export SUBARCH=arm
+export CROSS_COMPILE=arm-eabi-
+cd omap
+make tuna_defconfig
+make
+cp zImage ../kernel
+-->
+
+<project path="device/samsung/tuna/omap" name="kernel/omap.git" remote="AOSPMASTER" revision="4f6d3717060f171e5c1340386d509f6d0df9f2d6" />
+
+</manifest>

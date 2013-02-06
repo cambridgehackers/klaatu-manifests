@@ -87,10 +87,11 @@ ln -s ../${TC_DIR}/share .
 cd bin
 for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov gdb gdbtui gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf run size strings strip; do
     [ -e ../../${TOOLPREFIX}$i ] && ln -s ../../${TOOLPREFIX}$i arm-bionic-eabi-$i;
+    [ -e ../../${TOOLPREFIX}$i ] && ln -s ../../${TOOLPREFIX}$i arm-linux-$i;
 done
 
 cd ..
-GCC_SPEC_DIR=`bin/arm-bionic-eabi-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`
+GCC_SPEC_DIR=`bin/arm-linux-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`
 cp $SCRIPT_DIR/../data/gcc_sysroot.specs $GCC_SPEC_DIR/specs
 ln -s $GCC_SPEC_DIR/specs .
 mkdir -p libgcc-arm

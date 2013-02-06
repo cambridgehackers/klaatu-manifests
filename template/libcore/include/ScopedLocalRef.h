@@ -17,7 +17,13 @@
 #ifndef SCOPED_LOCAL_REF_H_included
 #define SCOPED_LOCAL_REF_H_included
 
+#if defined(SHORT_PLATFORM_VERSION) && (SHORT_PLATFORM_VERSION == 42)
+#include "jni.h"
+
+#include <stddef.h>
+#else
 #include "JNIHelp.h"
+#endif
 
 // A smart pointer that deletes a JNI local reference when it goes out of scope.
 template<typename T>
@@ -32,12 +38,32 @@ public:
         reset();
     }
 
+#if defined(SHORT_PLATFORM_VERSION) && (SHORT_PLATFORM_VERSION == 42)
+#else
+#endif
+#if defined(SHORT_PLATFORM_VERSION) && (SHORT_PLATFORM_VERSION == 42)
+    void reset(T ptr = NULL) {
+        if (ptr != mLocalRef) {
+            if (mLocalRef != NULL) {
+                mEnv->DeleteLocalRef(mLocalRef);
+            }
+            mLocalRef = ptr;
+        }
+    }
+
+    T release() __attribute__((warn_unused_result)) {
+        T localRef = mLocalRef;
+        mLocalRef = NULL;
+        return localRef;
+    }
+#else
     void reset() {
         if (mLocalRef != NULL) {
             mEnv->DeleteLocalRef(mLocalRef);
             mLocalRef = NULL;
         }
     }
+#endif
 
     T get() const {
         return mLocalRef;

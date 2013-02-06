@@ -120,6 +120,24 @@ case ${THISVER:0:3} in
             vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
     fi
     ;;
+4.2)
+    gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
+    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
+    sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
+    sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk
+    sed -i.001 -e "/^LOCAL_CLANG := true/d" external/libpng/Android.mk
+    sed -i.001 -e "/^LOCAL_MODULE_TAGS/s/^/SVERSION:=$(subst ., ,$(PLATFORM_VERSION))\\nLOCAL_CFLAGS += -DSHORT_PLATFORM_VERSION=$(word 1,$(SVERSION))$(word 2,$(SVERSION))\\n" frameworks/base/drm/jni/Android.mk
+    sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
+    #QCOM
+    if [ -e vendor_extra/qcom/proprietary ] ; then
+        [ -f vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
+        [ -f vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
+    fi
+    ;;
 esac
 #bash bug: don't end the file with a conditional
 true

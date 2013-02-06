@@ -42,7 +42,7 @@ case  "$PLATVER" in
         ln -s ../../frameworks/base/include/media .
         ln -s ../../frameworks/base/services/input .
 	;;
-	"4.1.1" | "4.1.2") 
+	"4.1.1" | "4.1.2" | "4.2.1") 
         # they moved the surfaceflinger include files to gui
 	ln -s ../../frameworks/native/include/gui .
 	ln -s ../../frameworks/native/include/gui surfaceflinger

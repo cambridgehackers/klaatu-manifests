@@ -102,7 +102,7 @@ if test "%{_android_arch}" == "arm" ; then
 	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7") 
             LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/android/libgcc.a`
             ;;
-	"4.0.4" | "4.1.1" | "4.1.2") 
+	"4.0.4" | "4.1.1" | "4.1.2" | "4.2.1") 
             LIB_GCC=`ls ../../${TC_DIR}/lib/gcc/$TOOL_DIRNAME/*/armv7-a/libgcc.a`
             ;;
         *)

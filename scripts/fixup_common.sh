@@ -126,7 +126,7 @@ case ${THISVER:0:3} in
     sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
     sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk
     sed -i.001 -e "/^LOCAL_CLANG := true/d" external/libpng/Android.mk
-    sed -i.001 -e "/^LOCAL_MODULE_TAGS/s/^/SVERSION:=$(subst ., ,$(PLATFORM_VERSION))\\nLOCAL_CFLAGS += -DSHORT_PLATFORM_VERSION=$(word 1,$(SVERSION))$(word 2,$(SVERSION))\\n" frameworks/base/drm/jni/Android.mk
+    sed -i.001 -e "/^LOCAL_MODULE_TAGS/s/^/SVERSION:=\$(subst ., ,\$(PLATFORM_VERSION))\\nLOCAL_CFLAGS += -DSHORT_PLATFORM_VERSION=\$(word 1,\$(SVERSION))\$(word 2,\$(SVERSION))\\n/" frameworks/base/drm/jni/Android.mk
     sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
     #QCOM
     if [ -e vendor_extra/qcom/proprietary ] ; then

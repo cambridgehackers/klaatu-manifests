@@ -23,7 +23,7 @@
 <project name="klaatu-qmlscene" path="external/klaatu-qmlscene" remote="gitorious" revision="master"/>
 
 <!-- Add vendor-specific binary drivers -->
-<project path="vendor" name="bionicsf-vendor" remote="PRIVATE_WORKAREA" revision="4.1.2_JZO54K" />
+<project path="vendor" name="bionicsf-vendor" remote="PRIVATE_WORKAREA" revision="4.2.1_JOP40C" />
 
 
 <!-- Add the qt libs -->

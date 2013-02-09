@@ -12,6 +12,12 @@ rm -rf $WORKSPACE/*
 
 if [ -d /ramdisk ]; then
 	build_dir="/ramdisk/jenkins_builds/${JOB_NAME}_${BUILD_ID}"
+
+	ramdisk_size=`df -m | grep /ramdisk | sed 's:  *: :g' | cut -f2 -d' '`
+	if [ -n "$ramdisk_size" ] ; then
+		max_builds=$(( $ramdisk_size / 25000 ))
+	fi
+	rm -rf `ls -1tr $build_dir/ | head -n-$max_builds`
 else
 	build_dir="$WORKSPACE"/jenkins_build
 fi

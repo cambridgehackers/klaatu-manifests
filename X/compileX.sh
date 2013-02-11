@@ -40,6 +40,7 @@ PATH=`pwd`/aroot/toolchain/bin:$PATH \
     jhbuild -f $SCRIPT_DIR/crossx.jhbuild update xserver
 if [ ! -e sources/patched ] ; then
     patch -p0 <$SCRIPT_DIR/cross_android.patch
+    touch aroot/bionic/libc/include/sys/kd.h aroot/bionic/libc/include/sys/io.h
     touch sources/patched
 fi
 PATH=`pwd`/aroot/toolchain/bin:$PATH \

@@ -1,0 +1,160 @@
+diff -aur sources/xorg/git/xorg/proto/x11proto/Xosdefs.h.001 sources/xorg/git/xorg/proto/x11proto/Xosdefs.h
+--- sources/xorg/git/xorg/proto/x11proto/Xosdefs.h.001	2013-02-10 19:39:41.332374071 -0500
++++ sources/xorg/git/xorg/proto/x11proto/Xosdefs.h	2013-02-10 19:57:02.292380459 -0500
+@@ -70,6 +70,9 @@
+ #  endif
+ # endif
+ 
++#ifdef __ANDROID__
++typedef unsigned long fd_mask;
++#endif
+ 
+ # ifdef __APPLE__
+ #  define NULL_NOT_ZERO
+diff -aur sources/xorg/git/xorg/proto/x11proto/Xos_r.h.001 sources/xorg/git/xorg/proto/x11proto/Xos_r.h
+--- sources/xorg/git/xorg/proto/x11proto/Xos_r.h.001	2013-02-10 19:39:41.332374071 -0500
++++ sources/xorg/git/xorg/proto/x11proto/Xos_r.h	2013-02-10 19:57:02.292380459 -0500
+@@ -323,17 +323,18 @@
+ typedef struct {
+   struct passwd pws;
+   char pwbuf[X_LINE_MAX];
++  struct passwd* pwp;
+ } _Xgetpwparams;
+ # if defined(_POSIX_REENTRANT_FUNCTIONS) || !defined(SVR4)
+ #   define _XGetpwuid(u,p) \
+-((getpwuid_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf)) == -1) ? NULL : &(p).pws)
++((getpwuid_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf),&(p).pwp) == -1) ? NULL : &(p).pws)
+ #   define _XGetpwnam(u,p) \
+-((getpwnam_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf)) == -1) ? NULL : &(p).pws)
++((getpwnam_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf),&(p).pwp) == -1) ? NULL : &(p).pws)
+ # else /* SVR4 */
+ #  define _XGetpwuid(u,p) \
+-((getpwuid_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf)) == NULL) ? NULL : &(p).pws)
++((getpwuid_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf),&(p).pwp) == NULL) ? NULL : &(p).pws)
+ #  define _XGetpwnam(u,p) \
+-((getpwnam_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf)) == NULL) ? NULL : &(p).pws)
++((getpwnam_r((u),&(p).pws,(p).pwbuf,sizeof((p).pwbuf),&(p).pwp) == NULL) ? NULL : &(p).pws)
+ # endif /* SVR4 */
+ 
+ #else /* _POSIX_THREAD_SAFE_FUNCTIONS */
+diff -aur sources/xorg/git/xorg/lib/libXfont/src/util/fontxlfd.c.001 sources/xorg/git/xorg/lib/libXfont/src/util/fontxlfd.c
+--- sources/xorg/git/xorg/lib/libXfont/src/util/fontxlfd.c.001	2013-02-10 19:58:16.792354452 -0500
++++ sources/xorg/git/xorg/lib/libXfont/src/util/fontxlfd.c	2013-02-10 19:59:33.792373698 -0500
+@@ -40,7 +40,7 @@
+ #include	<X11/Xos.h>
+ #include	<math.h>
+ #include	<stdlib.h>
+-#if defined(sony) && !defined(SYSTYPE_SYSV) && !defined(_SYSTYPE_SYSV)
++#if (defined(sony) && !defined(SYSTYPE_SYSV) && !defined(_SYSTYPE_SYSV)) || defined(__ANDROID__)
+ #define NO_LOCALE
+ #endif
+ #ifndef NO_LOCALE
+diff -aur sources/xorg/git/xorg/xserver/hw/xfree86/fbdevhw/fbdevhw.c.001 sources/xorg/git/xorg/xserver/hw/xfree86/fbdevhw/fbdevhw.c
+--- sources/xorg/git/xorg/xserver/hw/xfree86/fbdevhw/fbdevhw.c.001	2013-02-10 20:04:09.282377087 -0500
++++ sources/xorg/git/xorg/xserver/hw/xfree86/fbdevhw/fbdevhw.c	2013-02-10 20:09:10.272379772 -0500
+@@ -8,9 +8,6 @@
+ #include "xf86.h"
+ #include "xf86_OSproc.h"
+ 
+-/* pci stuff */
+-#include "xf86Pci.h"
+-
+ #include "xf86cmap.h"
+ 
+ #include "fbdevhw.h"
+@@ -251,54 +248,6 @@
+ /* -------------------------------------------------------------------- */
+ /* open correct framebuffer device                                      */
+ 
+-/**
+- * Try to find the framebuffer device for a given PCI device 
+- */
+-static int
+-fbdev_open_pci(struct pci_device *pPci, char **namep)
+-{
+-    struct fb_fix_screeninfo fix;
+-    char filename[256];
+-    int fd, i;
+-
+-    for (i = 0; i < 8; i++) {
+-        snprintf(filename, sizeof(filename),
+-                 "/sys/bus/pci/devices/%04x:%02x:%02x.%d/graphics/fb%d",
+-                 pPci->domain, pPci->bus, pPci->dev, pPci->func, i);
+-
+-        fd = open(filename, O_RDONLY, 0);
+-        if (fd < 0) {
+-            snprintf(filename, sizeof(filename),
+-                     "/sys/bus/pci/devices/%04x:%02x:%02x.%d/graphics:fb%d",
+-                     pPci->domain, pPci->bus, pPci->dev, pPci->func, i);
+-            fd = open(filename, O_RDONLY, 0);
+-        }
+-        if (fd >= 0) {
+-            close(fd);
+-            snprintf(filename, sizeof(filename), "/dev/fb%d", i);
+-
+-            fd = open(filename, O_RDWR, 0);
+-            if (fd != -1) {
+-                if (ioctl(fd, FBIOGET_FSCREENINFO, (void *) &fix) != -1) {
+-                    if (namep) {
+-                        *namep = xnfalloc(16);
+-                        strncpy(*namep, fix.id, 16);
+-                    }
+-
+-                    return fd;
+-                }
+-                close(fd);
+-            }
+-        }
+-    }
+-
+-    if (namep)
+-        *namep = NULL;
+-
+-    xf86DrvMsg(-1, X_ERROR, "Unable to find a valid framebuffer device\n");
+-    return -1;
+-}
+-
+ static int
+ fbdev_open(int scrnIndex, char *dev, char **namep)
+ {
+@@ -346,9 +295,6 @@
+ {
+     int fd;
+ 
+-    if (pPci)
+-        fd = fbdev_open_pci(pPci, namep);
+-    else
+         fd = fbdev_open(-1, device, namep);
+ 
+     if (-1 == fd)
+@@ -366,9 +312,6 @@
+     fPtr = FBDEVHWPTR(pScrn);
+ 
+     /* open device */
+-    if (pPci)
+-        fPtr->fd = fbdev_open_pci(pPci, NULL);
+-    else
+         fPtr->fd = fbdev_open(pScrn->scrnIndex, device, NULL);
+     if (-1 == fPtr->fd) {
+         xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+diff -aur sources/xorg/git/xorg/xserver/configure.ac.001 sources/xorg/git/xorg/xserver/configure.ac
+--- sources/xorg/git/xorg/xserver/configure.ac.001	2013-02-10 20:04:08.782334611 -0500
++++ sources/xorg/git/xorg/xserver/configure.ac	2013-02-10 20:08:38.272377974 -0500
+@@ -408,7 +408,7 @@
+ 	AC_DEFINE(PCVT_SUPPORT, 1, [System has PC console])
+ 	AC_DEFINE(WSCONS_SUPPORT, 1, [System has wscons console])
+ 	;;
+-  *linux*)
++  *jjlinux*)
+ 	DRI=yes
+ 	;;
+   *solaris*)
+@@ -1694,7 +1694,7 @@
+ 	dnl ===================================================================
+ 
+ 	case $host_os in
+-	  linux*)
++	  jjlinux*)
+ 		if test "x$LNXAPM" = xyes; then
+ 			XORG_CFLAGS="$XORG_CFLAGS -DXF86PM"
+ 		fi

@@ -13,9 +13,11 @@ rm -rf $WORKSPACE/*
 if [ -d /ramdisk ]; then
 	build_dir="/ramdisk/jenkins_builds/${JOB_NAME}_${BUILD_ID}"
 else
-	mkdir -p "$WORKSPACE"/jenkins_build
 	build_dir="$WORKSPACE"/jenkins_build
 fi
+
+mkdir -p "$build_dir"
+cd "$build_dir"
 
 echo "Build start at $(date --rfc-3339=seconds)"
 

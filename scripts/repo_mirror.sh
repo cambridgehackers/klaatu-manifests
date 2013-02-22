@@ -44,9 +44,5 @@ repo_init()
     ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_args -u $mirror_url $mirror_branch -m $manifest --mirror ; repo sync -j8 )
   fi
 
-  if [ -d "$repo_mirror_dir/$repo_name/platform/manifest.git" ] ; then
-    repo init -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $branch -m $manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
-  else
-    repo init -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $branch -m $manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
-  fi
+  repo init -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $branch -m $manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
 }

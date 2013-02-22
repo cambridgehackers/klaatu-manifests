@@ -145,7 +145,6 @@ echo "##########################################################################
 	if [ -e device/qcom/common/generate_extra_images.mk ] ; then
     	sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
 	fi
-	gzip system/core/libion/Android.mk
 
 	if [ -e device/qcom/common/common.mk ] ; then
     	#Arvind

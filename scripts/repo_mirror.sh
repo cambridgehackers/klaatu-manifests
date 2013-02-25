@@ -39,10 +39,18 @@ repo_init()
   fi
   repo_mirror_dir="$MIRROR_DIR/repos"
 
+  # defer actual repo init to sync, allowing the creation and use of mirrors with local manifest
+  mkdir -p .repo
+}
+
+repo_sync()
+{
   if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
     ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_args -u $mirror_url $mirror_branch -m $manifest --mirror ; repo sync -j8 )
   fi
 
   repo init -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $branch -m $manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+
+  time repo sync -j8 "$@"
 }

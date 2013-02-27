@@ -62,6 +62,7 @@ repo_create_overlay()
     if [ ! -e "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo" ]; then
       ( cd "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}"; repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args )
     fi
+    rm -rf $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo/local_manifest*
     cp -a .repo/local_manifest* $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo
     ( cd $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}; time repo sync -j8 )
     return 0

@@ -1,4 +1,7 @@
 #!/bin/bash
+
+build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
+
 # Perform a repo init and also do mirroring behind the scenes
 repo_init()
 {
@@ -48,14 +51,36 @@ repo_init()
   mkdir -p .repo
 }
 
+repo_create_overlay()
+{
+  if [ -f .repo/local_manifest.xml -o -d .repo/local_manifests ] && ( dpkg --compare-versions "$(unionfs -V 2>/dev/null | grep 'unionfs-fuse version' | sed 's:.* ::g')" '>=' '0.26' ) ; then
+    mkdir -p "$repo_mirror_dir/overlays/${repo_name}_${build_name}"
+    mkdir -p "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}"
+    if ( ! mount | grep $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name} ); then
+      unionfs -o cow,relaxed_permissions $repo_mirror_dir/overlays/${repo_name}_${build_name}=rw:$repo_mirror_dir/${repo_name}=ro $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name} || return false
+    fi
+    if [ ! -e "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo" ]; then
+      ( cd "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}"; repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args )
+    fi
+    cp -a .repo/local_manifest* $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo
+    ( cd $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}; time repo sync -j8 )
+    return 0
+  fi
+  return 1
+}
+
 repo_sync()
 {
   if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $manifest --mirror ; time repo sync -j8 )
+    ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror ; time repo sync -j8 )
   fi
 
-  repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+  if ( repo_create_overlay ); then
+    repo init $repo_init_args -u "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}" $repo_args
+  else
+    repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+  fi
 
   time repo sync -j8 "$@"
 }

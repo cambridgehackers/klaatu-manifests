@@ -15,7 +15,7 @@ sed -i.001 -e "/libsqlite/d" frameworks/base/media/jni/Android.mk
 gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk
 gzip sdk/emulator/qtools/Android.mk
-sed -i.001 -e "/(LOCAL_PATH)\/ndk\/Android.mk/d" prebuilt/Android.mk
+sed -i.001 -e "/(LOCAL_PATH)\/ndk\/Android.mk/d" prebuilts/Android.mk
 sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk
 sed -i.001 -e "/^include/d" build/core/java.mk
@@ -83,11 +83,11 @@ if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
         sed -i.001 -e "/^RECOVERY_FROM_BOOT_PATCH/d" device/qcom/common/generate_extra_images.mk
     [ -f $VENDOR_DIR/qcom/proprietary/mm-http/Android.mk ] && \
         sed -i.001 -e "/include/d" $VENDOR_DIR/qcom/proprietary/mm-http/Android.mk
-    [ -e prebuilts/ndk ] && (cd prebuilt/ndk; ln -s ../../prebuilts/ndk/* .)
+    [ -e prebuilts/ndk ] && (cd prebuilts/ndk; ln -s ../../prebuilts/ndk/* .)
     # 2.3.6
     [ -f $VENDOR_DIR/qcom/proprietary/common/build/vendorsetup.sh ] && \
         chmod a+x $VENDOR_DIR/qcom/proprietary/common/build/vendorsetup.sh
-    sed -i.001 -e "s/ ndk\// prebuilt\/ndk\/android-ndk-r6\//" $VENDOR_DIR/qcom/proprietary/wfd/rtsp/Android.mk
+    sed -i.001 -e "s/ ndk\// prebuilts\/ndk\/android-ndk-r6\//" $VENDOR_DIR/qcom/proprietary/wfd/rtsp/Android.mk
     sed -i.001 -e "/FEATURE_GSIFF_ANDROID_NDK = 1/d" $VENDOR_DIR/qcom/proprietary/gps/isagnav/gsiff/Android.mk
     gzip $VENDOR_DIR/qcom/proprietary/wfd/wdsm/service/jni/Android.mk
     sed -i.001 -e "/\.apk/s/^/#/" $VENDOR_DIR/qcom/proprietary/common/config/device-vendor.mk
@@ -147,7 +147,6 @@ echo "##########################################################################
 	fi
 
 	if [ -e device/qcom/common/common.mk ] ; then
-    	#Arvind
     	sed -i.001 -e "/LivePicker/d" device/qcom/common/common.mk
 	fi
 
@@ -156,42 +155,63 @@ echo "##########################################################################
     sed -i.001 -e "/^droidcore: /s/doc-comment-check-docs//" frameworks/base/Android.mk
     sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
     sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
-    #sed -i.001 -e "/addprefix ..\/..\/external\/junit\//d" frameworks/base/Android.mk
-    #sed -i.001 -e "s/core-junit//" frameworks/base/Android.mk
     sed -i.001 -e "/libcore\/Docs.mk/d" frameworks/base/Android.mk
     sed -i.001 -e "/libcore_to_document\/Docs.mk/d" frameworks/base/Android.mk
-    #sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" frameworks/base/media/mca/filterfw/Android.mk
+    sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
+
+    gzip frameworks/base/services/jni/Android.mk
+    gzip external/harfbuzz/Android.mk
+
+    #QCOM
+    if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
+        [ -f $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
+        [ -f $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
+            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
+            $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
+    fi
+    ;;
+4.2)
+    sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk
+    sed -i.001 -e "/^LOCAL_CLANG := true/d" external/libpng/Android.mk
+    echo "#############################################################################"
+    echo "THISVER is 4.2"
+    echo "#############################################################################"
+
+    sed -i.001 -e "/libjavacore/d" build/target/product/core.mk
+    sed -i.001 -e "/libjavacore/d" build/target/product/mini.mk
+    sed -i.001 \
+        -e "/WITH_HOST_DALVIK/,/endif/s/^/#/" \
+        build/core/product_config.mk
+    sed -i.001 -e "/libfdlibm/d" libcore/luni/src/main/native/sub.mk
+
+    sed -i.001 -e "/NativeCode.mk/s/^/#/" libcore/Android.mk
+    gzip    libcore/NativeCode.mk
+
+    if [ -e device/qcom/common/generate_extra_images.mk ] ; then
+        sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
+    fi
+
+    if [ -e device/qcom/common/common.mk ] ; then
+        sed -i.001 -e "/LivePicker/d" device/qcom/common/common.mk
+    fi
+
+
+    gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
+    sed -i.001 -e "/^droidcore: /s/doc-comment-check-docs//" frameworks/base/Android.mk
+    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
+    sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
+    sed -i.001 -e "/libcore\/Docs.mk/d" frameworks/base/Android.mk
+    sed -i.001 -e "/libcore_to_document\/Docs.mk/d" frameworks/base/Android.mk
     sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
 
     gzip frameworks/base/services/jni/Android.mk
 
-    #QCOM
-    #if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
-        #[ -f $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
-            #sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            #$VENDOR_DIR/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
-        #[ -f $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
-            #sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            #$VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
-    #fi
-    ;;
-4.2)
-    gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
-    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
-    sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
-    sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk
-    sed -i.001 -e "/^LOCAL_CLANG := true/d" external/libpng/Android.mk
-    sed -i.001 -e "/^LOCAL_MODULE_TAGS/s/^/SVERSION:=\$(subst ., ,\$(PLATFORM_VERSION))\\nLOCAL_CFLAGS += -DSHORT_PLATFORM_VERSION=\$(word 1,\$(SVERSION))\$(word 2,\$(SVERSION))\\n/" frameworks/base/drm/jni/Android.mk
-    sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
-    #QCOM
-    if [ -e vendor_extra/qcom/proprietary ] ; then
-        [ -f vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
-            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
-        [ -f vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
-            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
-    fi
+    sed -i.001 -e "/\$(BUILD_TINY_ANDROID), true)/,/\endif/d" system/core/debuggerd/Android.mk
+    gzip frameworks/base/drm/jni/Android.mk
+    sed -i.001 -e "s/ prebuilts\/ndk\/android-ndk-r6\// prebuilts\/ndk\/6\//" $VENDOR_DIR/qcom/proprietary/wfd/rtsp/Android.mk
+    gzip external/harfbuzz/Android.mk
     ;;
 esac
 #bash bug: don't end the file with a conditional

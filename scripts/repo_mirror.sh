@@ -26,10 +26,6 @@ repo_init()
 
   repo_urlx="$(echo "$repo_url" | sed 's:^[^/]*//::' | sed 's:^.*@::' | sed 's:\.git$::' | sed 's:/manifest::g' | sed 's:/git::g' | sed 's:[/\.]:_:g')"
   repo_name="${repo_urlx}_${repo_branch}"
-  repo_name_full="$repo_name"
-  if [ "$repo_branch" != "default.xml" ]; then 
-    repo_name_full="${repo_name}_$(basename $repo_manifest .xml)"
-  fi
 
   if [ "$repo_url" == "https://android.googlesource.com/platform/manifest" ] ; then
     # we only need a single mirror for all AOSP branches
@@ -51,40 +47,24 @@ repo_init()
   repo_init_args="--repo-url $MIRROR_DIR/git-repo.git --repo-branch=stable"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
-  # defer actual repo init to sync, allowing the creation and use of mirrors with local manifest
-  mkdir -p .repo
-}
-
-repo_create_overlay()
-{
-  if [ -f .repo/local_manifest.xml -o -d .repo/local_manifests ] && ( dpkg --compare-versions "$(unionfs -V 2>/dev/null | grep 'unionfs-fuse version' | sed 's:.* ::g')" '>=' '0.26' ) ; then
-    mkdir -p "$repo_mirror_dir/overlays/${repo_name}_${build_name}"
-    mkdir -p "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}"
-    if ( ! mount | grep $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name} ); then
-      unionfs -o cow,relaxed_permissions $repo_mirror_dir/overlays/${repo_name}_${build_name}=rw:$repo_mirror_dir/${repo_name}=ro $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name} || return false
-    fi
-    if [ ! -e "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo" ]; then
-      ( cd "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}"; repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args )
-    fi
-    rm -rf $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo/local_manifest*
-    cp -a .repo/local_manifest* $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/.repo
-    ( cd $repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}; time repo sync -j8 )
-    return 0
-  fi
-  return 1
-}
-
-repo_sync()
-{
   if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
     ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror ; time repo sync -j8 )
   fi
 
-  if ( repo_create_overlay ); then
-    repo init $repo_init_args -u "$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/overlays/mnt/${repo_name}_${build_name}" $repo_args
-  else
-    repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+  # If there is a local manifest, we'll init again but that's innocuous.
+  # We need this initial init so the klaatu builds can modify the manifest.
+  repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+}
+
+repo_sync()
+{
+  if [ -f .repo/local_manifest.xml -o -d .repo/local_manifests -o "$repo_manifest" != "default.xml" ]; then
+    # There is/are local manifest(s) or a non-default manifest was used.
+    # Bring the mirror up to date before syncing the working directory.
+    repo manifest -o "${repo_name}_${build_name}.xml"
+    build_dir=`pwd`
+    ( cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j8 )
   fi
 
   time repo sync -j8 "$@"

@@ -26,6 +26,10 @@ repo_init()
 
   repo_urlx="$(echo "$repo_url" | sed 's:^[^/]*//::' | sed 's:^.*@::' | sed 's:\.git$::' | sed 's:/manifest::g' | sed 's:/git::g' | sed 's:[/\.]:_:g')"
   repo_name="${repo_urlx}_${repo_branch}"
+  repo_name_full="$repo_name"
+  if [ "$repo_branch" != "default.xml" ]; then 
+    repo_name_full="${repo_name}_$(basename $repo_manifest .xml)"
+  fi
 
   if [ "$repo_url" == "https://android.googlesource.com/platform/manifest" ] ; then
     # we only need a single mirror for all AOSP branches

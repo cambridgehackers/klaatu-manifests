@@ -49,7 +49,7 @@ repo_init()
 
   if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror ; time repo sync -j8 )
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # If there is a local manifest, we'll init again but that's innocuous.
@@ -64,7 +64,7 @@ repo_sync()
     # Bring the mirror up to date before syncing the working directory.
     repo manifest -o "${repo_name}_${build_name}.xml"
     build_dir=`pwd`
-    ( cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j8 )
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   time repo sync -j8 "$@"

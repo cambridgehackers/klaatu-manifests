@@ -44,12 +44,12 @@ repo_init()
   if [ ! -d "$MIRROR_DIR"/git-repo.git ]; then
     ( cd "$MIRROR_DIR"; git clone --mirror https://gerrit.googlesource.com/git-repo )
   fi
-  repo_init_args="--repo-url $MIRROR_DIR/git-repo.git --repo-branch=stable"
+  repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git --repo-branch=stable"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
   if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # If there is a local manifest, we'll init again but that's innocuous.

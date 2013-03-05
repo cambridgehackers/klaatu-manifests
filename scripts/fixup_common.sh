@@ -95,8 +95,7 @@ fi
 
 THISVER=`make -f $SCRIPT_DIR/../data/printvar.mk PLATFORM_VERSION`
 
-#case ${THISVER:0:3} in
-case ${THISVER} in
+case ${THISVER:0:3} in
 2.3)
     gzip frameworks/base/libs/rs/Android.mk
     sed -i.001 -e "/^droidcore: /s/doc-comment-check-docs//" frameworks/base/Android.mk
@@ -111,44 +110,24 @@ case ${THISVER} in
     sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/base/media/libstagefright/Android.mk
     ;;
 4.1)
-    gzip frameworks/av/media/libstagefright/chromium_http/Android.mk
-    sed -i.001 -e "/^DEFAULT_HTTP = /s/chrome/notchrome/" frameworks/av/media/libstagefright/Android.mk
-    sed -i.001 -e "/^include external\/junit\/Common.mk/d" frameworks/base/Android.mk
-    #sed -i.001 -e "/^LOCAL_WHOLE_STATIC_LIBRARIES := /s/libfilterfw_jni//" -e "/libjnigraphics/d" frameworks/base/media/mca/filterfw/Android.mk
-    sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
 
-    #QCOM
-    if [ -e vendor_extra/qcom/proprietary ] ; then
-        [ -f vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c ] && \
-            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            vendor/qcom/opensource/bt-wlan-coex/btc/wlan_btc_usr_svc.c
-        [ -f vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h ] && \
-            sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
-            vendor/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
+    sed -i.001 -e "/libjavacore/d" build/target/product/core.mk
+    sed -i.001 -e "/libjavacore/d" build/target/product/mini.mk
+    sed -i.001 \
+    -e "/WITH_HOST_DALVIK/,/endif/s/^/#/" \
+    build/core/product_config.mk
+    sed -i.001 -e "/libfdlibm/d" libcore/luni/src/main/native/sub.mk
+    
+    sed -i.001 -e "/NativeCode.mk/s/^/#/" libcore/Android.mk
+    gzip    libcore/NativeCode.mk
+    
+    if [ -e device/qcom/common/generate_extra_images.mk ] ; then
+    sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
     fi
-    ;;
-4.1.2)
-echo "#############################################################################"
-echo "THISVER is 4.1.2"
-echo "#############################################################################"
-
-	sed -i.001 -e "/libjavacore/d" build/target/product/core.mk
-	sed -i.001 -e "/libjavacore/d" build/target/product/mini.mk
-	sed -i.001 \
-    	-e "/WITH_HOST_DALVIK/,/endif/s/^/#/" \
-    	build/core/product_config.mk
-	sed -i.001 -e "/libfdlibm/d" libcore/luni/src/main/native/sub.mk
-
-	sed -i.001 -e "/NativeCode.mk/s/^/#/" libcore/Android.mk
-	gzip    libcore/NativeCode.mk
-
-	if [ -e device/qcom/common/generate_extra_images.mk ] ; then
-    	sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
-	fi
-
-	if [ -e device/qcom/common/common.mk ] ; then
-    	sed -i.001 -e "/LivePicker/d" device/qcom/common/common.mk
-	fi
+    
+    if [ -e device/qcom/common/common.mk ] ; then
+    sed -i.001 -e "/LivePicker/d" device/qcom/common/common.mk
+    fi
 
 
     gzip frameworks/av/media/libstagefright/chromium_http/Android.mk

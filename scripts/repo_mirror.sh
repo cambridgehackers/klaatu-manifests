@@ -7,7 +7,7 @@ repo_init()
 {
   # clear variables that may have been set by a previous invocation
   repo_url=
-  repo_urlx=
+  repo_name_short=
   repo_name=
   repo_branch=master
   repo_manifest=default.xml
@@ -24,13 +24,17 @@ repo_init()
     i=$((i+1))
   done
 
-  repo_urlx="$(echo "$repo_url" | sed 's:^[^/]*//::' | sed 's:^.*@::' | sed 's:\.git$::' | sed 's:/manifest::g' | sed 's:/git::g' | sed 's:[/\.]:_:g')"
-  repo_name="${repo_urlx}_${repo_branch}"
+  repo_name_short="$(echo "$repo_url" | sed 's:^[^/]*//::' | sed 's:^.*@::' | sed 's:\.git$::' | sed 's:/manifest::g' | sed 's:/git::g' | sed 's:[/\.]:_:g')"
+  repo_name="${repo_name_short}_${repo_branch}"
+  repo_name_full="$repo_name"
+  if [ "$repo_branch" != "default.xml" ]; then 
+    repo_name_full="${repo_name}_$(basename $repo_manifest .xml)"
+  fi
 
   if [ "$repo_url" == "https://android.googlesource.com/platform/manifest" ] ; then
     # we only need a single mirror for all AOSP branches
     mirror_url="https://android.googlesource.com/mirror/manifest"
-    repo_name="$repo_urlx"
+    repo_name="$repo_name_short"
   else
     mirror_url=$repo_url
     mirror_branch="-b $repo_branch"

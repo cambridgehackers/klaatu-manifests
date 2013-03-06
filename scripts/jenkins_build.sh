@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ -z "$1" ] || [ -z "$WORKSPACE" ]; then
-        echo "usage $0 BUILD_SCRIPT BUILD_DIR OUT_DIR"
+        echo "usage $0 BUILD_SCRIPT [ARGS]"
         exit 1
 fi
 
@@ -29,7 +29,7 @@ echo "Build start at $(date --rfc-3339=seconds)"
 
 fail=0
 
-if ( "$script" $build_dir ); then
+if ( "$script" "$@" ); then
 	echo "Build success at $(date --rfc-3339=seconds)"
 	out_dir=`find "$build_dir/out/" -name userdata.img`
 	if [ -n "$out_dir" ]; then

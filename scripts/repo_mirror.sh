@@ -56,9 +56,16 @@ repo_init()
     ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
+  # if we can find a local copy of the manifest.git, use it.
+  if [ -d "$repo_mirror_dir/$repo_name/platform/manifest.git" ] ; then
+    repo_url="$repo_mirror_dir/$repo_name/platform/manifest.git"
+  elif [ -d "$repo_mirror_dir/$repo_name/manifest.git" ] ; then
+    repo_url="$repo_mirror_dir/$repo_name/manifest.git"
+  fi
+
   # If there is a local manifest, we'll init again but that's innocuous.
   # We need this initial init so the klaatu builds can modify the manifest.
-  repo init $repo_init_args -u "$repo_mirror_dir/$repo_name/platform/manifest.git" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+  repo init $repo_init_args -u "$repo_url" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
 }
 
 repo_sync()

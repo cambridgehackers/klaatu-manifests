@@ -2,6 +2,12 @@
 
 build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
 
+for arg in "$@"; do
+  if [ "$arg" = "--no-mirror-sync" ]; then
+    repo_no_mirror_sync=1
+  fi
+done
+
 # Perform a repo init and also do mirroring behind the scenes
 repo_init()
 {
@@ -51,7 +57,7 @@ repo_init()
   repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git --repo-branch=stable"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
-  if [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
+  if [ -z "$repo_no_mirror_sync" ] && [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
     ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
@@ -70,7 +76,7 @@ repo_init()
 
 repo_sync()
 {
-  if [ -f .repo/local_manifest.xml -o -d .repo/local_manifests -o "$repo_manifest" != "default.xml" ]; then
+  if [ -z "$repo_no_mirror_sync" ] && [ -f .repo/local_manifest.xml -o -d .repo/local_manifests -o "$repo_manifest" != "default.xml" ]; then
     # There is/are local manifest(s) or a non-default manifest was used.
     # Bring the mirror up to date before syncing the working directory.
     repo manifest -o "${repo_name}_${build_name}.xml"

@@ -1,4 +1,5 @@
 #!/bin/bash
+export NUM_CPUS=`grep processor -c /proc/cpuinfo`
 
 build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
 
@@ -59,7 +60,7 @@ repo_init()
 
   if [ -z "$repo_no_mirror_sync" ] && [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # if we can find a local copy of the manifest.git, use it.
@@ -81,8 +82,8 @@ repo_sync()
     # Bring the mirror up to date before syncing the working directory.
     repo manifest -o "${repo_name}_${build_name}.xml"
     build_dir=`pwd`
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j8 ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
-  time repo sync -j8 "$@"
+  time repo sync -j${NUM_CPUS} "$@"
 }

@@ -28,7 +28,6 @@
 /path="external\/google-diff-match-patch"/d
 /path="external\/grub"/d
 /path="external\/guava"/d
-/path="external\/harfbuzz"/d
 /path="external\/hyphenation"/d
 /path="external\/ip/d
 /path="external\/java/d

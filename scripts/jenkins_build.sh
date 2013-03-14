@@ -11,6 +11,9 @@ shift
 rm -rf $WORKSPACE/*
 
 if [ -d /ramdisk ]; then
+	# remove past aborted builds
+	rm -rf `grep -l ABORTED /ramdisk/jenkins_builds/*/build_job/build.xml | sed 's:/build_job/build.xml$::g'`
+
 	build_dir="/ramdisk/jenkins_builds/${JOB_NAME}_${BUILD_ID}"
 
 	ramdisk_size=`df -m | grep /ramdisk | sed 's:  *: :g' | cut -f2 -d' '`
@@ -24,6 +27,7 @@ fi
 
 mkdir -p "$build_dir"
 cd "$build_dir"
+ln -s $HOME/jobs/$JOB_NAME/builds/$BUILD_ID build_job
 
 echo "Build start at $(date --rfc-3339=seconds)"
 

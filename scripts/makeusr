@@ -14,6 +14,8 @@ mkdir -p usr/include usr/lib usr/bin
 $SCRIPT_DIR/update.py $PRODOUT/system/bin/linker usr/bin/linker
 cd usr/include/
 ln -s ../../bionic/libc/include/* .
+[ -e sys ] || mkdir sys
+touch sys/kb.h sys/kd.h
 rm -f android
 mkdir android
 ln -s ../../bionic/libc/kernel/arch-arm/asm .

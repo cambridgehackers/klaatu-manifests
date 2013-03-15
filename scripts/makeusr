@@ -31,6 +31,9 @@ ln -s ../../external/zlib/zlib.h ../../external/zlib/zconf.h .
 ln -s ../../system/core/include/pixelflinger .
 ln -s ../../system/core/include/system .
 ln -s ../../system/core/include/cutils .
+ln -s ../../external/jpeg/*.h .
+ln -s ../../external/sqlite/dist/sqlite3ext.h .
+ln -s ../../external/sqlite/dist/sqlite3.h .
 
 case  "$PLATVER" in 
 	"2.3.4" | "2.3.5" | "2.3.6" | "2.3.7" | "4.0.4") 
@@ -98,5 +101,17 @@ ln -s ../../$PRODOUT/obj/lib/libmedia.so .
 ln -s ../../$PRODOUT/obj/lib/libsigyn.so .
 ln -s ../../$PRODOUT/obj/lib/libnetutils.so .
 ln -s ../../$PRODOUT/obj/lib/libheimd.so .
+ln -s ../../$PRODOUT/obj/lib/libjpeg.so .
+# these are needed by cairo with the bfd linker.
+# remove them if the test fails
+ln -s ../../$PRODOUT/obj/lib/libcorkscrew.so .
+ln -s ../../$PRODOUT/obj/lib/libGLES_trace.so .
+ln -s ../../$PRODOUT/obj/lib/libui.so .
+ln -s ../../$PRODOUT/obj/lib/libwpa_client.so .
+ln -s ../../$PRODOUT/obj/lib/libgccdemangle.so .
+#end bfd linker
+ln -s ../../$PRODOUT/obj/lib/libsqlite.so .
+# it is a sqlite3 so link by that name  too
+ln -s ../../$PRODOUT/obj/lib/libsqlite.so libsqlite3.so
 ln -s libc.so libpthread.so
 

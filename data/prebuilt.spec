@@ -181,6 +181,7 @@ needed to compile other source packages.  (but not the compiler)
 /aroot/bionic/libc/arch-*/include
 /aroot/bionic/libc/kernel/common
 /aroot/bionic/libc/kernel/arch-*
+/aroot/bionic/libc/private
 /aroot/Makefile
 /aroot/dalvik/null.mk
 /aroot/system/core/include

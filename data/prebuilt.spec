@@ -91,7 +91,7 @@ for i in addr2line ar as c++ c++filt cpp elfedit g++ gcc gcc-4.6.x-google gcov g
 done
 
 cd ..
-GCC_SPEC_DIR=`bin/arm-linux-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //"`
+GCC_SPEC_DIR=`bin/arm-linux-gcc -print-search-dirs | fgrep install: | sed -e "s/install: //" | sed -e "s/.*prebuilt/..\/prebuilt/"`
 cp $SCRIPT_DIR/../data/gcc_sysroot.specs $GCC_SPEC_DIR/specs
 ln -s $GCC_SPEC_DIR/specs .
 mkdir -p libgcc-arm
@@ -128,6 +128,7 @@ The 'toolchain' package contains the prebuilt gcc compiler and binutils toolchai
 /aroot/prebuilt/android-arm
 /aroot/prebuilt/git.*
 /aroot/toolchain
+/aroot/prebuilt*/ndk/android-ndk-r*/sources
 
 %package %{_android_product}_image
 BuildArch: noarch

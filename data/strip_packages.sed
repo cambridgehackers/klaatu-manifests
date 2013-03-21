@@ -62,7 +62,6 @@
 /path="external\/qemu/d
 /path="external\/quake"/d
 /path="external\/replicaisland"/d
-/path="external\/sqlite"/d
 /path="external\/srec"/d
 /path="external\/srtp"/d
 /path="external\/strace"/d

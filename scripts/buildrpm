@@ -19,7 +19,7 @@ rpmbuild -bb --root `pwd`/tmp/ --dbpath=`pwd`/tmp/ --macros=../suse/macros \
     --define "_binaries_in_noarch_packages_terminate_build 0" \
     --define "_unpackaged_files_terminate_build 0" --define '__check_files ""' \
     $SCRIPT_DIR/../data/prebuilt.spec
-echo "Now print out any broken links in BUILDROOT"
-(cd tmp/BUILDROOT; find -L . -type l -exec file {} \;| fgrep -v svn | fgrep -v .git | fgrep -v libpulse-browse.so | fgrep -v libaudiofile.so | fgrep -v libpulse-mainloop-glib.so)
 mv tmp/RPMS/noarch/*.rpm ..
+echo "Now print out any broken links in BUILDROOT"
+(cd tmp/BUILDROOT; find -L . -type l -exec file {} \;| fgrep -v svn | fgrep -v .git | fgrep -v libpulse-browse.so | fgrep -v libaudiofile.so | fgrep -v libpulse-mainloop-glib.so) || true
 rm -rf tmp

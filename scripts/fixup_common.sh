@@ -1,5 +1,6 @@
 #!/bin/bash
 set -x
+
 mkdir libnativehelper
 ln -s ../dalvik/libnativehelper/include libnativehelper/
 gzip frameworks/base/core/jni/Android.mk
@@ -62,12 +63,12 @@ fi
 # QCOM
 if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
     ln -s ../../$VENDOR_DIR/qcom/proprietary vendor/qcom/proprietary
-    sed -i.001 -e "/BOARD_USE_QCOM_LLVM_CLANG_RS/d" device/qcom/msm8960/BoardConfig.mk
+    sed -i.001 -e "/BOARD_USE_QCOM_LLVM_CLANG_RS/d" device/qcom/*/BoardConfig.mk
     sed -i.001 -e "/llvm-select.mk/d" device/qcom/common/common.mk
     sed -i.001 \
         -e "/^LOCAL_MODULE_SUFFIX.*.apk/,/BUILD_PREBUILT/s/^/#/" \
         -e "/^LOCAL_MODULE_SUFFIX.*(COMMON_JAVA_PACKAGE_SUFFIX)/,/BUILD_PREBUILT/s/^/#/" \
-        $VENDOR_DIR/qcom/proprietary/prebuilt_HY11/target/product/msm8960/Android.mk
+        $VENDOR_DIR/qcom/proprietary/prebuilt_HY11/target/product/*/Android.mk
     if [ -e $VENDOR_DIR/qcom/proprietary/clang-rs ] ; then
         gzip $VENDOR_DIR/qcom/proprietary/clang-rs/clang-host-build.mk
         find $VENDOR_DIR/qcom/proprietary/clang-rs/ -name Android.mk -exec gzip {} \;
@@ -191,6 +192,12 @@ case ${THISVER:0:3} in
     gzip frameworks/base/drm/jni/Android.mk
     sed -i.001 -e "s/ prebuilts\/ndk\/android-ndk-r6\// prebuilts\/ndk\/6\//" $VENDOR_DIR/qcom/proprietary/wfd/rtsp/Android.mk
     gzip external/harfbuzz/Android.mk
+
+    if [ -e external/mobicore/Android.mk ] ; then
+        sed -i.001 -e "/rootpa\/Code\/Android\/app\/jni\/Android.mk/d" external/mobicore/Android.mk
+    fi
+    sed -i.001 -e "/E2FSCK/s/^/#/" build/core/config.mk
+
     ;;
 esac
 #bash bug: don't end the file with a conditional

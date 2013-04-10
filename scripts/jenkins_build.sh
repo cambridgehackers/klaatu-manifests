@@ -1,5 +1,13 @@
 #!/bin/bash -ex
 
+for arg in "$@"; do
+	case "${arg%%=*}" in
+		--build-dir) build_dir="${arg##*=}"; keep=1; shift;;
+		--keep) keep=1; shift;;
+		*) break;;
+	esac
+done
+
 if [ -z "$1" ] || [ -z "$WORKSPACE" ]; then
         echo "usage $0 BUILD_SCRIPT [ARGS]"
         exit 1
@@ -10,7 +18,9 @@ shift
 
 rm -rf $WORKSPACE/*
 
-if [ -d /ramdisk ]; then
+if [ -n "$build_dir" ]; then
+	echo using custom build directory: "$build_dir"
+elif [ -d /ramdisk ]; then
 	# remove past aborted builds
 	rm -rf `grep -l ABORTED /ramdisk/jenkins_builds/*/build_job/build.xml | sed 's:/build_job/build.xml$::g'`
 
@@ -27,7 +37,7 @@ fi
 
 mkdir -p "$build_dir"
 cd "$build_dir"
-ln -s $HOME/jobs/$JOB_NAME/builds/$BUILD_ID build_job
+ln -snf $HOME/jobs/$JOB_NAME/builds/$BUILD_ID build_job
 
 echo "Build start at $(date --rfc-3339=seconds)"
 
@@ -51,7 +61,7 @@ else
 fi
 
 job_dir="$HOME/jobs/$JOB_NAME/builds/$BUILD_ID"
-if [ -f "$build_dir"/.keep ] || ( grep keep "$job_dir"/build.xml | grep -q true ); then
+if [ -n "$keep" ] || [ -f "$build_dir"/.keep ] || ( grep keep "$job_dir"/build.xml | grep -q true ); then
 	echo "keeping build directory"
 	chmod g+w -R "$build_dir"
 else

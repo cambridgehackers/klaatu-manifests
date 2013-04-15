@@ -3,6 +3,7 @@
 # Apply any patches that are applicable to this build
 patch_build()
 {
+  [ ! -f .patched ] || return 0
   if [ -z "$PATCH_DIR" ] ; then PATCH_DIR=`dirname $0`/../patches ; fi
 
   build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
@@ -13,4 +14,5 @@ patch_build()
   elif [ -f "${PATCH_DIR}/${build_name}.patch" ]; then
     patch -p0 < "${PATCH_DIR}/${build_name}.patch"
   fi
+  touch .patched
 }

@@ -117,3 +117,9 @@ ln -s ../../$PRODOUT/obj/lib/libsqlite.so .
 ln -s ../../$PRODOUT/obj/lib/libsqlite.so libsqlite3.so
 ln -s libc.so libpthread.so
 
+# these are needed so we can use the eventhub
+ln -s ../../$PRODOUT/obj/lib/libexpat.so .
+ln -s ../../$PRODOUT/obj/lib/libandroidfw.so .
+ln -s ../../$PRODOUT/obj/lib/libskia.so .
+ln -s ../../$PRODOUT/obj/lib/libemoji.so .
+# end eventhub

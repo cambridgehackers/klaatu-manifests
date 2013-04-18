@@ -1,4 +1,5 @@
 #!/bin/bash
+[ ! -f .fixup_applied ] || exit 0
 set -x
 
 mkdir libnativehelper
@@ -200,5 +201,5 @@ case ${THISVER:0:3} in
 
     ;;
 esac
-#bash bug: don't end the file with a conditional
-true
+
+touch .fixup_applied

@@ -17,7 +17,6 @@
 /path="external\/dnsmasq"/d
 /path="external\/doclava"/d
 /path="external\/dropbear"/d
-/path="external\/e2fsprogs"/d
 /path="external\/easymock"/d
 /path="external\/embunit"/d
 /path="external\/emma"/d

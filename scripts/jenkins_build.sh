@@ -63,7 +63,8 @@ fi
 job_dir="$HOME/jobs/$JOB_NAME/builds/$BUILD_ID"
 if [ -n "$keep" ] || [ -f "$build_dir"/.keep ] || ( grep keep "$job_dir"/build.xml | grep -q true ); then
 	echo "keeping build directory"
-	chmod g+w -R "$build_dir"
+	chmod g+w "$build_dir" || true
+	chmod g+w -R "$build_dir"/*
 else
 	rm -rf "$build_dir"
 fi

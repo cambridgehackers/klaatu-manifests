@@ -55,12 +55,15 @@ repo_init()
   if [ ! -d "$MIRROR_DIR"/git-repo.git ]; then
     ( cd "$MIRROR_DIR"; git clone --mirror https://gerrit.googlesource.com/git-repo )
   fi
+  if [ ! -d "$MIRROR_DIR"/git-repo ]; then
+    ( cd "$MIRROR_DIR"; git clone https://gerrit.googlesource.com/git-repo )
+  fi
   repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git --repo-branch=stable"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
   if [ -z "$repo_no_mirror_sync" ] && [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; "$MIRROR_DIR"/git-repo/repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # if we can find a local copy of the manifest.git, use it.
@@ -72,7 +75,7 @@ repo_init()
 
   # If there is a local manifest, we'll init again but that's innocuous.
   # We need this initial init so the klaatu builds can modify the manifest.
-  repo init $repo_init_args -u "$repo_url" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
+  "$MIRROR_DIR"/git-repo/repo init $repo_init_args -u "$repo_url" -b $repo_branch -m $repo_manifest "--reference=$repo_mirror_dir/$repo_name" $repo_args
 }
 
 repo_sync()
@@ -82,8 +85,8 @@ repo_sync()
     # Bring the mirror up to date before syncing the working directory.
     repo manifest -o "${repo_name}_${build_name}.xml"
     build_dir=`pwd`
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
-  time repo sync -j${NUM_CPUS} "$@"
+  time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} "$@"
 }

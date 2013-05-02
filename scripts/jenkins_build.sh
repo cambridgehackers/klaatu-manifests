@@ -10,6 +10,7 @@ done
 
 if [ -z "$1" ] || [ -z "$WORKSPACE" ]; then
         echo "usage $0 BUILD_SCRIPT [ARGS]"
+        echo "Note. This wrapper script is only intended to be used by Jenkins."
         exit 1
 fi
 

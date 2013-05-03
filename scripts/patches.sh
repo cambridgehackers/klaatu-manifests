@@ -12,7 +12,7 @@ patch_build()
   if [ -f "${PATCH_DIR}/${build_name}.series" ]; then
     cat "${PATCH_DIR}/${build_name}.series" | sed "s:^:"${PATCH_DIR}"/:g" | xargs -L1 patch -p0 -i
   elif [ -f "${PATCH_DIR}/${build_name}.patch" ]; then
-    patch -p0 < "${PATCH_DIR}/${build_name}.patch"
+    patch -p0 -N < "${PATCH_DIR}/${build_name}.patch"
   fi
   touch .patched
 }

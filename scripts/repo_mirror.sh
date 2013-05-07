@@ -83,7 +83,7 @@ repo_sync()
   if [ -z "$repo_no_mirror_sync" ] && [ -f .repo/local_manifest.xml -o -d .repo/local_manifests -o "$repo_manifest" != "default.xml" ]; then
     # There is/are local manifest(s) or a non-default manifest was used.
     # Bring the mirror up to date before syncing the working directory.
-    repo manifest -o "${repo_name}_${build_name}.xml"
+    "$MIRROR_DIR"/git-repo/repo manifest -o "${repo_name}_${build_name}.xml"
     build_dir=`pwd`
     ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi

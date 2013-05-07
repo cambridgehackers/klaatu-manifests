@@ -5,6 +5,5 @@
 
     <remote name="CAMBRIDGEJNI" fetch="git://gitorious.org/cambridge/" />
     <project path="dalvik" name="klaatu-jni-stub.git" remote="CAMBRIDGEJNI" revision="master"/>
-    <project path="external/klaatu-services" name="klaatu-services.git" remote="CAMBRIDGEJNI" revision="master"/>
 
 </manifest>

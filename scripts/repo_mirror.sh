@@ -1,5 +1,5 @@
 #!/bin/bash
-export NUM_CPUS=`grep processor -c /proc/cpuinfo`
+[ -z "$NUM_CPUS" ] && export NUM_CPUS=`sysctl  -n hw.ncpu 2>/dev/null || grep processor -c /proc/cpuinfo`
 
 build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
 

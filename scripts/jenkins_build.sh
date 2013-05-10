@@ -49,9 +49,7 @@ if ( "$script" "$@" ); then
 	out_dir=`find "$build_dir/out/" -name userdata.img`
 	if [ -n "$out_dir" ]; then
 		out_dir=`dirname "$out_dir"`
-		cp -a "$out_dir"/*.*  $WORKSPACE
-#		tar -zcf $WORKSPACE/system.tar.gz -C "$out_dir" system
-#		tar -zcf $WORKSPACE/root.tar.gz -C "$out_dir" root
+		find "$out_dir" -maxdepth 1 -type f -exec cp -a '{}' $WORKSPACE ';'
 	else
 		echo "error userdata.img not found"
 		fail=1

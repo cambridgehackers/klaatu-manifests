@@ -73,53 +73,60 @@ fi
 
 (cd android; ln -s `ls ../../../bionic/libc/include/android/* ../../../frameworks/base/native/include/android/* ../../../frameworks/native/include/android/* ../../../system/core/include/android/log.h 2>/dev/null` .)
 cd ../lib
-ln -s ../../$PRODOUT/obj/lib/*.o .
-ln -s ../../$PRODOUT/obj/lib/libandroid.so .
-ln -s ../../$PRODOUT/obj/lib/libc.so .
-ln -s ../../$PRODOUT/obj/lib/libdl.so .
-ln -s ../../$PRODOUT/obj/lib/libEGL.so .
-ln -s ../../$PRODOUT/obj/lib/libGLESv1_CM.so .
-ln -s ../../$PRODOUT/obj/lib/libGLESv2.so .
-#no longer built ln -s ../../$PRODOUT/obj/lib/libjnigraphics.so .
-ln -s ../../$PRODOUT/obj/lib/liblog.so .
-ln -s ../../$PRODOUT/obj/lib/libm.so .
-#not in 2.3.7 ln -s ../../$PRODOUT/obj/lib/libOpenMAXAL.so .
-ln -s ../../$PRODOUT/obj/lib/libOpenSLES.so .
-ln -s ../../$PRODOUT/obj/lib/libstdc++.so .
-ln -s ../../$PRODOUT/obj/lib/libthread_db.so .
-ln -s ../../$PRODOUT/obj/lib/libz.so .
-ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libc_intermediates/libc.a .
-ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libm_intermediates/libm.a .
-ln -s ../../$PRODOUT/obj/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
-ln -s ../../$PRODOUT/obj/lib/libutils.so .
-ln -s ../../$PRODOUT/obj/lib/libgui.so .
-ln -s ../../$PRODOUT/obj/lib/libstlport.so .
-ln -s ../../$PRODOUT/obj/lib/libbinder.so .
-ln -s ../../$PRODOUT/obj/lib/libcutils.so .
-ln -s ../../$PRODOUT/obj/lib/libhardware.so .
-ln -s ../../$PRODOUT/obj/lib/libhardware_legacy.so .
-ln -s ../../$PRODOUT/obj/lib/libinput.so .
-ln -s ../../$PRODOUT/obj/lib/libmedia.so .
-ln -s ../../$PRODOUT/obj/lib/libsigyn.so .
-ln -s ../../$PRODOUT/obj/lib/libnetutils.so .
-ln -s ../../$PRODOUT/obj/lib/libheimd.so .
-ln -s ../../$PRODOUT/obj/lib/libjpeg.so .
+# $PRODOUT can be an absolute path 
+if [ ${PRODOUT:0:1} = '/' ] ; then
+	export PRODOUT_OBJ=${PRODOUT}/obj
+else
+	export PRODOUT_OBJ=../../${PRODOUT}/obj
+fi
+
+ln -s $PRODOUT_OBJ/lib/*.o .
+ln -s $PRODOUT_OBJ/lib/libandroid.so .
+ln -s $PRODOUT_OBJ/lib/libc.so .
+ln -s $PRODOUT_OBJ/lib/libdl.so .
+ln -s $PRODOUT_OBJ/lib/libEGL.so .
+ln -s $PRODOUT_OBJ/lib/libGLESv1_CM.so .
+ln -s $PRODOUT_OBJ/lib/libGLESv2.so .
+#no longer built ln -s $PRODOUT_OBJ/lib/libjnigraphics.so .
+ln -s $PRODOUT_OBJ/lib/liblog.so .
+ln -s $PRODOUT_OBJ/lib/libm.so .
+#not in 2.3.7 ln -s $PRODOUT_OBJ/lib/libOpenMAXAL.so .
+ln -s $PRODOUT_OBJ/lib/libOpenSLES.so .
+ln -s $PRODOUT_OBJ/lib/libstdc++.so .
+ln -s $PRODOUT_OBJ/lib/libthread_db.so .
+ln -s $PRODOUT_OBJ/lib/libz.so .
+ln -s $PRODOUT_OBJ/STATIC_LIBRARIES/libc_intermediates/libc.a .
+ln -s $PRODOUT_OBJ/STATIC_LIBRARIES/libm_intermediates/libm.a .
+ln -s $PRODOUT_OBJ/STATIC_LIBRARIES/libstdc++_intermediates/libstdc++.a .
+ln -s $PRODOUT_OBJ/lib/libutils.so .
+ln -s $PRODOUT_OBJ/lib/libgui.so .
+ln -s $PRODOUT_OBJ/lib/libstlport.so .
+ln -s $PRODOUT_OBJ/lib/libbinder.so .
+ln -s $PRODOUT_OBJ/lib/libcutils.so .
+ln -s $PRODOUT_OBJ/lib/libhardware.so .
+ln -s $PRODOUT_OBJ/lib/libhardware_legacy.so .
+ln -s $PRODOUT_OBJ/lib/libinput.so .
+ln -s $PRODOUT_OBJ/lib/libmedia.so .
+ln -s $PRODOUT_OBJ/lib/libsigyn.so .
+ln -s $PRODOUT_OBJ/lib/libnetutils.so .
+ln -s $PRODOUT_OBJ/lib/libheimd.so .
+ln -s $PRODOUT_OBJ/lib/libjpeg.so .
 # these are needed by cairo with the bfd linker.
 # remove them if the test fails
-ln -s ../../$PRODOUT/obj/lib/libcorkscrew.so .
-ln -s ../../$PRODOUT/obj/lib/libGLES_trace.so .
-ln -s ../../$PRODOUT/obj/lib/libui.so .
-ln -s ../../$PRODOUT/obj/lib/libwpa_client.so .
-ln -s ../../$PRODOUT/obj/lib/libgccdemangle.so .
+ln -s $PRODOUT_OBJ/lib/libcorkscrew.so .
+ln -s $PRODOUT_OBJ/lib/libGLES_trace.so .
+ln -s $PRODOUT_OBJ/lib/libui.so .
+ln -s $PRODOUT_OBJ/lib/libwpa_client.so .
+ln -s $PRODOUT_OBJ/lib/libgccdemangle.so .
 #end bfd linker
-ln -s ../../$PRODOUT/obj/lib/libsqlite.so .
+ln -s $PRODOUT_OBJ/lib/libsqlite.so .
 # it is a sqlite3 so link by that name  too
-ln -s ../../$PRODOUT/obj/lib/libsqlite.so libsqlite3.so
+ln -s $PRODOUT_OBJ/lib/libsqlite.so libsqlite3.so
 ln -s libc.so libpthread.so
 
 # these are needed so we can use the eventhub
-ln -s ../../$PRODOUT/obj/lib/libexpat.so .
-ln -s ../../$PRODOUT/obj/lib/libandroidfw.so .
-ln -s ../../$PRODOUT/obj/lib/libskia.so .
-ln -s ../../$PRODOUT/obj/lib/libemoji.so .
+ln -s $PRODOUT_OBJ/lib/libexpat.so .
+ln -s $PRODOUT_OBJ/lib/libandroidfw.so .
+ln -s $PRODOUT_OBJ/lib/libskia.so .
+ln -s $PRODOUT_OBJ/lib/libemoji.so .
 # end eventhub

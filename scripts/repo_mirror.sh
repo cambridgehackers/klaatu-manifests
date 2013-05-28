@@ -34,7 +34,7 @@ repo_init()
   repo_name_short="$(echo "$repo_url" | sed 's:^[^/]*//::' | sed 's:^.*@::' | sed 's:\.git$::' | sed 's:/manifest::g' | sed 's:/git::g' | sed 's:[/\.]:_:g')"
   repo_name="${repo_name_short}_${repo_branch}"
   repo_name_full="$repo_name"
-  if [ "$repo_branch" != "default.xml" ]; then 
+  if [ "$repo_manifest" != "default.xml" ]; then 
     repo_name_full="${repo_name}_$(basename $repo_manifest .xml)"
   fi
 

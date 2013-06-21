@@ -58,7 +58,7 @@ repo_init()
   if [ ! -d "$MIRROR_DIR"/git-repo ]; then
     ( cd "$MIRROR_DIR"; git clone https://gerrit.googlesource.com/git-repo )
   fi
-  repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git --repo-branch=stable"
+  repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
   if [ -z "$repo_no_mirror_sync" ] && [ ! -d "$repo_mirror_dir/$repo_name" ] ; then

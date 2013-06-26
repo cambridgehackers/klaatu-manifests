@@ -2,9 +2,9 @@
 [ ! -f .fixup_applied ] || exit 0
 set -x
 
-mkdir libnativehelper
-ln -s ../dalvik/libnativehelper/include libnativehelper/
-gzip frameworks/base/core/jni/Android.mk
+gzip dalvik/Android.mk
+gzip dalvik/libnativehelper/Android.mk
+gzip dalvik/jni/Android.mk
 gzip frameworks/base/tests/BrowserTestPlugin/jni/Android.mk
 gzip frameworks/base/tools/layoutlib/Android.mk
 gzip hardware/ril/mock-ril/Android.mk
@@ -14,7 +14,6 @@ gzip build/tools/apicheck/Android.mk
 sed -i.001 -e "/^include.*external\/svox/d" build/target/product/sdk.mk
 sed -i.001 -e "/(TARGET_ARCH),arm/s/arm/armfalse/" frameworks/base/cmds/app_process/Android.mk
 sed -i.001 -e "/libsqlite/d" frameworks/base/media/jni/Android.mk
-gzip frameworks/base/native/android/Android.mk
 gzip system/core/sh/Android.mk
 gzip sdk/emulator/qtools/Android.mk
 sed -i.001 -e "/(LOCAL_PATH)\/ndk\/Android.mk/d" prebuilts/Android.mk
@@ -118,10 +117,6 @@ case ${THISVER:0:3} in
     sed -i.001 \
     -e "/WITH_HOST_DALVIK/,/endif/s/^/#/" \
     build/core/product_config.mk
-    sed -i.001 -e "/libfdlibm/d" libcore/luni/src/main/native/sub.mk
-    
-    sed -i.001 -e "/NativeCode.mk/s/^/#/" libcore/Android.mk
-    gzip    libcore/NativeCode.mk
     
     if [ -e device/qcom/common/generate_extra_images.mk ] ; then
     sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
@@ -141,7 +136,6 @@ case ${THISVER:0:3} in
     sed -i.001 -e "/^ifneq (\$(TARGET_BUILD_PDK), true)/s/\$(TARGET_BUILD_PDK)/true/" frameworks/av/media/libstagefright/Android.mk
 
     gzip frameworks/base/services/jni/Android.mk
-    gzip external/harfbuzz/Android.mk
 
     #QCOM
     if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
@@ -165,10 +159,6 @@ case ${THISVER:0:3} in
     sed -i.001 \
         -e "/WITH_HOST_DALVIK/,/endif/s/^/#/" \
         build/core/product_config.mk
-    sed -i.001 -e "/libfdlibm/d" libcore/luni/src/main/native/sub.mk
-
-    sed -i.001 -e "/NativeCode.mk/s/^/#/" libcore/Android.mk
-    gzip    libcore/NativeCode.mk
 
     if [ -e device/qcom/common/generate_extra_images.mk ] ; then
         sed -i.001 -e "/boot.img.secure/d" device/qcom/common/generate_extra_images.mk
@@ -192,7 +182,6 @@ case ${THISVER:0:3} in
     sed -i.001 -e "/\$(BUILD_TINY_ANDROID), true)/,/\endif/d" system/core/debuggerd/Android.mk
     gzip frameworks/base/drm/jni/Android.mk
     sed -i.001 -e "s/ prebuilts\/ndk\/android-ndk-r6\// prebuilts\/ndk\/6\//" $VENDOR_DIR/qcom/proprietary/wfd/rtsp/Android.mk
-    gzip external/harfbuzz/Android.mk
 
     if [ -e external/mobicore/Android.mk ] ; then
         sed -i.001 -e "/rootpa\/Code\/Android\/app\/jni\/Android.mk/d" external/mobicore/Android.mk

@@ -22,7 +22,6 @@
 /path="external\/emma"/d
 /path="external\/esd"/d
 /path="external\/eyes-free"/d
-/path="external\/fdlibm"/d
 /path="external\/fsck_msdos"/d
 /path="external\/google-diff-match-patch"/d
 /path="external\/grub"/d
@@ -79,7 +78,6 @@
 /path="frameworks\/opt\/mailcommon"/d
 /path="frameworks\/opt\/vcard"/d
 /path="frameworks\/support"/d
-/path="libcore"/d
 /path="[gp]dk"/d
 /path="packages\//d
 /path="external\/aes"/d
@@ -122,4 +120,3 @@
 /path="frameworks\/opt\/com.google.android/d
 /path="frameworks\/rs"/d
 /path="frameworks\/testing"/d
-/path="libnativehelper"/d

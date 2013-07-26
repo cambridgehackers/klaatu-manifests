@@ -15,6 +15,9 @@ cat <<EOF >.repo/local_manifests/local_manifest.xml
 <manifest>
   <remote name="cambridge" fetch="git://gitorious.org/cambridge/" />
   <project path="external/klaatu-qt-demos" name="klaatu-qt-demos" remote="cambridge" revision="master"/>
+
+  <remote name="googlesource" fetch="https://android.googlesource.com" />
+  <project name="kernel/omap" path="kernel" remote="googlesource" revision="cb5fc502c60be9305c5a007be335e860d9e7c0cb"/>
 </manifest>
 EOF
 
@@ -29,7 +32,7 @@ imgtec=imgtec-panda-20120807-c4e99e89.tgz
 tar zxvf "$imgtec"
 chmod +x extract-imgtec-panda.sh
 yes "I ACCEPT" | ./extract-imgtec-panda.sh
-( cd device/ti/panda/ ; git checkout aosp/master ; git checkout 224d695 kernel )
+( cd device/ti/panda/ ; git checkout jb-mr1.1-dev-plus-aosp)
 
 . build/envsetup.sh
 

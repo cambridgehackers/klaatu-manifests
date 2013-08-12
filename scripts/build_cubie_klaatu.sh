@@ -31,6 +31,11 @@ make update-api
 make -j${NUM_CPUS}
 make
 
+[ -d u-boot-hno ] || git clone https://github.com/hno/u-boot u-boot-hno --depth=1 -b lichee/lichee-dev
+( cd u-boot-hno ; make sun4i CROSS_COMPILE=arm-eabi-)
+
+cp -a u-boot-hno/u-boot.bin tools/pack/chips/sun4i/wboot/bootfs/linux/u-boot.bin
+
 tools/pack-cm.sh
 
 cp -a tools/pack/sun4i_crane_cubieboard.img out/target/product/cubieboard/

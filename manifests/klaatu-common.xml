@@ -1,0 +1,19 @@
+<manifest>
+
+<!-- Doesn't use ssh keys - read only copy -->
+<remote name="gitorious" fetch="git://gitorious.org/cambridge/" />
+
+<!-- Add busybox -->
+<remote name="busybox-android"
+        fetch="git://github.com/Gnurou/"/>
+<project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"/>
+
+<!-- Add the Klaatu services code -->
+<project name="klaatu-services" path="external/klaatu-services" remote="gitorious" revision="master"/>
+
+<!-- Add the klaatu tests code -->
+<project name="klaatu-tests" path="external/klaatu-tests" remote="gitorious" revision="master"/>
+
+<project name="klaatu-initscripts" path="external/klaatu-initscripts" remote="gitorious" revision="master" />
+
+</manifest>

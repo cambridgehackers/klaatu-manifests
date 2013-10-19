@@ -1,7 +1,7 @@
 <manifest>
 
 <!-- Doesn't use ssh keys - read only copy -->
-<remote name="CAMBRIDGEQT" fetch="git://gitorious.org/+cambridgehackers/qt/" />
+<remote name="cambridgeqt" fetch="git://gitorious.org/+cambridgehackers/qt/" />
 <!-- Doesn't use ssh keys - read only copy -->
 <remote name="gitorious" fetch="git://gitorious.org/cambridge/" />
 
@@ -9,9 +9,8 @@
 <project name="klaatu-qmlscene" path="external/klaatu-qmlscene" remote="gitorious" revision="master"/>
 
 <!-- Add the qt libs -->
-<project path="external/cambridge-qtbase" name="cambridge-qtbase" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
-<project path="external/cambridge-qtjsbackend" name="cambridge-qtjsbackend" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
-<project path="external/cambridge-qtdeclarative" name="cambridge-qtdeclarative" remote="CAMBRIDGEQT" revision="bionicsf_2012-05-30"/>
-
+<project path="external/cambridge-qtbase" name="cambridge-qtbase" remote="cambridgeqt" revision="bionicsf_2012-05-30"/>
+<project path="external/cambridge-qtjsbackend" name="cambridge-qtjsbackend" remote="cambridgeqt" revision="bionicsf_2012-05-30"/>
+<project path="external/cambridge-qtdeclarative" name="cambridge-qtdeclarative" remote="cambridgeqt" revision="bionicsf_2012-05-30"/>
 
 </manifest>

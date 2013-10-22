@@ -50,6 +50,7 @@ if ( "$script" "$@" ); then
 	if [ -n "$out_dir" ]; then
 		out_dir=`dirname "$out_dir"`
 		find "$out_dir" -maxdepth 1 -type f -exec cp -a '{}' $WORKSPACE ';'
+		( cd $WORKSPACE; md5sum *.img > md5sums.txt )
 	else
 		echo "error userdata.img not found"
 		fail=1

@@ -61,7 +61,7 @@ repo_init()
   repo_init_args="--repo-url file://$MIRROR_DIR/git-repo.git"
   repo_mirror_dir="$MIRROR_DIR/repos"
 
-  if [ `whoami` != `ls -ld $repo_mirror_dir|cut -f3 -d' '` ]; then
+  if [ `whoami` != `ls -ld $repo_mirror_dir/.|cut -f3 -d' '` ]; then
     repo_no_mirror_sync=1
   fi
 

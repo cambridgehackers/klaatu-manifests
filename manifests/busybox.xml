@@ -1,0 +1,5 @@
+<manifest>
+  <remote name="busybox-android" fetch="git://github.com/Gnurou/"/>
+  <project path="busybox-android" name="busybox-android" remote="busybox-android" revision="master"/>
+</manifest>
+

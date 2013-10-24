@@ -98,3 +98,17 @@ repo_sync()
 
   time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} "$@"
 }
+
+mrepo()
+{
+  repo="$MIRROR_DIR"/git-repo/repo
+  verb="$1"; shift
+  if [ "$verb" = "init" ] ; then repo_init "$@"
+  elif [ "$verb" = "sync" ] ; then repo_sync "$@"
+  else echo $repo $verb "$@"; fi
+}
+
+#alias repo=mrepo
+repo() {
+  mrepo "$@"
+}

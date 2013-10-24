@@ -21,7 +21,7 @@ sed -i.001 -e "/^\$(LOCAL_INSTALLED_MODULE):/d" build/core/binary.mk
 sed -i.001 -e "/^include/d" build/core/host_java_library.mk
 sed -i.001 -e "/^include/d" build/core/java.mk
 sed -i.001 -e "/^service zygote/a \ \ \ \ disabled" \
-    -e "\$r $SCRIPT_DIR/../data/new_init.txt"  system/core/rootdir/init.rc
+    -e "\$r '$(dirname $0)'/../data/new_init.txt"  system/core/rootdir/init.rc
 sed -i.001 -e "/BUILD_HOST_PREBUILT:=/s/BUILD_SYSTEM)\/host_prebuilt/TOPDIR)dalvik\/null/" \
     -e "/BUILD_JAVA_LIBRARY:=/s/BUILD_SYSTEM)\/java_library/TOPDIR)dalvik\/null/" \
     -e "/(filter 64-Bit, .(shell java -version/,/^endif/d" \
@@ -94,7 +94,7 @@ if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
     sed -i.001 -e "/\.apk/s/^/#/" $VENDOR_DIR/qcom/proprietary/common/config/device-vendor.mk
 fi
 
-THISVER=`make -f $SCRIPT_DIR/../data/printvar.mk PLATFORM_VERSION`
+THISVER="$(make -f "$(dirname $0)"/../data/printvar.mk PLATFORM_VERSION)"
 
 case ${THISVER:0:3} in
 2.3)

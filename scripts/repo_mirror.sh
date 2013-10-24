@@ -1,7 +1,9 @@
 #!/bin/bash
+# define repo using the same arguments as git-repo, while using transparently mirroring
+
 [ -z "$NUM_CPUS" ] && export NUM_CPUS=`sysctl  -n hw.ncpu 2>/dev/null || grep processor -c /proc/cpuinfo`
 
-build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^build_::g' | sed 's:_:-:g' )"
+build_name="$(basename $0 .sh | sed 's:.*/::g' | sed 's:^{build|compile}_::g' | sed 's:_:-:g' )"
 
 for arg in "$@"; do
   if [ "$arg" = "--no-mirror-sync" ]; then

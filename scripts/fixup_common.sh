@@ -146,6 +146,7 @@ case ${THISVER:0:3} in
             sed -i.001 -e "s/ LOGI/ ALOGI/" -e "s/ LOGE/ ALOGE/" -e "s/ LOG_FATAL/ ALOG_FATAL/" \
             $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
     fi
+    sed -i.001  's:^\(\s*packages/[^)]*$\):#\1:g' device/*/*/device_base.mk
     ;;
 4.2)
     sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk

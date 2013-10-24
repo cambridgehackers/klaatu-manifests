@@ -1,11 +1,22 @@
-#
-set -x
-set -e
-#repo init -u https://android.googlesource.com//platform/manifest -b android-4.1.2_r1
-#ln -s ~/klaatu-manifests/manifests/qt_2012-05-30-withdemo.xml .repo/local_manifest.xml
-#repo sync
-~/klaatu-manifests/scripts/fullbuild android-4.1.2_r1 default.xml ~/klaatu-manifests/manifests/qt_2012-05-30-withdemo.xml
-# ~/klaatu-manifests/manifests/sio2_demo.xml
-source ./build/envsetup.sh; lunch full_maguro-userdebug
-make -j 30
-make -j 30
+#!/bin/bash -xel
+
+script_dir="$( cd "$( dirname "$0" )" && pwd )"
+. $script_dir/repo_mirror.sh
+
+release=4.1.2_r2
+vendor_build=maguro-jzo54k
+vendor_xml=`$script_dir/get_vendor_build.sh $vendor_build`
+klaatu_manifests=$script_dir/../manifests
+
+repo init -u https://android.googlesource.com/platform/manifest -b android-$release
+mkdir -p .repo/local_manifests
+cp $vendor_xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
+cp $klaatu_manifests/busybox.xml .repo/local_manifests/
+
+repo sync
+
+. build/envsetup.sh
+lunch full_maguro-userdebug
+
+make -j$NUM_CPUS

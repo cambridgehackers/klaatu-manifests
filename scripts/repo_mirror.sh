@@ -9,6 +9,15 @@ for arg in "$@"; do
   fi
 done
 
+mirror_dir1="$( cd "$(dirname "$0")/.."; pwd)/mirror"
+mirror_dir2="$HOME/mirror"
+if [ -z "$MIRROR_DIR" ] ; then
+  if [ -d "$mirror_dir1" ]; then MIRROR_DIR="$mirror_dir1"
+  elif [ -d "$mirror_dir2" ]; then MIRROR_DIR="$mirror_dir2"
+  else echo "please create directory or link: $mirror_dir1 or $mirror_dir2"; exit 1
+  fi
+fi
+
 # Perform a repo init and also do mirroring behind the scenes
 repo_init()
 {
@@ -45,11 +54,6 @@ repo_init()
   else
     mirror_url=$repo_url
     mirror_branch="-b $repo_branch"
-  fi
-
-  if [ -z "$MIRROR_DIR" ] ; then
-    MIRROR_DIR=`dirname $0`/../mirror
-    MIRROR_DIR=`realpath "$MIRROR_DIR"`
   fi
 
   if [ ! -d "$MIRROR_DIR"/git-repo.git ]; then

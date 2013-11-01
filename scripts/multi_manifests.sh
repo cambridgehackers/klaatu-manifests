@@ -14,15 +14,21 @@ done
 
 copy_manifests()
 {
+  need_klaatu_headless=false
   mkdir -p .repo/local_manifests
   KLAATU_COMPONENTS=${!KLAATU_INCLUDE_*}
   for arg in $KLAATU_COMPONENTS; do
     if [ `printenv $arg` == true ] ; then
-      echo $arg is TRUE
       XML_FILE=`echo $arg | tr [:upper:] [:lower:] | sed "s:klaatu_include_\(.*\):../manifest/manifests/klaatu-\1.xml:"`
       cp $XML_FILE .repo/local_manifests/
+      if [ $arg != KLAATU_INCLUDE_ZYGOTE ] ; then
+        need_klaatu_headless=true
+      fi
     fi
   done
 
   cp ../manifest/manifests/klaatu-common.xml .repo/local_manifests/
+  if [ $need_klaatu_headless == true ] ; then
+    cp ../manifest/manifests/klaatu-headless.xml .repo/local_manifests/
+  fi
 }

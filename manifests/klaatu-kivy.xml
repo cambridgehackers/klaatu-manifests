@@ -2,5 +2,6 @@
 <remote name="kivy" fetch="git://github.com/kivatu/"/>
 <remote name="cambridge" fetch="git://gitorious.org/cambridge/" />
 <project path="external/kivy" name="python-for-android" remote="kivy" revision="master"/>
+<project path="external/mtdev" name="mtdev" remote="kivy" revision="master"/>
 <project path="external/klaatu-kivy-demos" name="klaatu-kivy-demos" remote="cambridge" revision="master"/>
 </manifest>

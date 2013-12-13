@@ -25,7 +25,7 @@ cd $MIRROR_DIR/vendor
 mkdir tmp
 
 #wget each link for build id, and untar
-for a in `wget --quiet -O- https://developers.google.com/android/nexus/drivers | grep -o 'https\?:[^"]*'"$build"'[^"]*'`; do wget --quiet -O- $a | tar -C tmp -xz; done 
+for a in `wget --quiet -O- https://developers.google.com/android/nexus/drivers | grep -io 'https\?:[^"]*'"$build"'[^"]*'`; do wget --quiet -O- $a | tar -C tmp -xz; done 
 
 #extract each file, skipping to gzip header in shar first
 for s in tmp/extract*sh; do tail -c +`grep -obaP '\x1f\x8b' < $s|head -n 1|grep -o '[0-9]*'` $s|tail -c +2|tar -xz; done 

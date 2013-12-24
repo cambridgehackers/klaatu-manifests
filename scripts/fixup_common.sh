@@ -53,6 +53,9 @@ mv hardware/ti/omap4xxx/libtiutils/Semaphore.h hardware/ti/omap4xxx/libtiutils/b
 sed -i.001 -e "s/\"Semaphore.h/\"big_Semaphore.h/" hardware/ti/omap4xxx/libtiutils/Semaphore.cpp 
 sed -i.001 -e "s/\"Semaphore.h/\"big_Semaphore.h/" hardware/ti/omap4xxx/camera/inc/CameraHal.h
 
+# remove unnecessary emulator tests which cause build problems
+sed -i.001 -e "/translator_tests\/GLES/d" sdk/emulator/opengl/Android.mk
+
 #[ -e vendor ] || ln -s vendor_extra vendor
 if [ -e vendor ] ; then
 	VENDOR_DIR="vendor"

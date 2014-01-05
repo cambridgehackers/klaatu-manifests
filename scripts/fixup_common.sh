@@ -150,6 +150,7 @@ case ${THISVER:0:3} in
             $VENDOR_DIR/qcom/opensource/bt-wlan-coex/btces/btces_plat.h
     fi
     sed -i.001  's:^\(\s*packages/[^)]*$\):#\1:g' device/*/*/device_base.mk
+    sed -i.001 -e '/.*wallpaper.*/Id' $VENDOR_DIR/*/*/*-vendor.mk
     ;;
 4.2)
     sed -i.001 -e "/^include .*llvm_config.mk/d" build/core/config.mk

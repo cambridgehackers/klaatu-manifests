@@ -73,7 +73,10 @@ repo_init()
 
   if [ -z "$repo_no_mirror_sync" ] && [ ! -d "$repo_mirror_dir/$repo_name" ] ; then
     mkdir -p "$repo_mirror_dir/$repo_name" 
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; "$MIRROR_DIR"/git-repo/repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ; time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; "$MIRROR_DIR"/git-repo/repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+  fi
+  if [ -z "$repo_no_mirror_sync" ] ; then
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # if we can find a local copy of the manifest.git, use it.

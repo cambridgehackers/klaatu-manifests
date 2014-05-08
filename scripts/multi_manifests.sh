@@ -23,6 +23,5 @@ copy_manifests()
     fi
   done
 
-  cp ../manifest/manifests/klaatu-init.xml .repo/local_manifests/
   cp ../manifest/manifests/klaatu-common.xml .repo/local_manifests/
 }

@@ -1,31 +1,27 @@
 #!/bin/bash
 
-let i=1
 for arg in "$@"; do
-  let i=$i+1
-  if [ "$skip_next" == "true" ]; then
-    skip_next=false
-    continue
-  fi
+  case "$arg" in
 
-  include_arg=`echo $arg | grep "^--include" | sed "s/--include-\(.*\)/KLAATU_INCLUDE_\1/" | tr [:lower:] [:upper:]`
-  if [ "$include_arg" != "" ]; then
-    export $include_arg=true
-  fi
-
-  exclude_arg=`echo $arg | grep "^--exclude" | sed "s/--exclude-\(.*\)/KLAATU_INCLUDE_\1/" | tr [:lower:] [:upper:]`
-  if [ "$exclude_arg" != "" ]; then
-    export $exclude_arg=false
-  fi
-
-  if [ "$arg" == "--default-ui" ]; then
-    if [ $i -gt $# ]; then
-      echo Missing parameter to --default-ui
-      exit -1
+  --include-*)
+    ui_arg=`echo $arg | sed 's/^--include-//'`
+    if [ -z "$KLAATU_DEFAULT_UI" ] ; then
+      export KLAATU_DEFAULT_UI="$ui_arg"
     fi
-    export KLAATU_DEFAULT_UI=${!i}
-    skip_next=true
-  fi
+    include_arg=`echo "KLAATU_INCLUDE_$ui_arg" | tr [:lower:] [:upper:]`
+    export $include_arg=true
+    ;;
+
+  --exclude-*)
+    exclude_arg=`echo $arg | sed "s/--exclude-\(.*\)/KLAATU_INCLUDE_\1/" | tr [:lower:] [:upper:]`
+    export $exclude_arg=false
+    ;;
+
+  --default-ui=*)
+    ui_arg=`echo $arg | sed 's/^--default-ui=//'`
+    export KLAATU_DEFAULT_UI="$ui_arg"
+    ;;
+  esac
 done
 
 copy_manifests()

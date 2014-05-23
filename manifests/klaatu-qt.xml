@@ -13,4 +13,6 @@
 <project path="external/cambridge-qtjsbackend" name="cambridge-qtjsbackend" remote="cambridgeqt" revision="bionicsf_2012-05-30"/>
 <project path="external/cambridge-qtdeclarative" name="cambridge-qtdeclarative" remote="cambridgeqt" revision="bionicsf_2012-05-30"/>
 
+<!-- Add the qml -->
+<project path="external/klaatu-qt-demos" name="klaatu-qt-demos" remote="gitorious" revision="master"/>
 </manifest>

@@ -15,9 +15,12 @@ mkdir -p .repo/local_manifests
 cp $vendor_xml .repo/local_manifests/
 cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
 cp $klaatu_manifests/busybox.xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
 
 repo sync
 $script_dir/fixup_common.sh
+
+export KLAATU_DEFAULT_UI=qt
 
 . build/envsetup.sh
 lunch full_mako-userdebug

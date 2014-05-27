@@ -1,6 +1,16 @@
 #!/bin/bash
+PLATFORM_VERSION="$(CALLED_FROM_SETUP=true BUILD_SYSTEM=build/core make --no-print-directory  -f build/core/config.mk dumpvar-PLATFORM_VERSION)"
+PLATFORM_VERSION_MAJOR="$(echo $PLATFORM_VERSION | cut -d. -f1)"
+PLATFORM_VERSION_MINOR="$(echo $PLATFORM_VERSION | cut -d. -f2)"
+
 [ ! -f .fixup_applied ] || exit 0
 set -x
+
+if [ $PLATFORM_VERSION_MAJOR -ge 4 -a $PLATFORM_VERSION_MINOR -ge 3 ] ; then
+  sed -i.001 -e '/inherit-product.*)\/product\/\(aosp\|full\)_/s/product\/.*.mk/product\/embedded.mk/'  device/*/*/{aosp,full}_*mk
+  touch .fixup_applied
+  exit 0
+fi
 
 gzip dalvik/Android.mk
 gzip dalvik/libnativehelper/Android.mk
@@ -97,9 +107,7 @@ if [ -e $VENDOR_DIR/qcom/proprietary ] ; then
     sed -i.001 -e "/\.apk/s/^/#/" $VENDOR_DIR/qcom/proprietary/common/config/device-vendor.mk
 fi
 
-THISVER="$(make -f "$(dirname $0)"/../data/printvar.mk PLATFORM_VERSION)"
-
-case ${THISVER:0:3} in
+case ${PLATFORM_VERSION:0:3} in
 2.3)
     gzip frameworks/base/libs/rs/Android.mk
     sed -i.001 -e "/^droidcore: /s/doc-comment-check-docs//" frameworks/base/Android.mk

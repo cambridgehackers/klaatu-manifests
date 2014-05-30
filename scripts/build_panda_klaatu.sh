@@ -5,7 +5,7 @@ script_dir="$( cd "$( dirname "$0" )" && pwd )"
 
 klaatu_manifests=$script_dir/../manifests
 
-repo_init -u https://android.googlesource.com/platform/manifest -b android-4.2.1_r1
+repo_init -u https://android.googlesource.com/platform/manifest -b android-4.4.2_r1
 
 #$script_dir/strip-projects.sh .repo/manifest.xml
 
@@ -15,8 +15,8 @@ cp $klaatu_manifests/busybox.xml .repo/local_manifests/
 cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
 cat <<EOF >.repo/local_manifests/local_manifest.xml
 <manifest>
-  <remote name="googlesource" fetch="https://android.googlesource.com" />
-  <project name="kernel/omap" path="kernel" remote="googlesource" revision="cb5fc502c60be9305c5a007be335e860d9e7c0cb"/>
+  <remote  name="aosp" fetch=".." />
+  <project path="device/ti/panda" name="device/ti/panda" revision="refs/tags/android-4.3.1_r1"/>
 </manifest>
 EOF
 
@@ -27,13 +27,11 @@ repo_sync
 #$script_dir/fixup_common.sh
 
 # download latest driver from: http://code.google.com/android/nexus/drivers.html#panda
-#imgtec=imgtec-panda-20120807-c4e99e89.tgz
-imgtec=imgtec-panda-20120807-c4e99e89.tgz
+imgtec=imgtec-panda-20130603-539d1ac3.tgz
 [ -f "$imgtec" ] || wget "https://dl.google.com/dl/android/aosp/$imgtec"
 tar zxvf "$imgtec"
 chmod +x extract-imgtec-panda.sh
 yes "I ACCEPT" | ./extract-imgtec-panda.sh
-( cd device/ti/panda/ ; git checkout jb-mr1.1-dev-plus-aosp)
 
 . build/envsetup.sh
 

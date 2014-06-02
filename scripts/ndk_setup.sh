@@ -6,7 +6,7 @@ fi
 
 # Pull down the NDK from Googlesource or local mirror, create a standalone
 # compiler, and add it to the PATH
-setupStandaloneCompiler()
+setup_ndk()
 {
   if [ ! -d "$MIRROR_DIR"/ndk ]; then
     ( flock -x 9; mkdir -p "$MIRROR_DIR"/ndk; cd "$MIRROR_DIR"/ndk; curl http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2 | tar jxf -) 9>"$MIRROR_DIR/ndk.lock"
@@ -22,3 +22,6 @@ setupStandaloneCompiler()
   fi
 }
 
+setupStandaloneCompiler() {
+  setup_ndk "$@"
+}

@@ -2,6 +2,9 @@
 
 script_dir="$( cd "$( dirname "$0" )" && pwd )"
 . $script_dir/repo_mirror.sh
+. $script_dir/ndk_setup.sh
+
+setup_ndk
 
 release=4.4.2_r1
 vendor_build=deb-kot49h
@@ -16,11 +19,12 @@ cp $vendor_xml .repo/local_manifests/
 cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
 cp $klaatu_manifests/busybox.xml .repo/local_manifests/
 cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-kivy.xml .repo/local_manifests/
 
 repo sync
 $script_dir/fixup_common.sh
 
-export KLAATU_DEFAULT_UI=qt
+export KLAATU_DEFAULT_UI=kivy
 
 . build/envsetup.sh
 lunch aosp_deb-userdebug

@@ -10,16 +10,17 @@ repo_init -u https://android.googlesource.com/platform/manifest -b android-4.2.1
 #$script_dir/strip-projects.sh .repo/manifest.xml
 
 mkdir -p .repo/local_manifests
-cp $klaatu_manifests/manifests/qt_2012-05-30-generic.xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
+cp $klaatu_manifests/busybox.xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
 cat <<EOF >.repo/local_manifests/local_manifest.xml
 <manifest>
-  <remote name="cambridge" fetch="git://gitorious.org/cambridge/" />
-  <project path="external/klaatu-qt-demos" name="klaatu-qt-demos" remote="cambridge" revision="master"/>
-
   <remote name="googlesource" fetch="https://android.googlesource.com" />
   <project name="kernel/omap" path="kernel" remote="googlesource" revision="cb5fc502c60be9305c5a007be335e860d9e7c0cb"/>
 </manifest>
 EOF
+
+export KLAATU_DEFAULT_UI=qt
 
 repo_sync
 

@@ -37,13 +37,10 @@ cat <<EOF >.repo/local_manifests/00-matson.xml
 </manifest>
 EOF
 
-cp $klaatu_manifests/qt_2012-05-30-generic.xml .repo/local_manifests/
-cat <<EOF >.repo/local_manifests/z-klaatu-qt-demos.xml
-<manifest>
-  <remote name="cambridge" fetch="git://gitorious.org/cambridge/" />
-  <project path="external/klaatu-qt-demos" name="klaatu-qt-demos" remote="cambridge" revision="master"/>
-</manifest>
-EOF
+cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
+cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
+
+export KLAATU_DEFAULT_UI=qt
 
 repo_sync
 

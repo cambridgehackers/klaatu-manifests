@@ -30,6 +30,7 @@ repo_init()
   repo_branch=master
   repo_manifest=default.xml
   repo_args=
+  sync_args=
   i=1;
   while [ $i -le $# ];
   do
@@ -37,6 +38,7 @@ repo_init()
       -u|--manifest-url) i=$((i+1)); repo_url="${!i}";;
       -b|--manifest-branch) i=$((i+1)); repo_branch="${!i}";;
       -m|--manifest-name) i=$((i+1)); repo_manifest="${!i}";;
+      -f|--force-broken)  sync_args="$sync_args ${!i}";;
       *) repo_args="$repo_args ${!i}" ;;
     esac
     i=$((i+1))
@@ -76,7 +78,7 @@ repo_init()
     ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; "$MIRROR_DIR"/git-repo/repo init $repo_init_args $repo_args -u $mirror_url $mirror_branch -m $repo_manifest --mirror -p all ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
   if [ -z "$repo_no_mirror_sync" ] ; then
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} $sync_args ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
   # if we can find a local copy of the manifest.git, use it.
@@ -93,15 +95,25 @@ repo_init()
 
 repo_sync()
 {
+  sync_args=
+  i=1;
+  while [ $i -le $# ];
+  do
+    case ${!i} in
+      -f|--force-broken)  sync_args="$sync_args ${!i}";;
+    esac
+    i=$((i+1))
+  done
+
   if [ -z "$repo_no_mirror_sync" ] && [ -f .repo/local_manifest.xml -o -d .repo/local_manifests -o "$repo_manifest" != "default.xml" ]; then
     # There is/are local manifest(s) or a non-default manifest was used.
     # Bring the mirror up to date before syncing the working directory.
     "$MIRROR_DIR"/git-repo/repo manifest -o "${repo_name}_${build_name}.xml"
     build_dir=`pwd`
-    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
+    ( flock -x 9; cd "$repo_mirror_dir/$repo_name" ; time "$MIRROR_DIR"/git-repo/repo sync -m "$build_dir/${repo_name}_${build_name}.xml" -j${NUM_CPUS} $sync_args ) 9>"$repo_mirror_dir/$repo_name/repo.lock"
   fi
 
-  time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} "$@"
+  time "$MIRROR_DIR"/git-repo/repo sync -j${NUM_CPUS} $sync_args
 }
 
 mrepo()

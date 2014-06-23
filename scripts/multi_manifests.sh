@@ -1,39 +1,69 @@
 #!/bin/bash
 
+include_list=''
+klaatu_default_ui=''
+stock=''
+
 for arg in "$@"; do
   case "$arg" in
 
   --include-*)
-    ui_arg=`echo $arg | sed 's/^--include-//'`
-    if [ -z "$KLAATU_DEFAULT_UI" ] ; then
-      export KLAATU_DEFAULT_UI="$ui_arg"
+    ui_arg=`echo $arg | sed 's/^--[^\-]*-//'`
+    if [ -z "$include_list" ] ; then
+      include_list="$ui_arg"
+    else
+      include_list="$include_list $ui_arg"
     fi
-    include_arg=`echo "KLAATU_INCLUDE_$ui_arg" | tr [:lower:] [:upper:]`
-    export $include_arg=true
     ;;
-
-  --exclude-*)
-    exclude_arg=`echo $arg | sed "s/--exclude-\(.*\)/KLAATU_INCLUDE_\1/" | tr [:lower:] [:upper:]`
-    export $exclude_arg=false
-    ;;
-
   --default-ui=*)
-    ui_arg=`echo $arg | sed 's/^--default-ui=//'`
-    export KLAATU_DEFAULT_UI="$ui_arg"
+    klaatu_default_ui=`echo $arg | sed 's/^[^=]*=//'`
+    ;;
+  --stock)
+    stock=yes
     ;;
   esac
 done
 
-copy_manifests()
+set_ui_defaults()
 {
-  mkdir -p .repo/local_manifests
-  export KLAATU_COMPONENTS=${!KLAATU_INCLUDE_*}
-  for arg in $KLAATU_COMPONENTS; do
-    if [ `printenv $arg` == true ] ; then
-      XML_FILE=`echo $arg | tr [:upper:] [:lower:] | sed "s:klaatu_include_\(.*\):../manifest/manifests/klaatu-\1.xml:"`
-      cp $XML_FILE .repo/local_manifests/
+  if [ -z "$stock" ] ; then
+    include_list="$*"
+  fi
+}
+
+manifest_paths="$( cd "$( dirname "$0" )"/.. && pwd )/manifests $(pwd)/manifests $(pwd)/manifest/manifests $(pwd)/klaatu-manifests/manifests"
+
+get_manifests()
+{
+  klaatu_manifests=''
+  if [ -z "$stock" ] ; then include_list_klaatu_common="klaatu-common"; fi
+
+  for name in $include_list $include_list_klaatu_common; do
+    xml=
+    for dir in $manifest_paths ; do
+       if [ -e $dir/${name}.xml ]; then xml=$dir/${name}.xml; break; fi
+       if [ -e $dir/klaatu-${name}.xml ]; then xml=$dir/klaatu-${name}.xml; break; fi
+    done
+    if [ -z "$xml" ]; then
+      echo $name not found
+      exit 1
     fi
+    if [ -z "$klaatu_manifests" ] ; then klaatu_manifests="$xml"
+    else klaatu_manifests="$klaatu_manifests $xml"; fi
   done
 
-  cp ../manifest/manifests/klaatu-common.xml .repo/local_manifests/
+  echo "$klaatu_manifests"
+}
+
+get_default_ui()
+{
+  for name in $include_list; do
+    for dir in $manifest_paths ; do
+       if [ -e $dir/klaatu-${name}.xml ]; then
+            if [ -z "$klaatu_default_ui" ] ; then klaatu_default_ui="$name"; fi
+            break;
+       fi
+    done
+  done
+  echo "$klaatu_default_ui"
 }

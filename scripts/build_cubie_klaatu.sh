@@ -2,8 +2,10 @@
 
 script_dir="$( cd "$( dirname "$0" )" && pwd )"
 . $script_dir/repo_mirror.sh
- 
-klaatu_manifests=$script_dir/../manifests
+. $script_dir/ndk_setup.sh
+. $script_dir/multi_manifests.sh
+
+setup_ndk
 
 repo_init -u git://github.com/CyanogenMod/android.git -b jellybean
 #repo_init -u https://android.googlesource.com/platform/manifest -b android-4.1.2_r1
@@ -12,6 +14,10 @@ $script_dir/strip-projects.sh .repo/manifest.xml
 
 
 mkdir -p .repo/local_manifests
+
+manifests="$(get_manifests)"
+if [ -n "$manifests" ]; then cp $manifests .repo/local_manifests/; fi
+
 cat <<EOF >.repo/local_manifests/00-matson.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
@@ -37,15 +43,14 @@ cat <<EOF >.repo/local_manifests/00-matson.xml
 </manifest>
 EOF
 
-cp $klaatu_manifests/klaatu-common.xml .repo/local_manifests/
-cp $klaatu_manifests/klaatu-qt.xml .repo/local_manifests/
-
-export KLAATU_DEFAULT_UI=qt
+export KLAATU_DEFAULT_UI=$(get_default_ui)
 
 repo_sync
 
 #sed -i 's:.*NO_RECOVERY.*::g' $script_dir/fixup_common.sh
+if [ -n "$manifests" ]; then
 $script_dir/fixup_common.sh
+fi
 
 . build/envsetup.sh
 lunch full_cubieboard-userdebug

@@ -39,7 +39,7 @@ repo_init()
       -b|--manifest-branch) i=$((i+1)); repo_branch="${!i}";;
       -m|--manifest-name) i=$((i+1)); repo_manifest="${!i}";;
       -f|--force-broken)  sync_args="$sync_args ${!i}";;
-      *) repo_args="$repo_args ${!i}" ;;
+      --depth=[0-65535]) repo_args="$repo_args ${!i}" ;;
     esac
     i=$((i+1))
   done
@@ -101,6 +101,13 @@ repo_sync()
   do
     case ${!i} in
       -f|--force-broken)  sync_args="$sync_args ${!i}";;
+      -s|--smart-sync)  sync_args="$sync_args ${!i}";;
+      -l|--local-only)  sync_args="$sync_args ${!i}";;
+      -n|--network-only)  sync_args="$sync_args ${!i}";;
+      -d|--detach)  sync_args="$sync_args ${!i}";;
+      -q|--quiet)  sync_args="$sync_args ${!i}";;
+      --no-repo-verify)  sync_args="$sync_args ${!i}";;
+      --repo-upgraded)  sync_args="$sync_args ${!i}";;
     esac
     i=$((i+1))
   done

@@ -3,6 +3,7 @@
 include_list=''
 klaatu_default_ui=''
 stock=''
+manifest_paths="$( cd "$( dirname "$0" )"/.. && pwd )/manifests $(pwd)/manifests $(pwd)/manifest/manifests $(pwd)/klaatu-manifests/manifests"
 
 for arg in "$@"; do
   case "$arg" in
@@ -18,6 +19,10 @@ for arg in "$@"; do
   --default-ui=*)
     klaatu_default_ui=`echo $arg | sed 's/^[^=]*=//'`
     ;;
+  --manifest-dir=*)
+    dir=`echo $arg | sed 's/^[^=]*=//'`
+    manifest_paths="$dir $manifest_paths"
+    ;;
   --stock)
     stock=yes
     ;;
@@ -30,8 +35,6 @@ set_ui_defaults()
     include_list="$*"
   fi
 }
-
-manifest_paths="$( cd "$( dirname "$0" )"/.. && pwd )/manifests $(pwd)/manifests $(pwd)/manifest/manifests $(pwd)/klaatu-manifests/manifests"
 
 get_manifests()
 {

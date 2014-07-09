@@ -7,13 +7,18 @@ script_dir="$( cd "$( dirname "$0" )" && pwd )"
 
 setup_ndk
 
-repo_init -u https://android.googlesource.com/platform/manifest -b android-4.4.2_r1
+release=4.4.2_r1
+vendor_build=panda-20130603
+vendor_xml=`$script_dir/get_vendor_build.sh $vendor_build`
+
+repo init -u https://android.googlesource.com/platform/manifest -b android-$release
 
 #$script_dir/strip-projects.sh .repo/manifest.xml
 
 set_ui_defaults qt kivy busybox
 
 mkdir -p .repo/local_manifests
+cp $vendor_xml .repo/local_manifests/
 manifests="$(get_manifests)"
 if [ -n "$manifests" ] ; then cp $manifests .repo/local_manifests/; fi
 cat <<EOF >.repo/local_manifests/local_manifest.xml
@@ -30,13 +35,6 @@ repo_sync
 if [ -n "$manifests" ] ; then
 $script_dir/fixup_common.sh
 fi
-
-# download latest driver from: http://code.google.com/android/nexus/drivers.html#panda
-imgtec=imgtec-panda-20130603-539d1ac3.tgz
-[ -f "$imgtec" ] || wget "https://dl.google.com/dl/android/aosp/$imgtec"
-tar zxvf "$imgtec"
-chmod +x extract-imgtec-panda.sh
-yes "I ACCEPT" | ./extract-imgtec-panda.sh
 
 . build/envsetup.sh
 

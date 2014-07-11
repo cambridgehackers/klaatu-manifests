@@ -1,0 +1,114 @@
+diff --git device/lge/hammerhead/AndroidBoard.mk device/lge/hammerhead/AndroidBoard.mk
+index e69de29..51be2af 100644
+--- device/lge/hammerhead/AndroidBoard.mk
++++ device/lge/hammerhead/AndroidBoard.mk
+@@ -0,0 +1,27 @@
++#
++# Copyright (C) 2011 The Android Open-Source Project
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++KERNEL_DEFCONFIG := hammerhead_defconfig
++KERNEL_DIR := kernel
++
++-include $(TOP)/$(KERNEL_DIR)/AndroidKernel.mk
++
++# device.mk doesn't know about us, and we can't PRODUCT_COPY_FILES here.
++# So cp will do.
++.PHONY: $(PRODUCT_OUT)/kernel
++$(PRODUCT_OUT)/kernel: $(TARGET_PREBUILT_KERNEL)
++	cp $(TARGET_PREBUILT_KERNEL) $(PRODUCT_OUT)/kernel
++
+diff --git device/lge/hammerhead/BoardConfig.mk device/lge/hammerhead/BoardConfig.mk
+index c864d93..66210e8 100644
+--- device/lge/hammerhead/BoardConfig.mk
++++ device/lge/hammerhead/BoardConfig.mk
+@@ -23,6 +23,7 @@ TARGET_CPU_VARIANT := krait
+ 
+ TARGET_NO_BOOTLOADER := true
+ 
++#BOARD_KERNEL_IMAGE_NAME := zImage-dtb
+ BOARD_KERNEL_BASE := 0x00000000
+ BOARD_KERNEL_PAGESIZE := 2048
+ 
+diff --git device/lge/hammerhead/device.mk device/lge/hammerhead/device.mk
+index 6fa02b0..24bd7a5 100644
+--- device/lge/hammerhead/device.mk
++++ device/lge/hammerhead/device.mk
+@@ -20,15 +20,15 @@
+ # Everything in this directory will become public
+ 
+ 
+-ifeq ($(TARGET_PREBUILT_KERNEL),)
+-LOCAL_KERNEL := device/lge/hammerhead-kernel/zImage-dtb
+-else
+-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+-endif
++#ifeq ($(TARGET_PREBUILT_KERNEL),)
++#LOCAL_KERNEL := device/lge/hammerhead-kernel/zImage-dtb
++#else
++#LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
++#endif
+ 
+ 
+-PRODUCT_COPY_FILES := \
+-    $(LOCAL_KERNEL):kernel
++#PRODUCT_COPY_FILES := \
++#    $(LOCAL_KERNEL):kernel
+ 
+ PRODUCT_COPY_FILES += \
+     device/lge/hammerhead/init.hammerhead.rc:root/init.hammerhead.rc \
+diff --git device/lge/hammerhead/full_hammerhead.mk device/lge/hammerhead/full_hammerhead.mk
+index 6654529..041ba36 100644
+--- device/lge/hammerhead/full_hammerhead.mk
++++ device/lge/hammerhead/full_hammerhead.mk
+@@ -28,7 +28,7 @@ PRODUCT_DEVICE := hammerhead
+ PRODUCT_BRAND := Android
+ PRODUCT_MODEL := AOSP on HammerHead
+ PRODUCT_MANUFACTURER := LGE
+-PRODUCT_RESTRICT_VENDOR_FILES := true
++PRODUCT_RESTRICT_VENDOR_FILES := false
+ 
+ $(call inherit-product, device/lge/hammerhead/device.mk)
+ $(call inherit-product-if-exists, vendor/lge/hammerhead/device-vendor.mk)
+diff --git kernel/AndroidKernel.mk kernel/AndroidKernel.mk
+index b7d351e..194d5bc 100644
+--- kernel/AndroidKernel.mk
++++ kernel/AndroidKernel.mk
+@@ -5,7 +5,7 @@ ifeq ($(TARGET_PREBUILT_KERNEL),)
+ 
+ KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
+ KERNEL_CONFIG := $(KERNEL_OUT)/.config
+-TARGET_PREBUILT_INT_KERNEL := $(KERNEL_OUT)/arch/arm/boot/zImage
++TARGET_PREBUILT_INT_KERNEL := $(KERNEL_OUT)/arch/arm/boot/zImage-dtb
+ KERNEL_HEADERS_INSTALL := $(KERNEL_OUT)/usr
+ KERNEL_MODULES_INSTALL := system
+ KERNEL_MODULES_OUT := $(TARGET_OUT)/likernel/modules
+@@ -44,11 +44,11 @@ $(KERNEL_OUT)/piggy : $(TARGET_PREBUILT_INT_KERNEL)
+ 	$(hide) gunzip -c $(KERNEL_OUT)/arch/arm/boot/compressed/piggy.gzip > $(KERNEL_OUT)/piggy
+ 
+ $(TARGET_PREBUILT_INT_KERNEL): $(KERNEL_OUT) $(KERNEL_CONFIG) $(KERNEL_HEADERS_INSTALL)
+-	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
+-	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- modules
+-	$(MAKE) -C kernel O=../$(KERNEL_OUT) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) INSTALL_MOD_STRIP=1 ARCH=arm CROSS_COMPILE=arm-eabi- modules_install
+-	$(mv-modules)
+-	$(clean-module-folder)
++	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- zImage-dtb
++	#$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- modules
++	#$(MAKE) -C kernel O=../$(KERNEL_OUT) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) INSTALL_MOD_STRIP=1 ARCH=arm CROSS_COMPILE=arm-eabi- modules_install
++	#$(mv-modules)
++	#$(clean-module-folder)
+ 
+ $(KERNEL_HEADERS_INSTALL): $(KERNEL_OUT) $(KERNEL_CONFIG)
+ 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- headers_install

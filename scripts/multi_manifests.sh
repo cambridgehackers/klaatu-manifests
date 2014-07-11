@@ -31,7 +31,7 @@ done
 
 set_ui_defaults()
 {
-  if [ -z "$stock" ] ; then
+  if [ -z "$include_list" ] && [ -z "$stock" ] ; then
     include_list="$*"
   fi
 }

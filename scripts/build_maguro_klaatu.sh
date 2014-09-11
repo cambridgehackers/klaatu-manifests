@@ -12,13 +12,16 @@ vendor_build=maguro-jzo54k
 vendor_xml=`$script_dir/get_vendor_build.sh $vendor_build`
 
 repo init -u https://android.googlesource.com/platform/manifest -b android-$release
-$script_dir/strip-projects.sh .repo/manifest.xml
 
 set_ui_defaults qt kivy busybox
+manifests="$(get_manifests)"
+
+if [ -n "$manifests" ]; then
+$script_dir/strip-projects.sh .repo/manifest.xml
+fi
 
 mkdir -p .repo/local_manifests
 cp $vendor_xml .repo/local_manifests/
-manifests="$(get_manifests)"
 if [ -n "$manifests" ]; then cp $manifests .repo/local_manifests/; fi
 
 repo sync
